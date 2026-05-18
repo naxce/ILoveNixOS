@@ -14,8 +14,6 @@
   services.desktopManager.plasma6.enable = true;
 
   # KDE Debloat
-  services.baloo.enable = false;
-  services.akonadi.enable = false;
   programs.kdeconnect.enable = false;
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     konsole
