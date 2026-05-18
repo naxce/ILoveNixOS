@@ -52,6 +52,7 @@
 
     # Terminal
     kitty
+    zenity
     fastfetch
   ];
 
