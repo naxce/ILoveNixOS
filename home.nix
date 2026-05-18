@@ -50,7 +50,7 @@
     enable = true;
 
     initExtra = ''
-      kwork
+      wipe
     '';
 
     shellAliases = {
