@@ -24,7 +24,7 @@
     lutris
     heroic
     bottles
-    wineWowPackages.stable
+    wineWow64Packages.stable
     winetricks
     mangohud
     goverlay
