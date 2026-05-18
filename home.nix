@@ -8,11 +8,35 @@
 
   home.packages = [
     (pkgs.writeShellScriptBin "kwork" ''
+      THEME_FILE="$HOME/.config/kitty-work/theme"
+
+      mkdir -p "$HOME/.config/kitty-work"
+
+      if [ ! -f "$THEME_FILE" ]; then
+        echo "blue" > "$THEME_FILE"
+      fi
+
+      THEME=$(cat "$THEME_FILE")
+
+      case "$THEME" in
+        blue)
+          CONF="$HOME/NixOS/Config/kitty/work-blue.conf"
+          ;;
+        red)
+          CONF="$HOME/NixOS/Config/kitty/work-red.conf"
+          ;;
+        purple)
+          CONF="$HOME/NixOS/Config/kitty/work-purple.conf"
+          ;;
+        *)
+          CONF="$HOME/NixOS/Config/kitty/work-blue.conf"
+          ;;
+      esac
+
       exec ${pkgs.kitty}/bin/kitty \
         --class kitty-work \
         --name kitty-work \
-        --listen-on unix:/tmp/kitty-kwork.sock \
-        --config "$HOME/NixOS/Config/kitty/work.conf" \
+        --config "$CONF" \
         "$@"
     '')
   ];
@@ -146,18 +170,18 @@
       rice = "wipe && ~/NixOS/scripts/rice.sh";
 
       kc1 = ''
-        kitty @ --to unix:/tmp/kitty-kwork.sock set-colors \
-          --all "$HOME/NixOS/Config/kitty/work-blue.conf"
+        echo blue > ~/.config/kitty-work/theme
+        kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-blue.conf"
       '';
 
       kc2 = ''
-        kitty @ --to unix:/tmp/kitty-kwork.sock set-colors \
-          --all "$HOME/NixOS/Config/kitty/work-red.conf"
+        echo red > ~/.config/kitty-work/theme
+        kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-red.conf"
       '';
 
       kc3 = ''
-        kitty @ --to unix:/tmp/kitty-kwork.sock set-colors \
-          --all "$HOME/NixOS/Config/kitty/work-purple.conf"
+        echo purple > ~/.config/kitty-work/theme
+        kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-purple.conf"
       '';
 
       khelp = "wipe && echo -e \"\\n===============================\\nKITTY WORK HELP\\n===============================\\n\\nTABS\\nCtrl+Shift+T new tab\\nCtrl+Shift+W close tab\\nCtrl+Shift+Q close window\\n\\nSPLITS\\nCtrl+Shift+Enter split\\nCtrl+Alt+V split vertical\\nCtrl+Alt+H split horizontal\\n\\nNAVIGATION\\nCtrl+Alt+arrows\\n\\nRESIZE\\nCtrl+Shift+arrows\\n===============================\"";
