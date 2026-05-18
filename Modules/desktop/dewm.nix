@@ -14,7 +14,7 @@
   environment.variables.BALOO_ENABLED = "0";
 
   # KDE Plasma Debloat
-  services.cups.enable = false;
+  services.printing.enable = false;
   services.avahi.enable = false;
 
   boot.blacklistedKernelModules = [
@@ -22,6 +22,7 @@
     "snd_pcsp"
     "nouveau"
   ];
+
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     oxygen
     khelpcenter
