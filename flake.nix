@@ -29,7 +29,7 @@
               config.allowUnfree = true;
             };
 
-            cachyos = cachyos-kernel;
+            cachyos = inputs.cachyos-kernel;
           };
           modules = [
             ./configuration.nix
