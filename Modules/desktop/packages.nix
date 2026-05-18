@@ -18,11 +18,21 @@
 
     # Gry
     prismlauncher
+    protonup-qt
+    steam
+    steam-run
+    lutris
+    heroic
+    bottles
+    wineWowPackages.stable
+    winetricks
     mangohud
+    goverlay
     gamemode
     gamescope
-    protonup-qt
     vulkan-tools
+    vulkan-loader
+    vulkan-validation-layers
 
     # Internet / komunikacja
     firefox
