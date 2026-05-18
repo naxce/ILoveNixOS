@@ -9,7 +9,7 @@
 
     # Narzędzia systemowe
     home-manager
-    gnome-calculator
+    kdePackages.kcalc
     git
 
     # Klawiatura ekranowa
