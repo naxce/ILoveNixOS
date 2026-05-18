@@ -44,6 +44,5 @@
     krdp
     kdnssd
     print-manager
-    kcalc
   ];
 }
