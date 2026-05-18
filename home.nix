@@ -8,7 +8,7 @@
 
   home.packages = [
     (pkgs.writeShellScriptBin "kwork" ''
-      exec kitty --class kitty-work --name kitty-work --config "$HOME/NixOS/.config/kitty/work.conf" "$@"
+      exec kitty --class kitty-work --name kitty-work --config "$HOME/NixOS/Config/kitty/work.conf" "$@"
     '')
   ];
 
