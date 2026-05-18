@@ -66,24 +66,76 @@
 
     shellAliases = {
       ff = "fastfetch --config /tmp/kittywork/fastfetch.jsonc";
-      wipe = "wipe";
 
-      nixhelp = "wipe && echo -e \"\nnixos: Update + Rebuild + Git Push\nnixgit: Commit to GitHub\nnixbuild: Rebuild with Flakes\nnixhome: Rebuild Home Manager Config\nnixkde: Restart KDE Plasma\nnixclean: Collect and delete garbage\nnixsh: nix-shell\nrice: Show ricing style choice\n\"";
+      wipe = "reset && fastfetch --config /tmp/kittywork/fastfetch.jsonc";
 
-      nixos = "wipe && cd ~/NixOS && git add . && (git commit -m \"Update $(date)\" || true) && git push origin main && sudo nixos-rebuild switch --flake .#naxce";
-      nixup = "wipe && cd ~/NixOS && nix flake update && git add . && git commit -m \"Update $(date)\" || true && git push origin main && sudo nixos-rebuild switch --flake .#naxce";
-      nixgit = "wipe && cd ~/NixOS && git add . && (git commit -m \"Update $(date)\" || true) && git push origin main";
-      nixbuild = "wipe && cd ~/NixOS && sudo nixos-rebuild switch --flake .#naxce";
-      nixhome = "wipe && home-manager switch --flake ~/NixOS#naxce";
-      nixkde = "wipe && { plasmashell --replace & disown; }";
-      nixclean = "wipe && sudo nix-collect-garbage -d && nix-collect-garbage -d";
-      nixsh = "wipe && nix-shell";
-      hts = "sudo ~/NixOS/scripts/hotspot.sh";
+      nixhelp = "wipe && echo -e \"\\nnixos: Update + Rebuild + Git Push\\nnixgit: Commit only\\nnixbuild: Rebuild system\\nnixhome: Home Manager switch\\nnixkde: Restart Plasma\\nnixclean: Garbage cleanup\\nnixsh: nix-shell\\nrice: Run ricing script\\\"";
+
+      nixos = ''
+        wipe
+        cd ~/NixOS || exit
+        msg="$*"
+        [ -z "$msg" ] && msg="Unnamed Commit"
+        git add .
+        git commit -m "$msg" || true
+        git push origin main
+        sudo nixos-rebuild switch --flake .#naxce
+      '';
+
+      nixup = ''
+        wipe
+        cd ~/NixOS || exit
+        nix flake update
+        msg="$*"
+        [ -z "$msg" ] && msg="Unnamed Commit"
+        git add .
+        git commit -m "$msg" || true
+        git push origin main
+        sudo nixos-rebuild switch --flake .#naxce
+      '';
+
+      nixgit = ''
+        wipe
+        cd ~/NixOS || exit
+        msg="$*"
+        [ -z "$msg" ] && msg="Unnamed Commit"
+        git add .
+        git commit -m "$msg" || true
+        git push origin main
+      '';
+
+      nixbuild = ''
+        wipe
+        cd ~/NixOS || exit
+        sudo nixos-rebuild switch --flake .#naxce
+      '';
+
+      nixhome = ''
+        wipe
+        home-manager switch --flake ~/NixOS#naxce
+      '';
+
+      nixkde = ''
+        wipe
+        kquitapp5 plasmashell || true
+        plasmashell --replace & disown
+      '';
+
+      nixclean = ''
+        wipe
+        sudo nix-collect-garbage -d
+        nix-collect-garbage -d
+      '';
+
+      nixsh = ''
+        wipe
+        nix-shell
+      '';
+
       rice = "wipe && ~/NixOS/scripts/rice.sh";
 
-      khelp = "wipe && echo -e \"\n===============================\n        KITTY WORK HELP\n===============================\n\nTABS\nCtrl+Shift+T   → new tab\nCtrl+Shift+W   → close tab\nCtrl+Shift+Q   → close window\n\nSPLITS\nCtrl+Shift+Enter → split window\nCtrl+Alt+V       → split\nCtrl+Alt+H       → split\n\nNAVIGATION\nCtrl+Alt+arrows → move between panes\n\nRESIZE\nCtrl+Shift+arrows → resize split\n\n===============================\nTIP\nsplits auto-arrange (no manual direction)\n===============================\n\"";
+      khelp = "wipe && echo -e \"\\n===============================\\nKITTY WORK HELP\\n===============================\\n\\nTABS\\nCtrl+Shift+T new tab\\nCtrl+Shift+W close tab\\nCtrl+Shift+Q close window\\n\\nSPLITS\\nCtrl+Shift+Enter split\\nCtrl+Alt+V split vertical\\nCtrl+Alt+H split horizontal\\n\\nNAVIGATION\\nCtrl+Alt+arrows\\n\\nRESIZE\\nCtrl+Shift+arrows\\n===============================\"";
     };
-  };
 
   home.stateVersion = "26.05";
 }
