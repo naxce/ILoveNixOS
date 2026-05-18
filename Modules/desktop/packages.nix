@@ -52,6 +52,7 @@
 
     # Terminal
     kitty
+    fastfetch
   ];
 
   fonts.packages = with pkgs; [
