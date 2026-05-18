@@ -11,30 +11,38 @@
 
   # KDE Plasma 6
   services.desktopManager.plasma6.enable = true;
+  environment.variables.BALOO_ENABLED = "0";
 
   # KDE Plasma Debloat
+  services.cups.enable = false;
+  services.avahi.enable = false;
+
+  boot.blacklistedKernelModules = [
+    "pcspkr"
+    "snd_pcsp"
+    "nouveau"
+  ];
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     oxygen
     khelpcenter
     konsole
     elisa
-    gwenview
     okular
     kate
-    ark
     kmail
     kontact
     korganizer
     kaddressbook
     akregator
-    dragonplayer
     kwalletmanager
+    plasma-thunderbolt
+    discover
+    kde-inotify-survey
     kdeconnect-kde
     baloo
     krdp
     kdnssd
     print-manager
     kcalc
-    spectacle
   ];
 }

@@ -7,11 +7,6 @@
     refind
     efibootmgr
 
-    # Archiwa
-    peazip
-    p7zip
-    unrar
-
     # Narzędzia systemowe
     home-manager
     gnome-calculator
