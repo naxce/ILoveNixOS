@@ -10,7 +10,6 @@
     # Narzędzia systemowe
     home-manager
     gnome-calculator
-    plasma-browser-integration
     git
 
     # Klawiatura ekranowa
