@@ -1,0 +1,89 @@
+{ config, pkgs, ... }:
+
+{
+  home.username = "naxce";
+  home.homeDirectory = "/home/naxce";
+  programs.home-manager.enable = true;
+  home.preferXdgDirectories = true;
+
+  home.packages = [
+    (pkgs.writeShellScriptBin "kwork" ''
+      exec kitty --class kitty-work --name kitty-work --config '/home/naxce/NixOS/.config/kitty/work.conf' "$@"
+    '')
+  ];
+
+  home.file.".config/cava".source = ./Config/cava;
+  home.file.".config/fastfetch".source = ./Config/fastfetch;
+  home.file.".config/kitty".source = ./Config/kitty;
+  home.file.".config/sptlrx".source = ./Config/sptlrx;
+
+  programs.bash = {
+    enable = true;
+    initExtra = ''
+      mkdir -p /tmp/kittywork
+      cat << 'EOF' > /tmp/kittywork/fastfetch.jsonc
+      {
+          "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+          "logo": {
+              "source": "~/NixOS/Pictures/LogoBlue.png",
+              "type": "kitty",
+              "width": 26,
+              "height": 10,
+              "padding": { "top": 2, "left": 2 }
+          },
+          "display": {
+              "separator": " ➜ ",
+              "color": { "keys": "blue" }
+          },
+          "modules": [
+              "title",
+              "separator",
+              { "type": "os", "key": "󱄅", "format": "{2} {8}" },
+              { "type": "kernel", "key": "󰌽", "format": "{2}" },
+              { "type": "uptime", "key": "󱎫" },
+              { "type": "shell", "key": "󱆃" },
+              { "type": "cpu", "key": "󰻠", "format": "{1}" },
+              { "type": "gpu", "key": "󰢮", "hideType": "integrated", "format": "{2}" },
+              { 
+                  "type": "display", 
+                  "key": "󰍹", 
+                  "compactType": "original-with-refresh",
+                  "format": "{1}x{2} @ {3}Hz" 
+              },
+              { "type": "memory", "key": "󰑭" },
+              { "type": "localip", "key": "󰩟", "showIpv6": false }
+          ]
+      }
+      EOF
+
+      wipe() {
+          command reset
+          fastfetch --config /tmp/kittywork/fastfetch.jsonc
+      }
+
+      fastfetch --config /tmp/kittywork/fastfetch.jsonc
+    '';
+
+    shellAliases = {
+      ff = "fastfetch --config /tmp/kittywork/fastfetch.jsonc";
+      wipe = "wipe";
+
+      nixhelp = "wipe && echo -e \"\nnixos: Update + Rebuild + Git Push\nnixgit: Commit to GitHub\nnixbuild: Rebuild with Flakes\nnixhome: Rebuild Home Manager Config\nnixkde: Restart KDE Plasma\nnixclean: Collect and delete garbage\nnixsh: nix-shell\nrice: Show ricing style choice\n\"";
+
+      nixos = "wipe && cd ~/NixOS && git add . && (git commit -m \"Update $(date)\" || true) && git push origin main && sudo nixos-rebuild switch --flake .#naxce";
+      nixup = "wipe && cd ~/NixOS && nix flake update && git add . && git commit -m \"Update $(date)\" || true && git push origin main && sudo nixos-rebuild switch --flake .#naxce";
+      nixgit = "wipe && cd ~/NixOS && git add . && (git commit -m \"Update $(date)\" || true) && git push origin main";
+      nixbuild = "wipe && cd ~/NixOS && sudo nixos-rebuild switch --flake .#naxce";
+      nixhome = "wipe && home-manager switch --flake ~/NixOS#naxce";
+      nixkde = "wipe && { plasmashell --replace & disown; }";
+      nixclean = "wipe && sudo nix-collect-garbage -d && nix-collect-garbage -d";
+      nixsh = "wipe && nix-shell";
+      hts = "sudo ~/NixOS/scripts/hotspot.sh";
+      rice = "wipe && ~/NixOS/scripts/rice.sh";
+
+      khelp = "wipe && echo -e \"\n===============================\n        KITTY WORK HELP\n===============================\n\nTABS\nCtrl+Shift+T   → new tab\nCtrl+Shift+W   → close tab\nCtrl+Shift+Q   → close window\n\nSPLITS\nCtrl+Shift+Enter → split window\nCtrl+Alt+V       → split\nCtrl+Alt+H       → split\n\nNAVIGATION\nCtrl+Alt+arrows → move between panes\n\nRESIZE\nCtrl+Shift+arrows → resize split\n\n===============================\nTIP\nsplits auto-arrange (no manual direction)\n===============================\n\"";
+    };
+  };
+
+  home.stateVersion = "26.05";
+}
