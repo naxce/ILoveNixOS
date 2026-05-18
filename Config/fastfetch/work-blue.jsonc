@@ -12,8 +12,8 @@
           "color": { "keys": "blue" }
         },
         "title": {
-          "format": " {user}@{host}",
-          "color": "magenta"
+          "format": "{user}@{host}",
+          "color": "blue"
         },
         "modules": [
           "title",

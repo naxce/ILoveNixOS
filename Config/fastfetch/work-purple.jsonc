@@ -11,12 +11,11 @@
           "separator": " ➜ ",
           "color": { "keys": "magenta" }
         },
-        "title": {
-          "format": " {user}@{host}",
-          "color": "magenta"
-        },
         "modules": [
-          "title",
+          {
+            "type": "title",
+            "format": "{#magenta}{user-name}{#default}@{#magenta}{host-name}",
+          },
           "separator",
           { "type": "os", "key": "󱄅", "format": "{2} {8}" },
           { "type": "kernel", "key": "󰌽", "format": "{2}" },
