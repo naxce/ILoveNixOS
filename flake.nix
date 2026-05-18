@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
-    cachyos-kernel.url = "github:CachyOS/linux-cachyos";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,8 +27,6 @@
               system = "x86_64-linux";
               config.allowUnfree = true;
             };
-
-            cachyos = inputs.cachyos-kernel;
           };
           modules = [
             ./configuration.nix
