@@ -44,5 +44,6 @@
     krdp
     kdnssd
     print-manager
+    kweather
   ];
 }
