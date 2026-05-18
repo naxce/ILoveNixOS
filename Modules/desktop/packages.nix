@@ -40,6 +40,9 @@
     nixfmt
     ollama
 
+    # Multimedia
+    obs-studio
+
     # Audio
     pavucontrol
 
