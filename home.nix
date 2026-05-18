@@ -131,21 +131,27 @@
       rice = "wipe && ~/NixOS/scripts/rice.sh";
 
       kc1 = ''
+        wipe
         echo blue > ~/.config/kitty-work/theme
         kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-blue.conf"
         fastfetch --config "$HOME/NixOS/Config/fastfetch/work-blue.jsonc"
+        wipe
       '';
 
       kc2 = ''
+        wipe
         echo red > ~/.config/kitty-work/theme
         kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-red.conf"
         fastfetch --config "$HOME/NixOS/Config/fastfetch/work-red.jsonc"
+        wipe
       '';
 
       kc3 = ''
+        wipe
         echo purple > ~/.config/kitty-work/theme
         kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-purple.conf"
         fastfetch --config "$HOME/NixOS/Config/fastfetch/work-purple.jsonc"
+        wipe
       '';
 
       khelp = "wipe && echo -e \"\\n===============================\\nKITTY WORK HELP\\n===============================\\n\\nTABS\\nCtrl+Shift+T new tab\\nCtrl+Shift+W close tab\\nCtrl+Shift+Q close window\\n\\nSPLITS\\nCtrl+Shift+Enter split\\nCtrl+Alt+V split vertical\\nCtrl+Alt+H split horizontal\\n\\nNAVIGATION\\nCtrl+Alt+arrows\\n\\nRESIZE\\nCtrl+Shift+arrows\\n===============================\"";
