@@ -21,13 +21,10 @@
     protonup-qt
     steam
     steam-run
-    lutris
     heroic
-    bottles
     wineWow64Packages.stable
     winetricks
     mangohud
-    goverlay
     gamemode
     gamescope
     vulkan-tools

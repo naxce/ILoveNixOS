@@ -15,6 +15,11 @@
 
   services.blueman.enable = true;
 
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
+  };
+
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
@@ -26,7 +31,7 @@
     enable = true;
     enable32Bit = true;
   };
-  
+
   systemd.services.gpu-performance = {
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
