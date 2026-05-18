@@ -11,6 +11,10 @@
           "separator": " ➜ ",
           "color": { "keys": "red" }
         },
+        "title": {
+          "format": " {user}@{host}",
+          "color": "magenta"
+        },
         "modules": [
           "title",
           "separator",
