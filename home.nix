@@ -54,7 +54,24 @@
     '';
 
     shellAliases = {
-      wipe = "reset && fastfetch --config $(cat ~/.config/kitty-work/theme 2>/dev/null | sed 's/blue/work-blue.jsonc/;s/red/work-red.jsonc/;s/purple/work-purple.jsonc/' | xargs -I{} echo $HOME/NixOS/Config/fastfetch/{})";
+      wipe = ''
+        THEME=$(cat ~/.config/kitty-work/theme 2>/dev/null || echo blue)
+
+        case "$THEME" in
+          red)
+            FF="$HOME/NixOS/Config/fastfetch/work-red.jsonc"
+            ;;
+          purple)
+            FF="$HOME/NixOS/Config/fastfetch/work-purple.jsonc"
+            ;;
+          *)
+            FF="$HOME/NixOS/Config/fastfetch/work-blue.jsonc"
+            ;;
+        esac
+
+        clear
+        fastfetch --config "$FF"
+      '';
 
       nixhelp = "wipe && echo -e \"\\nnixos: update + rebuild + push\\nnixgit: commit only\\nnixbuild: rebuild\\nnixhome: home-manager switch\\nnixkde: restart plasma\\nnixclean: garbage cleanup\\n\"";
 
