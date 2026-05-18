@@ -50,50 +50,11 @@
     enable = true;
 
     initExtra = ''
-      mkdir -p /tmp/kittywork
-
-      cat << 'EOF' > /tmp/kittywork/fastfetch.jsonc
-      {
-        "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-        "logo": {
-          "source": "~/NixOS/Pictures/LogoBlue.png",
-          "type": "kitty",
-          "width": 26,
-          "height": 10,
-          "padding": { "top": 2, "left": 2 }
-        },
-        "display": {
-          "separator": " ➜ ",
-          "color": { "keys": "blue" }
-        },
-        "modules": [
-          "title",
-          "separator",
-          { "type": "os", "key": "󱄅", "format": "{2} {8}" },
-          { "type": "kernel", "key": "󰌽", "format": "{2}" },
-          { "type": "uptime", "key": "󱎫" },
-          { "type": "shell", "key": "󱆃" },
-          { "type": "cpu", "key": "󰻠", "format": "{1}" },
-          { "type": "gpu", "key": "󰢮", "hideType": "integrated", "format": "{2}" },
-          {
-            "type": "display",
-            "key": "󰍹",
-            "compactType": "original-with-refresh",
-            "format": "{1}x{2} @ {3}Hz"
-          },
-          { "type": "memory", "key": "󰑭" },
-          { "type": "localip", "key": "󰩟", "showIpv6": false }
-        ]
-      }
-      EOF
-
-      fastfetch --config /tmp/kittywork/fastfetch.jsonc
+      ff
     '';
 
     shellAliases = {
-      ff = "fastfetch --config /tmp/kittywork/fastfetch.jsonc";
-
-      wipe = "reset && fastfetch --config /tmp/kittywork/fastfetch.jsonc";
+      wipe = "reset && fastfetch --config $(cat ~/.config/kitty-work/theme 2>/dev/null | sed 's/blue/work-blue.jsonc/;s/red/work-red.jsonc/;s/purple/work-purple.jsonc/' | xargs -I{} echo $HOME/NixOS/Config/fastfetch/{})";
 
       nixhelp = "wipe && echo -e \"\\nnixos: update + rebuild + push\\nnixgit: commit only\\nnixbuild: rebuild\\nnixhome: home-manager switch\\nnixkde: restart plasma\\nnixclean: garbage cleanup\\n\"";
 
@@ -172,16 +133,19 @@
       kc1 = ''
         echo blue > ~/.config/kitty-work/theme
         kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-blue.conf"
+        fastfetch --config "$HOME/NixOS/Config/fastfetch/work-blue.jsonc"
       '';
 
       kc2 = ''
         echo red > ~/.config/kitty-work/theme
         kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-red.conf"
+        fastfetch --config "$HOME/NixOS/Config/fastfetch/work-red.jsonc"
       '';
 
       kc3 = ''
         echo purple > ~/.config/kitty-work/theme
         kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-purple.conf"
+        fastfetch --config "$HOME/NixOS/Config/fastfetch/work-purple.jsonc"
       '';
 
       khelp = "wipe && echo -e \"\\n===============================\\nKITTY WORK HELP\\n===============================\\n\\nTABS\\nCtrl+Shift+T new tab\\nCtrl+Shift+W close tab\\nCtrl+Shift+Q close window\\n\\nSPLITS\\nCtrl+Shift+Enter split\\nCtrl+Alt+V split vertical\\nCtrl+Alt+H split horizontal\\n\\nNAVIGATION\\nCtrl+Alt+arrows\\n\\nRESIZE\\nCtrl+Shift+arrows\\n===============================\"";
