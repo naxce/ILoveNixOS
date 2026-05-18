@@ -171,7 +171,9 @@
 
       kc = ''
         wipe
-        echo kc1: Blue\nkc2: Red\nkc3: Purple
+        echo -e kc1: Blue
+        echo -e kc2: Red
+        echo -e kc3: Purple
       '';
 
       khelp = "wipe && echo -e \"\\n===============================\\nKITTY WORK HELP\\n===============================\\n\\nTABS\\nCtrl+Shift+T new tab\\nCtrl+Shift+W close tab\\nCtrl+Shift+Q close window\\n\\nSPLITS\\nCtrl+Shift+Enter split\\nCtrl+Alt+V split vertical\\nCtrl+Alt+H split horizontal\\n\\nNAVIGATION\\nCtrl+Alt+arrows\\n\\nRESIZE\\nCtrl+Shift+arrows\\n===============================\"";
