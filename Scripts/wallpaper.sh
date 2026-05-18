@@ -27,7 +27,7 @@ case "$CHOICE" in
         plasma-apply-wallpaperimage ~/NixOS/Pictures/Purple.jpg
         ;;
     "Choose Ricing Theme")
-        ~/NixOS/scripts/rice.sh
+        ~/NixOS/Scripts/rice.sh
         ;;
     "Kill Rice")
         pkill -f kitty

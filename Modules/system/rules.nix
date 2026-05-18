@@ -28,7 +28,7 @@
           options = [ "NOPASSWD" ];
         }
         {
-          command = "/home/naxce/NixOS/scripts/winboot.sh";
+          command = "/home/naxce/NixOS/Scripts/winboot.sh";
           options = [ "NOPASSWD" ];
         }
         {
@@ -40,7 +40,7 @@
           options = [ "NOPASSWD" ];
         }
         {
-          command = "/home/naxce/NixOS/scripts/hotspot.sh";
+          command = "/home/naxce/NixOS/Scripts/hotspot.sh";
           options = [ "NOPASSWD" ];
         }
         {

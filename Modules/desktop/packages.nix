@@ -2,7 +2,6 @@
 
 {
   environment.systemPackages = with pkgs; [
-
     # Boot / EFI
     os-prober
     refind
@@ -14,6 +13,7 @@
     unrar
 
     # Narzędzia systemowe
+    home-manager
     gnome-calculator
     git
 
@@ -49,6 +49,9 @@
 
     # Sieć
     wireless-regdb
+
+    # Terminal
+    kitty
   ];
 
   fonts.packages = with pkgs; [

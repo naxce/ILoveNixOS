@@ -4,83 +4,83 @@
     "separator": " 󰁔 ",
     "color": {
       "keys": "blue",
-      "title": "cyan"
-    }
+      "title": "cyan",
+    },
   },
   "logo": {
     "source": "nixos_small",
     "color": {
       "1": "cyan",
-      "2": "blue"
+      "2": "blue",
     },
     "padding": {
       "top": 2,
       "left": 3,
-      "right": 4
-    }
+      "right": 4,
+    },
   },
   "modules": [
     {
       "type": "title",
-      "format": "{#36}{user-name}{#default}@{#34}{host-name}"
+      "format": "{#36}{user-name}{#default}@{#34}{host-name}",
     },
     {
       "type": "separator",
-      "string": "—"
+      "string": "—",
     },
     {
       "type": "os",
       "key": "󰣭  OS",
-      "format": "{3} {1}"
+      "format": "{3} {1}",
     },
     {
       "type": "kernel",
       "key": "󰒋  Kern",
-      "format": "{2}"
+      "format": "{2}",
     },
     {
       "type": "uptime",
       "key": "󰅐  Up",
-      "format": "{2}d {3}h {4}m"
+      "format": "{2}d {3}h {4}m",
     },
     {
       "type": "packages",
-      "key": "󰮯  Pkgs"
+      "key": "󰮯  Pkgs",
     },
     {
       "type": "separator",
-      "string": "—"
+      "string": "—",
     },
     {
       "type": "de",
-      "key": "󰖲  DE"
+      "key": "󰖲  DE",
     },
     {
       "type": "wm",
-      "key": "󱂬  WM"
+      "key": "󱂬  WM",
     },
     {
       "type": "terminal",
-      "key": "  Term"
+      "key": "  Term",
     },
     {
       "type": "separator",
-      "string": "—"
+      "string": "—",
     },
     {
       "type": "cpu",
       "key": "󰻠  CPU",
-      "format": "{1} @ {6}GHz"
+      "format": "{1} @ {6}GHz",
     },
     {
       "type": "gpu",
       "key": "󰍛  GPU",
       "format": "{2}",
-      "hideType": "integrated"
+      "hideType": "integrated",
     },
     {
       "type": "memory",
-      "key": "󰍛  Mem"
-    }
-  ]
+      "key": "󰍛  Mem",
+    },
+  ],
 }

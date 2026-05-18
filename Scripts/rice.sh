@@ -15,16 +15,16 @@ CHOICE=$(zenity --list \
 
 case "$CHOICE" in
     Blue)
-        ~/NixOS/scripts/blue.sh
+        ~/NixOS/Scripts/blue.sh
         ;;
     Red)
-        ~/NixOS/scripts/red.sh
+        ~/NixOS/Scripts/red.sh
         ;;
     Purple)
-        ~/NixOS/scripts/purple.sh
+        ~/NixOS/Scripts/purple.sh
         ;;
     "Change Wallpaper")
-        ~/NixOS/scripts/wallpaper.sh
+        ~/NixOS/Scripts/wallpaper.sh
         ;;
     "Kill Rice")
         pkill -f kitty

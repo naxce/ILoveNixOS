@@ -4,19 +4,22 @@
   imports = [
     ./hardware-configuration.nix
 
-    ./modules/desktop/dewm.nix
-    ./modules/desktop/gaming.nix
-    ./modules/desktop/packages.nix
+    ./Modules/desktop/dewm.nix
+    ./Modules/desktop/gaming.nix
+    ./Modules/desktop/packages.nix
 
-    ./modules/system/boot.nix
-    ./modules/system/hardware.nix
-    ./modules/system/mount.nix
-    ./modules/system/network.nix
-    ./modules/system/rules.nix
-    ./modules/system/users.nix
+    ./Modules/system/boot.nix
+    ./Modules/system/hardware.nix
+    ./Modules/system/mount.nix
+    ./Modules/system/network.nix
+    ./Modules/system/rules.nix
+    ./Modules/system/users.nix
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "26.05";

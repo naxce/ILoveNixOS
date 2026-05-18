@@ -1,11 +1,16 @@
-{ config, pkgs, pkgs-stable, ... }:
+{
+  config,
+  pkgs,
+  pkgs-stable,
+  ...
+}:
 {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
   boot.kernelPackages = pkgs-stable.linuxPackages_6_12;
-    
+
   boot.kernelParams = [
     "nvidia-drm.modeset=1"
     "nvidia-drm.fbdev=1"
@@ -14,13 +19,19 @@
     "pcie_aspm=off"
   ];
 
-  boot.kernelModules = [ "btmtk" "btusb" ];
+  boot.kernelModules = [
+    "btmtk"
+    "btusb"
+  ];
   boot.blacklistedKernelModules = [ "uvcvideo" ];
   boot.extraModprobeConfig = ''
     options btusb disable_scofix=1 enable_autosuspend=0
   '';
 
-  boot.initrd.kernelModules = [ "btmtk" "btusb" ];
+  boot.initrd.kernelModules = [
+    "btmtk"
+    "btusb"
+  ];
   boot.initrd.includeDefaultModules = true;
 
   hardware.enableRedistributableFirmware = true;
