@@ -20,7 +20,7 @@
   programs.bash = {
     enable = true;
 
-    shellInit = ''
+    initExtra = ''
       mkdir -p /tmp/kittywork
 
       cat << 'EOF' > /tmp/kittywork/fastfetch.jsonc
@@ -57,9 +57,7 @@
         ]
       }
       EOF
-    '';
 
-    initExtra = ''
       fastfetch --config /tmp/kittywork/fastfetch.jsonc
     '';
 
