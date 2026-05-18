@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-
 {
   # X11
   services.xserver.enable = true;
@@ -10,19 +9,32 @@
     wayland.enable = true;
   };
 
-  # KDE
+  # KDE Plasma 6
   services.desktopManager.plasma6.enable = true;
 
-  # KDE Debloat
-  programs.kdeconnect.enable = false;
+  # KDE Plasma Debloat
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    oxygen
+    khelpcenter
     konsole
-    dolphin
+    elisa
     gwenview
     okular
     kate
+    ark
+    kmail
+    kontact
+    korganizer
+    kaddressbook
+    akregator
+    dragonplayer
+    kwalletmanager
+    kdeconnect-kde
+    baloo
+    krdp
+    kdnssd
+    print-manager
+    kcalc
     spectacle
-    khelpcenter
-    elisa
   ];
 }
