@@ -55,7 +55,7 @@
 
     shellAliases = {
       wipe = ''
-        clear
+        reset
 
         THEME=$(cat ~/.config/kitty-work/theme 2>/dev/null || echo blue)
 
@@ -151,21 +151,21 @@
       kc1 = ''
         echo blue > ~/.config/kitty-work/theme
         kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-blue.conf"
-        clear
+        reset
         fastfetch --config "$HOME/NixOS/Config/fastfetch/work-blue.jsonc"
       '';
 
       kc2 = ''
         echo red > ~/.config/kitty-work/theme
         kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-red.conf"
-        clear
+        reset
         fastfetch --config "$HOME/NixOS/Config/fastfetch/work-red.jsonc"
       '';
 
       kc3 = ''
         echo purple > ~/.config/kitty-work/theme
         kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-purple.conf"
-        clear
+        reset
         fastfetch --config "$HOME/NixOS/Config/fastfetch/work-purple.jsonc"
       '';
 
