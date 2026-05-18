@@ -50,7 +50,7 @@
     enable = true;
 
     initExtra = ''
-      ff
+      wipe
     '';
 
     shellAliases = {
