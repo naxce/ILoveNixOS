@@ -20,10 +20,10 @@
   programs.bash = {
     enable = true;
 
-    initExtra = ''
-            mkdir -p /tmp/kittywork
+    shellInit = ''
+      mkdir -p /tmp/kittywork
 
-            cat << 'EOF' > /tmp/kittywork/fastfetch.jsonc
+      cat << 'EOF' > /tmp/kittywork/fastfetch.jsonc
       {
         "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
         "logo": {
@@ -57,13 +57,10 @@
         ]
       }
       EOF
+    '';
 
-            wipe() {
-              reset
-              fastfetch --config /tmp/kittywork/fastfetch.jsonc
-            }
-
-            fastfetch --config /tmp/kittywork/fastfetch.jsonc
+    initExtra = ''
+      fastfetch --config /tmp/kittywork/fastfetch.jsonc
     '';
 
     shellAliases = {
