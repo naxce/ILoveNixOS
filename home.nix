@@ -8,7 +8,12 @@
 
   home.packages = [
     (pkgs.writeShellScriptBin "kwork" ''
-      exec kitty --class kitty-work --name kitty-work --config "$HOME/NixOS/Config/kitty/work.conf" "$@"
+      exec ${pkgs.kitty}/bin/kitty \
+        --class kitty-work \
+        --name kitty-work \
+        --listen-on unix:/tmp/kitty-kwork.sock \
+        --config "$HOME/NixOS/Config/kitty/work.conf" \
+        "$@"
     '')
   ];
 
@@ -139,6 +144,21 @@
       '';
 
       rice = "wipe && ~/NixOS/scripts/rice.sh";
+
+      kc1 = ''
+        kitty @ --to unix:/tmp/kitty-kwork.sock set-colors \
+          --all "$HOME/NixOS/Config/kitty/work-blue.conf"
+      '';
+
+      kc2 = ''
+        kitty @ --to unix:/tmp/kitty-kwork.sock set-colors \
+          --all "$HOME/NixOS/Config/kitty/work-red.conf"
+      '';
+
+      kc3 = ''
+        kitty @ --to unix:/tmp/kitty-kwork.sock set-colors \
+          --all "$HOME/NixOS/Config/kitty/work-purple.conf"
+      '';
 
       khelp = "wipe && echo -e \"\\n===============================\\nKITTY WORK HELP\\n===============================\\n\\nTABS\\nCtrl+Shift+T new tab\\nCtrl+Shift+W close tab\\nCtrl+Shift+Q close window\\n\\nSPLITS\\nCtrl+Shift+Enter split\\nCtrl+Alt+V split vertical\\nCtrl+Alt+H split horizontal\\n\\nNAVIGATION\\nCtrl+Alt+arrows\\n\\nRESIZE\\nCtrl+Shift+arrows\\n===============================\"";
     };
