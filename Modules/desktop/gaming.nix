@@ -30,6 +30,5 @@
     mouse.accelProfile = "flat";
   };
 
-  services.telemetry.enable = false;
   services.thermald.enable = true;
 }
