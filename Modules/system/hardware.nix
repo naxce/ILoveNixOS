@@ -31,7 +31,7 @@
   hardware.nvidia = {
     modesetting.enable = true;
     open = false;
-    package = pkgs-stable.linuxPackages_6_12.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.stable; # uses pkgs (unstable)
   };
 
   hardware.graphics = {
