@@ -12,15 +12,10 @@
     kdePackages.kcalc
     git
 
-    # Klawiatura ekranowa
-    maliit-keyboard
-    maliit-framework
-    hunspell
-    hunspellDicts.en_US
-    hunspellDicts.pl_PL
-
     # KDE
     kdePackages.plasma-browser-integration
+    fcitx5-gtk
+    fcitx5-qt
 
     # Gry
     prismlauncher
