@@ -13,7 +13,7 @@
   services.desktopManager.plasma6.enable = true;
   environment.variables.BALOO_ENABLED = "0";
 
-  systemd.user.sessionVariables = {
+  environment.sessionVariables = {
     QT_IM_MODULES = "qtvirtualkeyboard";
   };
 
