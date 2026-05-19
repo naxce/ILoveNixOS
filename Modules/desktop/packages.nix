@@ -16,6 +16,9 @@
     maliit-keyboard
     maliit-framework
 
+    # KDE
+    kdePackages.plasma-browser-integration
+
     # Gry
     prismlauncher
     protonup-qt
