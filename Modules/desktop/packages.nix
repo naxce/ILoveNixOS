@@ -15,7 +15,7 @@
     # KDE
     kdePackages.plasma-browser-integration
     kdePackages.plasma-keyboard
-    kdePackages.qtvirtualkeyboard
+    qt6.qtvirtualkeyboard
 
     # Gry
     prismlauncher
