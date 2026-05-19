@@ -13,9 +13,9 @@
   services.desktopManager.plasma6.enable = true;
   environment.variables.BALOO_ENABLED = "0";
 
-#  environment.sessionVariables = {
- #   QT_IM_MODULES = "qtvirtualkeyboard";
-  #};
+  environment.sessionVariables = {
+    QT_IM_MODULES = "";
+  };
 
   # KDE Plasma Debloat
   services.printing.enable = false;
