@@ -18,6 +18,8 @@
     QT_IM_MODULE = "maliit";
     GTK_IM_MODULE = "maliit";
     XMODIFIERS = "@im=maliit";
+    QT_QPA_PLATFORM = "wayland";
+    DICPATH = "${pkgs.hunspellDicts.en_US}/share/hunspell";
   };
 
   # KDE Plasma Debloat

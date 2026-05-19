@@ -15,6 +15,9 @@
     # Klawiatura ekranowa
     maliit-keyboard
     maliit-framework
+    hunspell
+    hunspellDicts.en_US
+    hunspellDicts.pl_PL
 
     # KDE
     kdePackages.plasma-browser-integration
