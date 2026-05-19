@@ -19,17 +19,13 @@
 
   nixpkgs.overlays = [
     (final: prev: {
-      kdePackages = prev.kdePackages.overrideScope (
-        kdeFinal: kdePrev: {
-          maliit-framework = kdePrev.maliit-framework.overrideAttrs (old: {
-            postInstall = (old.postInstall or "") + ''
-              mkdir -p $out/lib/maliit/plugins
-              ln -s ${kdeFinal.maliit-keyboard}/lib/maliit/plugins/libmaliit-keyboard-plugin.so \
-                $out/lib/maliit/plugins/libmaliit-keyboard-plugin.so
-            '';
-          });
-        }
-      );
+      maliit-framework = prev.maliit-framework.overrideAttrs (old: {
+        postInstall = (old.postInstall or "") + ''
+          mkdir -p $out/lib/maliit/plugins
+          ln -s ${final.maliit-keyboard}/lib/maliit/plugins/libmaliit-keyboard-plugin.so \
+            $out/lib/maliit/plugins/libmaliit-keyboard-plugin.so
+        '';
+      });
     })
   ];
 
