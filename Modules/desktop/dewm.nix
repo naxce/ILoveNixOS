@@ -13,14 +13,6 @@
   services.desktopManager.plasma6.enable = true;
   environment.variables.BALOO_ENABLED = "0";
 
-  environment.sessionVariables = {
-    QT_IM_MODULES = "";
-  };
-
-  environment.etc."xdg/plasma-workspace/env/kwin-virtualkeyboard.sh".text = ''
-    export QT_IM_MODULES=qtvirtualkeyboard
-  '';
-
   # KDE Plasma Debloat
   services.printing.enable = false;
   services.avahi.enable = false;
