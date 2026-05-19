@@ -20,21 +20,6 @@
     "pcie_aspm=off"
   ];
 
-  boot.kernelModules = [
-    "btmtk"
-    "btusb"
-  ];
-  boot.blacklistedKernelModules = [ "uvcvideo" ];
-  boot.extraModprobeConfig = ''
-    options btusb disable_scofix=1 enable_autosuspend=0
-  '';
-
-  boot.initrd.kernelModules = [
-    "btmtk"
-    "btusb"
-  ];
-  boot.initrd.includeDefaultModules = true;
-
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
   hardware.firmware = [ pkgs.linux-firmware ];
