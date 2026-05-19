@@ -22,7 +22,7 @@
       maliit-framework = prev.maliit-framework.overrideAttrs (old: {
         postInstall = (old.postInstall or "") + ''
           mkdir -p $out/lib/maliit/plugins
-          ln -s ${prev.maliit-keyboard}/lib/maliit/plugins/libmaliit-keyboard-plugin.so \
+          ln -s /nix/store/26bx24kb1ipgs7chz5f3w0h0aj9dbs01-maliit-keyboard-2.3.1-unstable-2024-09-04/lib/maliit/plugins/libmaliit-keyboard-plugin.so \
             $out/lib/maliit/plugins/libmaliit-keyboard-plugin.so
         '';
       });
