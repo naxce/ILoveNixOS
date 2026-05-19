@@ -14,11 +14,7 @@
 
     # KDE
     kdePackages.plasma-browser-integration
-    qt6.qtvirtualkeyboard
-    fcitx5
-    qt6Packages.fcitx5-configtool
-    fcitx5-gtk
-    kdePackages.fcitx5-qt
+    kdePackages.plasma-keyboard
 
     # Gry
     prismlauncher

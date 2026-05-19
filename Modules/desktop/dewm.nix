@@ -13,16 +13,6 @@
   services.desktopManager.plasma6.enable = true;
   environment.variables.BALOO_ENABLED = "0";
 
-  # Klawiatura ekranowa
-  i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [
-      fcitx5-gtk
-      kdePackages.fcitx5-qt
-      qt6Packages.fcitx5-configtool
-    ];
-  };
-
   # KDE Plasma Debloat
   services.printing.enable = false;
   services.avahi.enable = false;
