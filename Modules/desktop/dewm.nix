@@ -22,13 +22,6 @@
     ];
   };
 
-  environment.sessionVariables = {
-    QT_IM_MODULE = "fcitx";
-    GTK_IM_MODULE = "fcitx";
-    XMODIFIERS = "@im=fcitx";
-    SDL_IM_MODULE = "fcitx";
-  };
-
   # KDE Plasma Debloat
   services.printing.enable = false;
   services.avahi.enable = false;
