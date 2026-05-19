@@ -4,6 +4,19 @@
   networking.networkmanager.enable = true;
   networking.hostName = "naxce";
 
+  networking.firewall.allowedTCPPorts = [
+    1714
+    1715
+    1716
+    1717
+  ];
+  networking.firewall.allowedUDPPorts = [
+    1714
+    1715
+    1716
+    1717
+  ];
+
   time.timeZone = "Europe/Warsaw";
   i18n.defaultLocale = "en_US.UTF-8";
 
