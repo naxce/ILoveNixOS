@@ -35,8 +35,6 @@
     enable32Bit = true;
   };
 
-  services.nvidia-persistenced.enable = true;
-
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
