@@ -17,6 +17,22 @@
     MALIIT_PLUGINS_DIRS = "/run/current-system/sw/lib/maliit/plugins";
   };
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      kdePackages = prev.kdePackages.overrideScope (
+        kdeFinal: kdePrev: {
+          maliit-framework = kdePrev.maliit-framework.overrideAttrs (old: {
+            postInstall = (old.postInstall or "") + ''
+              mkdir -p $out/lib/maliit/plugins
+              ln -s ${kdeFinal.maliit-keyboard}/lib/maliit/plugins/libmaliit-keyboard-plugin.so \
+                $out/lib/maliit/plugins/libmaliit-keyboard-plugin.so
+            '';
+          });
+        }
+      );
+    })
+  ];
+
   # KDE Plasma Debloat
   services.printing.enable = false;
   services.avahi.enable = false;
