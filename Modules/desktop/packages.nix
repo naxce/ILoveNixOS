@@ -14,8 +14,8 @@
 
     # KDE
     kdePackages.plasma-browser-integration
-    maliit-keyboard
-    maliit-framework
+    kdePackages.maliit-keyboard
+    kdePackages.maliit-framework
 
     # Gry
     prismlauncher
