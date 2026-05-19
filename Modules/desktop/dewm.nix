@@ -15,12 +15,18 @@
 
   # Klawiatura ekranowa
   i18n.inputMethod = {
-    enabled = "fcitx5";
-
+    enable = "fcitx5";
     fcitx5.addons = with pkgs; [
       fcitx5-gtk
-      qt6Packages.fcitx5-configtool
+      fcitx5-configtool
     ];
+  };
+
+  environment.sessionVariables = {
+    QT_IM_MODULE = "fcitx";
+    GTK_IM_MODULE = "fcitx";
+    XMODIFIERS = "@im=fcitx";
+    SDL_IM_MODULE = "fcitx";
   };
 
   # KDE Plasma Debloat
