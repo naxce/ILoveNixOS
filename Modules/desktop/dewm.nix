@@ -13,13 +13,13 @@
   services.desktopManager.plasma6.enable = true;
   environment.variables.BALOO_ENABLED = "0";
 
-  # Maliit
-  environment.sessionVariables = {
-    QT_IM_MODULE = "maliit";
-    GTK_IM_MODULE = "maliit";
-    XMODIFIERS = "@im=maliit";
-    QT_QPA_PLATFORM = "wayland";
-    DICPATH = "${pkgs.hunspellDicts.en_US}/share/hunspell";
+  # Klawiatura ekranowa
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.addons = with pkgs; [
+      fcitx5-gtk
+      fcitx5-qt
+    ];
   };
 
   # KDE Plasma Debloat
