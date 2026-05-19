@@ -15,10 +15,12 @@
 
   services.blueman.enable = true;
 
-  services.ollama = {
-    enable = true;
-    package = pkgs.ollama-cuda;
-  };
+  /*
+    services.ollama = {
+      enable = true;
+      package = pkgs.ollama-cuda;
+    };
+  */
 
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
