@@ -20,12 +20,12 @@
   nixpkgs.overlays = [
     (final: prev: {
       maliit-framework = prev.maliit-framework.overrideAttrs (old: {
-        buildInputs = (old.buildInputs or [ ]) ++ [ prev.maliit-keyboard ];
         postInstall = (old.postInstall or "") + ''
           mkdir -p $out/lib/maliit/plugins
-          ln -s ${prev.maliit-keyboard}/lib/maliit/plugins/libmaliit-keyboard-plugin.so \
+          cp ${prev.maliit-keyboard}/lib/maliit/plugins/libmaliit-keyboard-plugin.so \
             $out/lib/maliit/plugins/libmaliit-keyboard-plugin.so
         '';
+        disallowedReferences = [ ];
       });
     })
   ];
