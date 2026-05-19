@@ -13,6 +13,9 @@
   services.desktopManager.plasma6.enable = true;
   environment.variables.BALOO_ENABLED = "0";
 
+  # KDE Connect
+  programs.kdeconnect.enable = true;
+
   # KDE Plasma Debloat
   services.printing.enable = false;
   services.avahi.enable = false;
