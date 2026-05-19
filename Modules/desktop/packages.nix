@@ -14,6 +14,10 @@
 
     # KDE
     kdePackages.plasma-browser-integration
+    fcitx5
+    fcitx5-configtool
+    fcitx5-gtk
+    kdePackages.fcitx5-qt
 
     # Gry
     prismlauncher
