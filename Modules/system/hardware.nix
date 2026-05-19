@@ -25,8 +25,9 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
-    open = true;
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
+    open = false;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    powerManagement.enable = true;
   };
 
   hardware.graphics = {
@@ -35,7 +36,14 @@
   };
 
   systemd.services.gpu-performance = {
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = [ "graphical.target" ];
+
+    after = [
+      "graphical.target"
+      "nvidia-persistenced.service"
+    ];
+    wants = [ "nvidia-persistenced.service" ];
+
     serviceConfig = {
       Type = "oneshot";
       ExecStart = ''
