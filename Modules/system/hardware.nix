@@ -35,23 +35,7 @@
     enable32Bit = true;
   };
 
-  systemd.services.gpu-performance = {
-    wantedBy = [ "graphical.target" ];
-
-    after = [
-      "graphical.target"
-      "nvidia-persistenced.service"
-    ];
-    wants = [ "nvidia-persistenced.service" ];
-
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = ''
-        ${config.hardware.nvidia.package.bin}/bin/nvidia-smi -pm 1
-        ${config.hardware.nvidia.package.bin}/bin/nvidia-smi -lgc 300,2700
-      '';
-    };
-  };
+  services.nvidia-persistenced.enable = true;
 
   security.rtkit.enable = true;
   services.pipewire = {
