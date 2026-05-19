@@ -13,6 +13,10 @@
   services.desktopManager.plasma6.enable = true;
   environment.variables.BALOO_ENABLED = "0";
 
+  environment.sessionVariables = {
+    MALIIT_PLUGINS_DIRS = "/run/current-system/sw/lib/maliit/plugins";
+  };
+
   # KDE Plasma Debloat
   services.printing.enable = false;
   services.avahi.enable = false;
