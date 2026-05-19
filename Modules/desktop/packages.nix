@@ -14,7 +14,7 @@
 
     # KDE
     kdePackages.plasma-browser-integration
-    kdeconnect
+    kdePackages.kdeconnect-kde
 
     # Gry
     prismlauncher
