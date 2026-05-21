@@ -42,6 +42,13 @@
     vscodium
     nixfmt
     ollama
+    curl
+    wget
+    # C
+    gcc
+    clang
+    # Rust
+    rustup
 
     # Multimedia
     obs-studio
