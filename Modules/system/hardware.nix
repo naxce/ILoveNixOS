@@ -22,14 +22,12 @@
 
   services.ollama = {
     enable = true;
-    acceleration = "cuda"; # lub "rocm" dla AMD
+    acceleration = "cuda";
     host = "127.0.0.1";
     port = 11434;
-    # Opcjonalnie — preload modelu przy starcie:
     loadModels = [ "qwen2.5-coder:32b" ];
   };
 
-  # Otwórz port tylko lokalnie (bezpieczeństwo)
   networking.firewall.allowedTCPPorts = [ ];
 
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -37,7 +35,7 @@
     modesetting.enable = true;
     powerManagement.enable = false;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
 
   hardware.graphics = {
