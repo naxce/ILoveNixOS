@@ -28,6 +28,27 @@
     loadModels = [ "qwen2.5-coder:32b" ];
   };
 
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscodium.fhsWithPackages (
+      ps: with ps; [
+        zlib
+        openssl
+        stdenv.cc.cc.lib
+        nodejs
+      ]
+    );
+    profiles.default.extensions = with pkgs.vscode-extensions; [
+      continue.continue
+      nur-srijan.markdown-rich-preview
+      esbenp.prettier-vscode
+      mvllow.rose-pine
+      rust-lang.rust-analyzer
+      ms-vscode.cpptools
+      jnoortheen.nix-ide
+    ];
+  };
+
   networking.firewall.allowedTCPPorts = [ ];
 
   services.xserver.videoDrivers = [ "nvidia" ];

@@ -41,7 +41,6 @@
 
     # Programowanie
     neovim
-    vscodium
     nixfmt
     ollama
     curl
