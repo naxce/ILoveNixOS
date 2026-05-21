@@ -25,7 +25,7 @@
     package = pkgs.ollama-cuda;
     host = "127.0.0.1";
     port = 11434;
-    loadModels = [ "qwen2.5-coder:32b", "qwen2.5-coder:7b" ];
+    loadModels = [ "qwen2.5-coder:32b" ];
   };
 
   programs.vscode = {
