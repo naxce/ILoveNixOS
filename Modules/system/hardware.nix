@@ -25,7 +25,7 @@
     package = pkgs.ollama-cuda;
     host = "127.0.0.1";
     port = 11434;
-    loadModels = [ "qwen2.5-coder:32b" ];
+    loadModels = [ "qwen2.5-coder:32b", "qwen2.5-coder:7b" ];
   };
 
   programs.vscode = {
@@ -45,6 +45,7 @@
       rust-lang.rust-analyzer
       ms-vscode.cpptools
       jnoortheen.nix-ide
+      redhat.vscode-yaml
     ];
   };
 
