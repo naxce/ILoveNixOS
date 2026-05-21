@@ -46,7 +46,6 @@
     curl
     wget
     cudatoolkit
-    nodePackages."@continuedev/cli"
     # C
     gcc
     clang
