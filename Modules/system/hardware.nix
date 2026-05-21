@@ -38,7 +38,7 @@
         nodejs
       ]
     );
-    profiles.default.extensions = with pkgs.vscode-extensions; [
+    extensions = with pkgs.vscode-extensions; [
       continue.continue
       esbenp.prettier-vscode
       mvllow.rose-pine
