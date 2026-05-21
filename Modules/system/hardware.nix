@@ -20,18 +20,24 @@
 
   services.blueman.enable = true;
 
-  /*
-    services.ollama = {
-      enable = true;
-      package = pkgs.ollama-cuda;
-    };
-  */
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda"; # lub "rocm" dla AMD
+    host = "127.0.0.1";
+    port = 11434;
+    # Opcjonalnie — preload modelu przy starcie:
+    loadModels = [ "qwen2.5-coder:32b" ];
+  };
+
+  # Otwórz port tylko lokalnie (bezpieczeństwo)
+  networking.firewall.allowedTCPPorts = [ ];
 
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
-    open = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    powerManagement.enable = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
 
   hardware.graphics = {

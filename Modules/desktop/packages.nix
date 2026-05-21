@@ -44,6 +44,8 @@
     ollama
     curl
     wget
+    cudatoolkit
+    nvtopPackages.nvidia
     # C
     gcc
     clang
