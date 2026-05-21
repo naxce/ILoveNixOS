@@ -38,6 +38,7 @@
     cider-2
 
     # Programowanie
+    neovim
     vscodium
     nixfmt
     ollama
