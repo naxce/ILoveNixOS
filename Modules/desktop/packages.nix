@@ -11,6 +11,8 @@
     home-manager
     kdePackages.kcalc
     git
+    nvtopPackages.nvidia
+    htop
 
     # KDE
     kdePackages.plasma-browser-integration
@@ -45,7 +47,6 @@
     curl
     wget
     cudatoolkit
-    nvtopPackages.nvidia
     # C
     gcc
     clang
