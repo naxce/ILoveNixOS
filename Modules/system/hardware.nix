@@ -40,7 +40,6 @@
     );
     profiles.default.extensions = with pkgs.vscode-extensions; [
       continue.continue
-      nur-srijan.markdown-rich-preview
       esbenp.prettier-vscode
       mvllow.rose-pine
       rust-lang.rust-analyzer
