@@ -54,6 +54,9 @@
     '';
 
     shellAliases = {
+      robot = ''
+        sudo systemctl reboot
+      ''
       wipe = ''
         reset
 
