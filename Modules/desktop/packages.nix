@@ -13,6 +13,7 @@
     git
     nvtopPackages.nvidia
     htop
+    xnconvert
 
     # KDE
     kdePackages.plasma-browser-integration
