@@ -10,7 +10,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  boot.kernelPackages = pkgs-stable.linuxPackages_latest;
+  boot.kernelPackages = pkgs-stable.linuxPackages_stable;
 
   boot.kernelParams = [
     "nvidia-drm.modeset=1"
