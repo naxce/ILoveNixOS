@@ -15,7 +15,7 @@ echo -e "${BOLD}${CYAN}» Ustawianie jednorazowego startu: Windows 11${RESET}"
 
 cat > "$MANUAL_BOOT" <<'EOF'
 timeout -1
-default_selection Windows 11
+default_selection "Windows 11"
 EOF
 
 reboot
