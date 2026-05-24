@@ -23,4 +23,15 @@
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
   hardware.firmware = [ pkgs.linux-firmware ];
+
+  systemd.services.restore-refind-default = {
+    description = "Restore rEFInd";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "local-fs.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "/home/naxce/NixOS/Scripts/restore-refind-default.sh";
+      RemainAfterExit = true;
+    };
+  };
 }
