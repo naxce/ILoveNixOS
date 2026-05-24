@@ -29,43 +29,58 @@
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     oxygen
+    oxygen-icons
+    oxygen-sounds
     kdenlive
-    plasma-systemmonitor
-    kwallet
     khelpcenter
     konsole
     elisa
     okular
     kate
+    yakuake
     kmail
+    kmail-account-wizard
     kontact
     korganizer
     kaddressbook
     akregator
+    akonadi
+    akonadi-calendar
+    akonadi-calendar-tools
+    akonadi-contacts
+    akonadi-import-wizard
+    akonadi-mime
+    akonadi-search
+    akonadiconsole
+    kdepim-addons
+    kdepim-runtime
+    grantlee-editor
+    grantleetheme
+    pim-data-exporter
+    pim-sieve-editor
+    ktnef
+    ksmtp
+    kwallet
+    kwallet-pam
     kwalletmanager
     plasma-thunderbolt
+    plasma-firewall
+    plasma-vault
     discover
     kde-inotify-survey
     baloo
+    baloo-widgets
     krdp
     kdnssd
     print-manager
-    kweather
-    vpnimport
-    knighttimed
-    secretprompter
-    qrca
-    qrca.wifi
     plasma-systemmonitor
-    akonadi.configdialog
-    akonadi_contacts_resource
-    akonadi_davgroupware_resource
-    akonadi_ews_resource
-    akonadi_google_resource
-    akonadi_imap_resource
-    akonadi_kolab_resource
-    akonadi_openxchange_resource
-    akonadi_vcarddir_resource
-    akonadi_vcard_resource
+    kweather
+    kweathercore
+    qrca
+    skanlite
+    skanpage
+    plasma-welcome
+    sweeper
+    ksystemlog
   ];
 }
