@@ -57,13 +57,7 @@
     # Rust
     rustup
     # JavaScript
-    elmPackages.nodejs
-    # Python
-    (python312.withPackages (
-      ps: with ps; [
-        requests
-      ]
-    ))
+    nodejs_20
 
     # Multimedia
     obs-studio
