@@ -59,6 +59,7 @@
 
     # Multimedia
     obs-studio
+    gimp
 
     # Audio
     pavucontrol
