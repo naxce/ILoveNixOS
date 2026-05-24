@@ -47,6 +47,8 @@
     curl
     wget
     cudatoolkit
+    python3
+    gnumake
     # C
     gcc
     clang
