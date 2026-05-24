@@ -17,6 +17,7 @@
   programs.kdeconnect.enable = true;
 
   # KDE Plasma Debloat
+  # WARNING: CHECK IF YOU DO NOT USE THESE KDE PACKAGES
   services.printing.enable = false;
   services.avahi.enable = false;
 
@@ -28,6 +29,10 @@
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     oxygen
+    kdenlive
+    krita
+    plasma-systemmonitor
+    kwallet
     khelpcenter
     konsole
     elisa
@@ -43,10 +48,28 @@
     discover
     kde-inotify-survey
     #kdeconnect-kde
+    kdeconnect.nonplasma
+    kdeconnect.sms
     baloo
     krdp
     kdnssd
     print-manager
     kweather
+    vpnimport
+    knighttimed
+    secretprompter
+    qrca
+    qrca.wifi
+    plasma-systemmonitor
+    akonadi.configdialog
+    akonadi_contacts_resource
+    akonadi_davgroupware_resource
+    akonadi_ews_resource
+    akonadi_google_resource
+    akonadi_imap_resource
+    akonadi_kolab_resource
+    akonadi_openxchange_resource
+    akonadi_vcarddir_resource
+    akonadi_vcard_resource
   ];
 }
