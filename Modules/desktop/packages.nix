@@ -57,7 +57,7 @@
     # Rust
     rustup
     # JavaScript
-    nodejs_20
+    nodejs_latest
 
     # Multimedia
     obs-studio
