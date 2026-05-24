@@ -52,6 +52,8 @@
     clang
     # Rust
     rustup
+    # JavaScript
+    elmPackages.nodejs
 
     # Multimedia
     obs-studio
