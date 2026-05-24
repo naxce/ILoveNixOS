@@ -50,7 +50,6 @@
     curl
     wget
     cudatoolkit
-    python3
     gnumake
     # C
     gcc
@@ -60,7 +59,7 @@
     # JavaScript
     elmPackages.nodejs
     # Python
-    (python315.withPackages (
+    (python312.withPackages (
       ps: with ps; [
         requests
       ]
