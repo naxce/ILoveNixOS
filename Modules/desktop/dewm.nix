@@ -46,9 +46,6 @@
     plasma-thunderbolt
     discover
     kde-inotify-survey
-    #kdeconnect-kde
-    kdeconnect.nonplasma
-    kdeconnect.sms
     baloo
     krdp
     kdnssd
