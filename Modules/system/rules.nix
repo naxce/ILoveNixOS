@@ -1,4 +1,4 @@
-# mount.nix
+# rules.nix
 {
   config,
   pkgs,
@@ -28,7 +28,7 @@
           options = [ "NOPASSWD" ];
         }
         {
-          command = "/home/naxce/NixOS/Scripts/winboot.sh";
+          command = "/home/naxce/NixOS/Scripts/reboot-to-windows.sh";
           options = [ "NOPASSWD" ];
         }
         {
