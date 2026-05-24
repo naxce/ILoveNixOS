@@ -9,9 +9,9 @@ die() { echo -e "${RED}BŁĄD: $*${RESET}" >&2; exit 1; }
 
 [[ $EUID -ne 0 ]] && exec sudo "$0" "$@"
 
-[[ -f "$MANUAL_BOOT" ]] || die "Nie znaleziono $MANUAL_BOOT — sprawdź punkt montowania EFI"
+[[ -f "$MANUAL_BOOT" ]] || die "Nie znaleziono $MANUAL_BOOT"
 
-echo -e "${BOLD}${CYAN}» Ustawianie jednorazowego startu: Windows 11${RESET}"
+echo -e "${BOLD}${CYAN}» Windows 11${RESET}"
 
 cat > "$MANUAL_BOOT" <<'EOF'
 timeout -1

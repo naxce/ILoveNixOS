@@ -7,4 +7,4 @@ timeout 5
 default_selection "NixOS"
 EOF
 
-echo "rEFInd: przywrócono domyślne ustawienia (NixOS, timeout 5)"
+echo "rEFInd: NixOS, timeout 5"
