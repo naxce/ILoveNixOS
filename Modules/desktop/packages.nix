@@ -14,6 +14,9 @@
     nvtopPackages.nvidia
     htop
     xnconvert
+    qemu
+    libvirt
+    virt-manager
 
     # KDE
     kdePackages.plasma-browser-integration
@@ -40,7 +43,7 @@
     ferdium
     cider-2
 
-    # Programowanie
+    # Dev
     neovim
     nixfmt
     ollama
@@ -56,6 +59,12 @@
     rustup
     # JavaScript
     elmPackages.nodejs
+    # Python
+    (python315.withPackages (
+      ps: with ps; [
+        requests
+      ]
+    ))
 
     # Multimedia
     obs-studio

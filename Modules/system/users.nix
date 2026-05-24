@@ -9,6 +9,7 @@
       "wheel"
       "networkmanager"
       "libvirtd"
+      "kvm"
       "video"
       "render"
       "input"

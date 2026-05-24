@@ -52,6 +52,8 @@
 
   networking.firewall.allowedTCPPorts = [ ];
 
+  virtualisation.libvirtd.enable = true;
+
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
