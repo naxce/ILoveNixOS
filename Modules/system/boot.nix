@@ -33,7 +33,7 @@
       RemainAfterExit = true;
     };
     script = ''
-      cat > /boot/efi/EFI/refind/manual_boot.conf <<'EOF'
+      cat > /boot/EFI/refind/manual_boot.conf <<'EOF'
       timeout 5
       default_selection NixOS
       EOF
