@@ -21,7 +21,8 @@
     # KDE
     kdePackages.plasma-browser-integration
     kdePackages.kdeconnect-kde
-    kdePackages.plasma-keyboard
+    maliit-keyboard
+    maliit-framework
 
     # Gry
     prismlauncher

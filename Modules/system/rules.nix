@@ -6,6 +6,11 @@
 }:
 
 {
+  environment.sessionVariables = {
+    QT_IM_MODULE = "maliit";
+    XMODIFIERS = "@im=none";
+    QT_QPA_PLATFORM = "wayland";
+  };
   security.sudo.extraRules = [
     {
       users = [ "naxce" ];
