@@ -47,7 +47,7 @@
       ms-vscode.cpptools
       jnoortheen.nix-ide
       redhat.vscode-yaml
-      ms-vscode-remote.remote-ssh
+      open-vsx.remote-ssh
     ];
   };
 
