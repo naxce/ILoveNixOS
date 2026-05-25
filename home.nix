@@ -46,12 +46,6 @@
   home.file.".config/kitty".source = ./Config/kitty;
   home.file.".config/sptlrx".source = ./Config/sptlrx;
 
-  home.sessionVariables = {
-    MOZ_ENABLE_WAYLAND = "1";
-    GTK_IM_MODULE = "wayland";
-    QT_IM_MODULE = "qtvirtualkeyboard";
-  };
-
   programs.bash = {
     enable = true;
 
