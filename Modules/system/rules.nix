@@ -8,8 +8,17 @@
 {
   environment.sessionVariables = {
     QT_IM_MODULE = "maliit";
+    QT_IM_MODULES = "maliit";
+    GTK_IM_MODULE = "wayland";
     XMODIFIERS = "@im=none";
     QT_QPA_PLATFORM = "wayland";
+    KWIN_IM_SHOW_ALWAYS = "1";
+  };
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-kde
+    ];
   };
   security.sudo.extraRules = [
     {
