@@ -19,7 +19,6 @@
     virt-manager
 
     # KDE
-    xdg-desktop-portal-kde
     kdePackages.plasma-browser-integration
     kdePackages.kdeconnect-kde
     maliit-keyboard
