@@ -44,6 +44,7 @@
     cider-2
 
     # Dev
+    filezilla
     neovim
     nixfmt
     ollama
