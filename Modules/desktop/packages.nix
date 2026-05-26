@@ -17,6 +17,7 @@
     qemu
     libvirt
     virt-manager
+    lm_sensors
 
     # KDE
     kdePackages.plasma-browser-integration
