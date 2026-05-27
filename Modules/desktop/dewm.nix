@@ -16,6 +16,12 @@
   # KDE Connect
   programs.kdeconnect.enable = true;
 
+  # Waybar
+  programs.waybar = {
+    enable = true;
+    systemd.enable = true;
+  };
+
   # KDE Plasma Debloat
   # WARNING: CHECK IF YOU DO NOT USE THESE KDE PACKAGES
   services.printing.enable = false;
