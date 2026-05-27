@@ -71,18 +71,14 @@
   };
 
   systemd.user.services.openrgb-profile = {
-    Unit = {
-      Description = "Load OpenRGB Profile 1 on Startup";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
+    description = "Load OpenRGB Profile 1 on Startup";
+    after = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.openrgb}/bin/openrgb --profile 1";
       RemainAfterExit = true;
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
     };
   };
 }
