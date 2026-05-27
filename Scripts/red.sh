@@ -122,6 +122,11 @@ positionrule=3
 sizerule=3
 title=visualizer
 titlematch=1
+
+[d96be141-bbbd-461e-bcdb-d4a979e9324b]
+Description=Kitty Work
+size=1600,800
+sizerule=3
 EOF
 
 qdbus org.kde.KWin /KWin reconfigure
