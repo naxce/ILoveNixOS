@@ -65,7 +65,7 @@
     pulse.enable = true;
   };
 
-  services.openrgb = {
+  services.hardware.openrgb = {
     enable = true;
     package = pkgs.openrgb;
   };

@@ -18,7 +18,6 @@
     libvirt
     virt-manager
     lm_sensors
-    openrgb
 
     # KDE
     kdePackages.plasma-browser-integration
