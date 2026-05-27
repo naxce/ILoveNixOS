@@ -20,14 +20,6 @@
 
   services.blueman.enable = true;
 
-  services.ollama = {
-    enable = true;
-    package = pkgs.ollama-cuda;
-    host = "127.0.0.1";
-    port = 11434;
-    loadModels = [ "qwen2.5-coder:7b" ];
-  };
-
   programs.vscode = {
     enable = true;
     package = pkgs.vscodium.fhsWithPackages (
@@ -40,7 +32,6 @@
     );
     extensions = with pkgs.vscode-extensions; [
       ritwickdey.liveserver
-      continue.continue
       esbenp.prettier-vscode
       mvllow.rose-pine
       rust-lang.rust-analyzer

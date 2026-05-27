@@ -50,10 +50,8 @@
     filezilla
     neovim
     nixfmt
-    ollama
     curl
     wget
-    cudatoolkit
     gnumake
     # C
     gcc
