@@ -61,7 +61,7 @@
         sudo systemctl poweroff
       '';
       israel = ''
-        sudo echo 1 > /proc/sys/kernel/sysrq && sudo echo c > /proc/sysrq-trigger
+        sudo sh -c 'echo 1 > /proc/sys/kernel/sysrq' && echo c | sudo tee /proc/sysrq-trigger
       '';
 
       wipe = ''
