@@ -1,20 +1,19 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 40,
+  "height": 36,
+  "margin": "6 12 0 12",
   "spacing": 0,
   "exclusive": true,
   "passthrough": false,
   "gtk-layer-shell": true,
-  "margin-top": 6,
-  "margin-left": 12,
-  "margin-right": 12,
 
   "modules-left": [
     "custom/logo",
-    "hyprland/workspaces",
     "custom/separator",
-    "hyprland/window"
+    "custom/kwin-desktop",
+    "custom/separator",
+    "custom/window"
   ],
 
   "modules-center": [
@@ -32,53 +31,29 @@
     "custom/power"
   ],
 
-  // ─── Logo / Launcher ──────────────────────────────────────────
   "custom/logo": {
     "format": "  ",
     "tooltip": false,
-    "on-click": "rofi -show drun -theme ~/.config/rofi/launcher.rasi"
+    "on-click": "rofi -show drun"
   },
 
-  // ─── Workspaces ───────────────────────────────────────────────
-  "hyprland/workspaces": {
-    "format": "{icon}",
-    "format-icons": {
-      "1":  "一",
-      "2":  "二",
-      "3":  "三",
-      "4":  "四",
-      "5":  "五",
-      "6":  "六",
-      "7":  "七",
-      "8":  "八",
-      "9":  "九",
-      "urgent": "",
-      "active": "",
-      "default": "·"
-    },
-    "on-scroll-up": "hyprctl dispatch workspace e+1",
-    "on-scroll-down": "hyprctl dispatch workspace e-1",
-    "persistent-workspaces": {
-      "*": [1, 2, 3, 4, 5]
-    },
-    "sort-by-number": true
+  "custom/kwin-desktop": {
+    "exec": "python3 -c \"\nimport subprocess, json\nresult = subprocess.run(['qdbus', 'org.kde.KWin', '/VirtualDesktopManager', 'org.kde.KWin.VirtualDesktopManager.current'], capture_output=True, text=True)\ncurrent_id = result.stdout.strip()\nresult2 = subprocess.run(['qdbus', 'org.kde.KWin', '/VirtualDesktopManager', 'org.kde.KWin.VirtualDesktopManager.desktops'], capture_output=True, text=True)\ndesktops = [x for x in result2.stdout.strip().split() if x]\nkanji = ['一','二','三','四','五','六','七','八','九']\nout = ''\nfor i, d in enumerate(desktops):\n    if d == current_id:\n        out += f'<span color=\\\"#b4befe\\\"><b>{kanji[i] if i < len(kanji) else str(i+1)}</b></span> '\n    else:\n        out += f'<span color=\\\"#585b70\\\">{kanji[i] if i < len(kanji) else str(i+1)}</span> '\nprint(json.dumps({'text': out.strip(), 'tooltip': f'Desktop {desktops.index(current_id)+1 if current_id in desktops else 1}'}))\n\"",
+    "return-type": "json",
+    "interval": 1,
+    "format": "{}",
+    "on-scroll-up": "qdbus org.kde.KWin /KWin org.kde.KWin.nextDesktop",
+    "on-scroll-down": "qdbus org.kde.KWin /KWin org.kde.KWin.previousDesktop",
+    "on-click": "qdbus org.kde.KWin /KWin org.kde.KWin.nextDesktop"
   },
 
-  // ─── Active Window ────────────────────────────────────────────
-  "hyprland/window": {
-    "format": "  {title}",
-    "max-length": 40,
-    "rewrite": {
-      "(.*) — Mozilla Firefox": " Firefox · $1",
-      "(.*) - Visual Studio Code": "󰨞 Code · $1",
-      "Alacritty": " Terminal",
-      "dolphin": " Files",
-      "(.*)": "$1"
-    },
-    "separate-outputs": true
+  "custom/window": {
+    "exec": "python3 -c \"\nimport subprocess\ntry:\n    r = subprocess.run(['qdbus', 'org.kde.KWin', '/KWin', 'org.kde.KWin.activeWindow'], capture_output=True, text=True)\n    wid = r.stdout.strip()\n    if wid and wid != '0':\n        r2 = subprocess.run(['qdbus', 'org.kde.KWin', f'/windows/window{wid}', 'org.kde.KWin.Window.caption'], capture_output=True, text=True)\n        title = r2.stdout.strip()[:45]\n        print(f'  {title}' if title else '')\n    else:\n        print('')\nexcept:\n    print('')\n\"",
+    "interval": 2,
+    "format": "{}",
+    "tooltip": false
   },
 
-  // ─── Clock ────────────────────────────────────────────────────
   "clock": {
     "format": "  {:%H:%M}",
     "format-alt": "  {:%A, %d %B %Y}",
@@ -89,37 +64,27 @@
       "on-scroll": 1,
       "on-click-right": "mode",
       "format": {
-        "months":     "<span color='#f5c2e7'><b>{}</b></span>",
-        "days":       "<span color='#cdd6f4'>{}</span>",
-        "weeks":      "<span color='#89dceb'><b>W{}</b></span>",
-        "weekdays":   "<span color='#a6e3a1'><b>{}</b></span>",
-        "today":      "<span color='#f38ba8'><b>{}</b></span>"
+        "months":   "<span color='#f5c2e7'><b>{}</b></span>",
+        "days":     "<span color='#cdd6f4'>{}</span>",
+        "weekdays": "<span color='#a6e3a1'><b>{}</b></span>",
+        "today":    "<span color='#f38ba8'><b>{}</b></span>"
       }
     },
     "actions": {
       "on-click-right": "mode",
-      "on-click-forward": "tz_up",
-      "on-click-backward": "tz_down",
       "on-scroll-up": "shift_up",
       "on-scroll-down": "shift_down"
     }
   },
 
-  // ─── System Group ─────────────────────────────────────────────
   "group/system": {
     "orientation": "inherit",
-    "modules": [
-      "cpu",
-      "memory",
-      "temperature",
-      "disk"
-    ]
+    "modules": [ "cpu", "memory", "temperature", "disk" ]
   },
 
   "cpu": {
     "format": "󰻠 {usage}%",
     "interval": 2,
-    "tooltip": true,
     "tooltip-format": "CPU: {usage}%\nLoad: {load}",
     "on-click": "alacritty -e btop"
   },
@@ -127,58 +92,42 @@
   "memory": {
     "format": "󰍛 {percentage}%",
     "interval": 5,
-    "tooltip": true,
     "tooltip-format": "RAM: {used:.1f}G / {total:.1f}G\nSwap: {swapUsed:.1f}G / {swapTotal:.1f}G",
     "on-click": "alacritty -e btop"
   },
 
   "temperature": {
-    "thermal-zone": 0,
-    "hwmon-path-abs": "/sys/class/hwmon",
-    "input-filename": "temp1_input",
     "critical-threshold": 85,
     "format": "{icon} {temperatureC}°C",
     "format-critical": "󰸁 {temperatureC}°C",
     "format-icons": ["󱃃", "󰔏", "󱃂", "󰸁"],
-    "interval": 5,
-    "tooltip": true
+    "interval": 5
   },
 
   "disk": {
     "format": "󰋊 {percentage_used}%",
     "path": "/",
     "interval": 30,
-    "tooltip": true,
     "tooltip-format": "/ — {used} / {total}\nFree: {free}"
   },
 
-  // ─── Media Group ──────────────────────────────────────────────
   "group/media": {
     "orientation": "inherit",
-    "modules": [
-      "pulseaudio",
-      "backlight",
-      "mpris"
-    ]
+    "modules": [ "pulseaudio", "backlight", "mpris" ]
   },
 
   "pulseaudio": {
     "format": "{icon} {volume}%",
     "format-bluetooth": "󰂰 {volume}%",
-    "format-muted": "󰝟",
+    "format-muted": "󰝟 Mute",
     "format-icons": {
       "headphone": "󰋋",
-      "hands-free": "󱡏",
       "headset": "󰋋",
-      "phone": "󰏲",
-      "portable": "󰏲",
-      "car": "󰄋",
       "default": ["󰕿", "󰖀", "󰕾"]
     },
     "scroll-step": 2,
     "on-click": "pavucontrol",
     "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-    "tooltip": true,
     "tooltip-format": "{desc}: {volume}%"
   },
 
@@ -188,7 +137,6 @@
     "scroll-step": 5,
     "on-scroll-up": "brightnessctl set +5%",
     "on-scroll-down": "brightnessctl set 5%-",
-    "tooltip": true,
     "tooltip-format": "Brightness: {percent}%"
   },
 
@@ -202,22 +150,14 @@
       "firefox": "󰈹",
       "chromium": ""
     },
-    "status-icons": {
-      "paused": "⏸"
-    },
-    "dynamic-len": 25,
-    "dynamic-order": ["title", "artist"],
-    "ignored-players": ["firefox"]
+    "status-icons": { "paused": "⏸" },
+    "dynamic-len": 22,
+    "dynamic-order": ["title", "artist"]
   },
 
-  // ─── Status Group ─────────────────────────────────────────────
   "group/status": {
     "orientation": "inherit",
-    "modules": [
-      "network",
-      "bluetooth",
-      "battery"
-    ]
+    "modules": [ "network", "bluetooth", "battery" ]
   },
 
   "network": {
@@ -225,10 +165,9 @@
     "format-wifi": "󰤨 {essid}",
     "format-ethernet": "󰈀 {ipaddr}",
     "format-disconnected": "󰤭 Offline",
-    "tooltip": true,
-    "tooltip-format": "Interface: {ifname}\nIP: {ipaddr}/{cidr}\nGateway: {gwaddr}\nSpeed: ↑{bandwidthUpBytes} ↓{bandwidthDownBytes}",
-    "tooltip-format-wifi": "SSID: {essid}\nSignal: {signalStrength}%\nFreq: {frequency}MHz\nIP: {ipaddr}",
-    "on-click": "nm-connection-editor",
+    "tooltip-format-wifi": "SSID: {essid}\nSignal: {signalStrength}%\nIP: {ipaddr}",
+    "tooltip-format": "IP: {ipaddr}\nGateway: {gwaddr}\n↑{bandwidthUpBytes} ↓{bandwidthDownBytes}",
+    "on-click": "plasma-open-settings kcm_networkmanagement",
     "interval": 5
   },
 
@@ -236,37 +175,28 @@
     "format": " {status}",
     "format-connected": "󰂱 {device_alias}",
     "format-connected-battery": "󰂱 {device_alias} {device_battery_percentage}%",
-    "format-off": "󰂲",
-    "tooltip": true,
-    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
-    "on-click": "blueberry"
+    "format-off": "󰂲 Off",
+    "tooltip-format-connected": "{controller_alias}\n{num_connections} connected\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "on-click": "bluedevil-sendfile || systemsettings kcm_bluetooth"
   },
 
   "battery": {
-    "states": {
-      "warning": 30,
-      "critical": 15
-    },
+    "states": { "warning": 30, "critical": 15 },
     "format": "{icon} {capacity}%",
     "format-charging": "󰂄 {capacity}%",
     "format-plugged": "󰚥 {capacity}%",
     "format-full": "󰁹 Full",
-    "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-    "tooltip": true,
-    "tooltip-format": "{timeTo}\nPower: {power}W\nCycles: {cycles}"
+    "format-icons": ["󰂎","󰁺","󰁻","󰁼","󰁽","󰁾","󰁿","󰂀","󰂁","󰂂","󰁹"],
+    "tooltip-format": "{timeTo}\nPower: {power}W"
   },
 
-  // ─── Power ────────────────────────────────────────────────────
   "custom/power": {
     "format": "⏻",
     "tooltip": false,
-    "on-click": "wlogout --protocol layer-shell -b 5 -T 400 -B 400"
+    "on-click": "qdbus org.kde.LogoutPrompt /LogoutPrompt org.kde.LogoutPrompt.promptAll"
   },
 
-  // ─── Separator ────────────────────────────────────────────────
   "custom/separator": {
     "format": "|",
     "tooltip": false

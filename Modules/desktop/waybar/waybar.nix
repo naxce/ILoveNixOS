@@ -5,36 +5,33 @@
   ...
 }:
 
-let
-  waybConf = ./config;
-  waybCss = ./style.css;
-in
 {
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.iosevka
+  ];
+
   environment.etc = {
     "xdg/waybar/config" = {
-      source = waybConf;
+      source = ./config;
       mode = "0644";
     };
     "xdg/waybar/style.css" = {
-      source = waybCss;
+      source = ./style.css;
       mode = "0644";
     };
   };
 
-  environment.sessionVariables = {
-    XDG_CONFIG_DIRS = lib.mkDefault "/etc/xdg:$HOME/.config";
-  };
-
-  systemd.user.services.waybar = {
-    description = "Waybar — Wayland bar";
-    partOf = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
-    wantedBy = [ "graphical-session.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.waybar}/bin/waybar";
-      ExecReload = "kill -SIGUSR2 $MAINPID";
-      Restart = "on-failure";
-      KillMode = "mixed";
-    };
+  environment.etc."xdg/autostart/waybar.desktop" = {
+    mode = "0644";
+    text = ''
+      [Desktop Entry]
+      Type=Application
+      Name=Waybar
+      Exec=waybar
+      Hidden=false
+      X-KDE-AutostartEnabled=true
+      X-KDE-StartupNotify=false
+    '';
   };
 }

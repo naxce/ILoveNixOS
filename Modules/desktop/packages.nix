@@ -64,6 +64,8 @@
     curl
     wget
     gnumake
+    # Python
+    python3
     # C
     gcc
     clang
