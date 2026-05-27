@@ -8,6 +8,8 @@
     ./Modules/desktop/gaming.nix
     ./Modules/desktop/packages.nix
 
+    ./Modules/desktop/waybar/waybar.nix
+
     ./Modules/system/boot.nix
     ./Modules/system/hardware.nix
     ./Modules/system/mount.nix
