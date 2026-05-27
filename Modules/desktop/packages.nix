@@ -80,7 +80,16 @@
     # Terminal
     kitty
     zenity
+    # Ricing
+    sptlrx
     fastfetch
+    tty-clock
+    cmatrix
+    cbonsai
+    pipes-rs
+    lavat
+    asciiquarium
+    cava
   ];
 
   fonts.packages = with pkgs; [
