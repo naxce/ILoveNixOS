@@ -2,7 +2,7 @@
   "layer": "top",
   "position": "top",
   "height": 36,
-  "margin": "6 12 0 12",
+  "margin": "8 14 0 14",
   "spacing": 0,
   "exclusive": true,
   "passthrough": false,
@@ -10,7 +10,6 @@
 
   "modules-left": [
     "custom/logo",
-    "custom/separator",
     "custom/kwin-desktop",
     "custom/separator",
     "custom/window"
@@ -32,13 +31,14 @@
   ],
 
   "custom/logo": {
-    "format": "  ",
-    "tooltip": false,
+    "format": " ",
+    "tooltip": true,
+    "tooltip-format": "NixOS — reproducible, declarative, reliable",
     "on-click": "rofi -show drun"
   },
 
   "custom/kwin-desktop": {
-    "exec": "python3 -c \"\nimport subprocess, json\nresult = subprocess.run(['qdbus', 'org.kde.KWin', '/VirtualDesktopManager', 'org.kde.KWin.VirtualDesktopManager.current'], capture_output=True, text=True)\ncurrent_id = result.stdout.strip()\nresult2 = subprocess.run(['qdbus', 'org.kde.KWin', '/VirtualDesktopManager', 'org.kde.KWin.VirtualDesktopManager.desktops'], capture_output=True, text=True)\ndesktops = [x for x in result2.stdout.strip().split() if x]\nkanji = ['一','二','三','四','五','六','七','八','九']\nout = ''\nfor i, d in enumerate(desktops):\n    if d == current_id:\n        out += f'<span color=\\\"#b4befe\\\"><b>{kanji[i] if i < len(kanji) else str(i+1)}</b></span> '\n    else:\n        out += f'<span color=\\\"#585b70\\\">{kanji[i] if i < len(kanji) else str(i+1)}</span> '\nprint(json.dumps({'text': out.strip(), 'tooltip': f'Desktop {desktops.index(current_id)+1 if current_id in desktops else 1}'}))\n\"",
+    "exec": "python3 -c \"\nimport subprocess, json\ntry:\n    r = subprocess.run(['qdbus','org.kde.KWin','/VirtualDesktopManager','org.kde.KWin.VirtualDesktopManager.current'],capture_output=True,text=True)\n    cur = r.stdout.strip()\n    r2 = subprocess.run(['qdbus','org.kde.KWin','/VirtualDesktopManager','org.kde.KWin.VirtualDesktopManager.desktops'],capture_output=True,text=True)\n    desks = [x for x in r2.stdout.strip().split() if x]\n    kanji=['一','二','三','四','五','六','七','八','九']\n    parts=[]\n    for i,d in enumerate(desks):\n        k=kanji[i] if i<len(kanji) else str(i+1)\n        if d==cur:\n            parts.append(f'<span color=\\\"#b4befe\\\"><b>{k}</b></span>')\n        else:\n            parts.append(f'<span color=\\\"#45475a\\\">{k}</span>')\n    print(json.dumps({'text':' '.join(parts),'tooltip':f'Desktop {desks.index(cur)+1 if cur in desks else 1} / {len(desks)}'}))\nexcept Exception as e:\n    print(json.dumps({'text':'·','tooltip':str(e)}))\n\"",
     "return-type": "json",
     "interval": 1,
     "format": "{}",
@@ -48,7 +48,7 @@
   },
 
   "custom/window": {
-    "exec": "python3 -c \"\nimport subprocess\ntry:\n    r = subprocess.run(['qdbus', 'org.kde.KWin', '/KWin', 'org.kde.KWin.activeWindow'], capture_output=True, text=True)\n    wid = r.stdout.strip()\n    if wid and wid != '0':\n        r2 = subprocess.run(['qdbus', 'org.kde.KWin', f'/windows/window{wid}', 'org.kde.KWin.Window.caption'], capture_output=True, text=True)\n        title = r2.stdout.strip()[:45]\n        print(f'  {title}' if title else '')\n    else:\n        print('')\nexcept:\n    print('')\n\"",
+    "exec": "python3 -c \"\nimport subprocess\ntry:\n    r=subprocess.run(['qdbus','org.kde.KWin','/KWin','org.kde.KWin.activeWindow'],capture_output=True,text=True)\n    wid=r.stdout.strip()\n    if wid and wid!='0':\n        r2=subprocess.run(['qdbus','org.kde.KWin',f'/windows/window{wid}','org.kde.KWin.Window.caption'],capture_output=True,text=True)\n        title=r2.stdout.strip()[:50]\n        print(f'  {title}' if title else '')\n    else:\n        print('')\nexcept:\n    print('')\n\"",
     "interval": 2,
     "format": "{}",
     "tooltip": false
@@ -56,7 +56,7 @@
 
   "clock": {
     "format": "  {:%H:%M}",
-    "format-alt": "  {:%A, %d %B %Y}",
+    "format-alt": "  {:%a, %d %b %Y}",
     "tooltip-format": "<span font='JetBrainsMono Nerd Font 10'><tt><small>{calendar}</small></tt></span>",
     "calendar": {
       "mode": "year",
@@ -67,7 +67,7 @@
         "months":   "<span color='#f5c2e7'><b>{}</b></span>",
         "days":     "<span color='#cdd6f4'>{}</span>",
         "weekdays": "<span color='#a6e3a1'><b>{}</b></span>",
-        "today":    "<span color='#f38ba8'><b>{}</b></span>"
+        "today":    "<span color='#f38ba8'><b><u>{}</u></b></span>"
       }
     },
     "actions": {
@@ -85,30 +85,35 @@
   "cpu": {
     "format": "󰻠 {usage}%",
     "interval": 2,
-    "tooltip-format": "CPU: {usage}%\nLoad: {load}",
+    "tooltip": true,
+    "tooltip-format": "CPU  {usage}%\nLoad {load}",
     "on-click": "alacritty -e btop"
   },
 
   "memory": {
     "format": "󰍛 {percentage}%",
     "interval": 5,
-    "tooltip-format": "RAM: {used:.1f}G / {total:.1f}G\nSwap: {swapUsed:.1f}G / {swapTotal:.1f}G",
+    "tooltip": true,
+    "tooltip-format": "RAM   {used:.1f}G / {total:.1f}G\nSwap  {swapUsed:.1f}G / {swapTotal:.1f}G",
     "on-click": "alacritty -e btop"
   },
 
   "temperature": {
     "critical-threshold": 85,
-    "format": "{icon} {temperatureC}°C",
-    "format-critical": "󰸁 {temperatureC}°C",
-    "format-icons": ["󱃃", "󰔏", "󱃂", "󰸁"],
-    "interval": 5
+    "format": "{icon} {temperatureC}°",
+    "format-critical": "󰸁 {temperatureC}°",
+    "format-icons": ["󱃃", "󰔏", "󱃂"],
+    "interval": 4,
+    "tooltip": true,
+    "tooltip-format": "Temp  {temperatureC}°C"
   },
 
   "disk": {
     "format": "󰋊 {percentage_used}%",
     "path": "/",
     "interval": 30,
-    "tooltip-format": "/ — {used} / {total}\nFree: {free}"
+    "tooltip": true,
+    "tooltip-format": "Disk  {used} / {total}\nFree  {free}"
   },
 
   "group/media": {
@@ -119,16 +124,17 @@
   "pulseaudio": {
     "format": "{icon} {volume}%",
     "format-bluetooth": "󰂰 {volume}%",
-    "format-muted": "󰝟 Mute",
+    "format-muted": "󰝟",
     "format-icons": {
       "headphone": "󰋋",
-      "headset": "󰋋",
-      "default": ["󰕿", "󰖀", "󰕾"]
+      "headset":   "󰋋",
+      "default":   ["󰕿", "󰖀", "󰕾"]
     },
     "scroll-step": 2,
     "on-click": "pavucontrol",
     "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-    "tooltip-format": "{desc}: {volume}%"
+    "tooltip": true,
+    "tooltip-format": "{desc}\n{volume}%"
   },
 
   "backlight": {
@@ -137,22 +143,25 @@
     "scroll-step": 5,
     "on-scroll-up": "brightnessctl set +5%",
     "on-scroll-down": "brightnessctl set 5%-",
-    "tooltip-format": "Brightness: {percent}%"
+    "tooltip": true,
+    "tooltip-format": "Brightness  {percent}%"
   },
 
   "mpris": {
     "format": "{player_icon}  {dynamic}",
-    "format-paused": "{player_icon}  <i>{dynamic}</i>",
+    "format-paused": "{player_icon}  {dynamic}",
     "player-icons": {
-      "default": "▶",
-      "mpv": "󰝚",
-      "spotify": "󰓇",
-      "firefox": "󰈹",
+      "default":  "▶",
+      "mpv":      "󰝚",
+      "spotify":  "󰓇",
+      "firefox":  "󰈹",
       "chromium": ""
     },
     "status-icons": { "paused": "⏸" },
-    "dynamic-len": 22,
-    "dynamic-order": ["title", "artist"]
+    "dynamic-len": 20,
+    "dynamic-order": ["title", "artist"],
+    "tooltip": true,
+    "tooltip-format": "{player}\n{title}\n{artist}"
   },
 
   "group/status": {
@@ -161,12 +170,13 @@
   },
 
   "network": {
-    "format": "󰤭 Offline",
+    "format": "󰤭",
     "format-wifi": "󰤨 {essid}",
     "format-ethernet": "󰈀 {ipaddr}",
-    "format-disconnected": "󰤭 Offline",
-    "tooltip-format-wifi": "SSID: {essid}\nSignal: {signalStrength}%\nIP: {ipaddr}",
-    "tooltip-format": "IP: {ipaddr}\nGateway: {gwaddr}\n↑{bandwidthUpBytes} ↓{bandwidthDownBytes}",
+    "format-disconnected": "󰤭 —",
+    "tooltip": true,
+    "tooltip-format-wifi": "{essid}  {signalStrength}%\n{ipaddr}",
+    "tooltip-format": "{ifname}\n{ipaddr}  {gwaddr}\n↑{bandwidthUpBytes} ↓{bandwidthDownBytes}",
     "on-click": "plasma-open-settings kcm_networkmanagement",
     "interval": 5
   },
@@ -175,10 +185,12 @@
     "format": " {status}",
     "format-connected": "󰂱 {device_alias}",
     "format-connected-battery": "󰂱 {device_alias} {device_battery_percentage}%",
-    "format-off": "󰂲 Off",
+    "format-off": "󰂲",
+    "tooltip": true,
     "tooltip-format-connected": "{controller_alias}\n{num_connections} connected\n{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}",
-    "on-click": "bluedevil-sendfile || systemsettings kcm_bluetooth"
+    "tooltip-format-enumerate-connected": "  {device_alias}",
+    "tooltip-format-enumerate-connected-battery": "  {device_alias}  {device_battery_percentage}%",
+    "on-click": "systemsettings kcm_bluetooth"
   },
 
   "battery": {
@@ -186,14 +198,16 @@
     "format": "{icon} {capacity}%",
     "format-charging": "󰂄 {capacity}%",
     "format-plugged": "󰚥 {capacity}%",
-    "format-full": "󰁹 Full",
+    "format-full": "󰁹",
     "format-icons": ["󰂎","󰁺","󰁻","󰁼","󰁽","󰁾","󰁿","󰂀","󰂁","󰂂","󰁹"],
-    "tooltip-format": "{timeTo}\nPower: {power}W"
+    "tooltip": true,
+    "tooltip-format": "{timeTo}\n{power}W"
   },
 
   "custom/power": {
     "format": "⏻",
-    "tooltip": false,
+    "tooltip": true,
+    "tooltip-format": "Session menu",
     "on-click": "qdbus org.kde.LogoutPrompt /LogoutPrompt org.kde.LogoutPrompt.promptAll"
   },
 
