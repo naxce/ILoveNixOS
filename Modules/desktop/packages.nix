@@ -24,6 +24,7 @@
     kdePackages.kdeconnect-kde
     maliit-keyboard
     maliit-framework
+    waybar
 
     # Gry
     prismlauncher
