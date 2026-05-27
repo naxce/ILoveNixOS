@@ -57,6 +57,12 @@
       robot = ''
         sudo systemctl reboot
       '';
+      komasz = ''
+        sudo systemctl poweroff
+      '';
+      israel = ''
+        sudo echo 1 > /proc/sys/kernel/sysrq && sudo echo c > /proc/sysrq-trigger
+      ''
 
       wipe = ''
         reset
@@ -157,6 +163,8 @@
         kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-blue.conf"
         reset
         fastfetch --config "$HOME/NixOS/Config/fastfetch/work-blue.jsonc"
+        pkill kwork
+        kwork
       '';
 
       kc2 = ''
@@ -164,6 +172,8 @@
         kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-red.conf"
         reset
         fastfetch --config "$HOME/NixOS/Config/fastfetch/work-red.jsonc"
+        pkill kwork
+        kwork
       '';
 
       kc3 = ''
@@ -171,6 +181,8 @@
         kitty @ set-colors --all "$HOME/NixOS/Config/kitty/work-purple.conf"
         reset
         fastfetch --config "$HOME/NixOS/Config/fastfetch/work-purple.jsonc"
+        pkill kwork
+        kwork
       '';
 
       kc = ''
