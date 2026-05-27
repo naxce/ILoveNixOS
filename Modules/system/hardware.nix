@@ -64,4 +64,25 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
+  services.openrgb = {
+    enable = true;
+    package = pkgs.openrgb;
+  };
+
+  systemd.user.services.openrgb-profile = {
+    Unit = {
+      Description = "Load OpenRGB Profile 1 on Startup";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.openrgb}/bin/openrgb --profile 1";
+      RemainAfterExit = true;
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
 }
