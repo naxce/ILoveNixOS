@@ -25,17 +25,6 @@
     maliit-keyboard
     maliit-framework
 
-    # Rice
-    waybar
-    rofi
-    pavucontrol
-    wlogout
-    brightnessctl
-    btop
-    playerctl
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.iosevka
-
     # Gry
     prismlauncher
     protonup-qt
