@@ -19,7 +19,6 @@
   # Waybar
   programs.waybar = {
     enable = true;
-    systemd.enable = true;
   };
 
   # KDE Plasma Debloat
