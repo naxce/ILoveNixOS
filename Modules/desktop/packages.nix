@@ -43,6 +43,7 @@
     # Internet / komunikacja
     firefox
     vesktop
+    ferdium
     cider-2
 
     # Dev
