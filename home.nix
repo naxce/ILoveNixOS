@@ -62,7 +62,7 @@
       '';
       israel = ''
         sudo echo 1 > /proc/sys/kernel/sysrq && sudo echo c > /proc/sysrq-trigger
-      ''
+      '';
 
       wipe = ''
         reset
