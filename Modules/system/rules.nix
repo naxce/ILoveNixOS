@@ -48,6 +48,10 @@
           options = [ "NOPASSWD" ];
         }
         {
+          command = "/run/current-system/sw/bin/systemctl poweroff";
+          options = [ "NOPASSWD" ];
+        }
+        {
           command = "/home/naxce/NixOS/Scripts/hotspot.sh";
           options = [ "NOPASSWD" ];
         }
