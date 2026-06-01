@@ -24,7 +24,6 @@
       "uid=1000"
       "gid=1000"
       "umask=022"
-      "big_writes"
       "nofail"
     ];
   };
