@@ -6,10 +6,10 @@
 }:
 
 {
-  boot.supportedFilesystems = [ "ntfs3" ];
+  boot.supportedFilesystems = [ "ntfs" ];
   fileSystems."/mnt/windows" = {
     device = "/dev/disk/by-uuid/186AAA106AA9EAA8";
-    fsType = "ntfs3";
+    fsType = "ntfs";
     options = [
       "rw"
       "uid=1000"
@@ -18,13 +18,15 @@
   };
   fileSystems."/mnt/data" = {
     device = "/dev/disk/by-uuid/3B3A1DA152B204A4";
-    fsType = "ntfs3";
+    fsType = "ntfs";
     options = [
       "rw"
       "uid=1000"
       "gid=1000"
       "umask=022"
       "nofail"
+      "x-systemd.automount"
+      "x-systemd.device-timeout=10"
     ];
   };
 }
