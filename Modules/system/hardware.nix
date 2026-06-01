@@ -41,6 +41,18 @@
     ];
   };
 
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    glibc
+    xorg.libX11
+    xorg.libXext
+    xorg.libXcursor
+    xorg.libXrandr
+    xorg.libXi
+    vulkan-loader
+  ];
+
   networking.firewall.allowedTCPPorts = [ ];
 
   virtualisation.libvirtd.enable = true;
