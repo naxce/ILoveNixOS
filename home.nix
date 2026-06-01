@@ -52,9 +52,9 @@
     initExtra = ''
       wipe
 
-            archivefix() {
+      archivefix() {
         STEAM_COMPAT_DATA_PATH="$HOME/.local/share/Steam/steamapps/compatdata/271590" \
-        "$HOME/.local/share/Steam/steamapps/common/Proton Experimental/dist/bin/wine" \
+        "$HOME/.local/share/Steam/steamapps/common/Proton - Experimental/files/bin/wine" \
         "/mnt/data/Games/Steam/steamapps/common/Grand Theft Auto V Enhanced/ArchiveFix.exe" "$1"
       }
     '';
