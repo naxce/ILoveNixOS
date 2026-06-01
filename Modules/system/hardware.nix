@@ -42,14 +42,14 @@
   };
 
   programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
+  programs.nix-ld.libraries = pkgs.steam-run.fhsenv.args.multiPkgs pkgs [
     stdenv.cc.cc
     glibc
-    xorg.libX11
-    xorg.libXext
-    xorg.libXcursor
-    xorg.libXrandr
-    xorg.libXi
+    libX11
+    libXext
+    libXcursor
+    libXrandr
+    libXi
     vulkan-loader
   ];
 
