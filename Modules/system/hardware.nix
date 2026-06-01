@@ -37,6 +37,7 @@
       ms-vscode.cpptools
       jnoortheen.nix-ide
       redhat.vscode-yaml
+      markdown-inline-preview.markdown-inline-preview
     ];
   };
 
