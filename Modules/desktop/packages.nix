@@ -18,6 +18,7 @@
     libvirt
     virt-manager
     lm_sensors
+    unrar
 
     # KDE
     kdePackages.plasma-browser-integration
