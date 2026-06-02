@@ -43,6 +43,7 @@
       jnoortheen.nix-ide
       redhat.vscode-yaml
       yzhang.markdown-all-in-one
+      continue.continue
     ];
   };
 
