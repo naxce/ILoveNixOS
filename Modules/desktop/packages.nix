@@ -9,8 +9,6 @@
 
     # Narzędzia systemowe
     home-manager
-    kdePackages.kcalc
-    git
     nvtopPackages.nvidia
     htop
     xnconvert
@@ -22,8 +20,8 @@
     bottles
 
     # KDE
-    kdePackages.plasma-browser-integration
     kdePackages.kdeconnect-kde
+    kdePackages.kcalc
     maliit-keyboard
     maliit-framework
 
@@ -55,6 +53,8 @@
     curl
     wget
     gnumake
+    ollama
+    git
     # Python
     python3
     # C
