@@ -42,6 +42,7 @@
 
     # Internet / komunikacja
     firefox
+    brave
     vesktop
     ferdium
     cider-2
