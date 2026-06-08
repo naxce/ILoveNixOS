@@ -116,7 +116,7 @@
         wipe
 
         if [ "$1" = "--hard" ] || [ "$1" = "-h" ]; then
-          systemctl --user restart plasma-kwin_wayland.service || true
+          kwin_wayland --replace & disown
           sleep 2
           systemctl --user restart plasma-plasmashell.service || {
             kquitapp6 plasmashell || true
@@ -129,8 +129,8 @@
         fi
 
         if [ "$1" = "--full" ] || [ "$1" = "-f" ]; then
-          qdbus org.kde.KSplash /KSplash org.kde.KSplash.hide 2>/dev/null || true
-          loginctl terminate-user "$USER"
+          qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout 0 3 3 || \
+            loginctl terminate-user "$USER"
           return
         fi
 
