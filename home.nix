@@ -52,14 +52,6 @@
       padding=4
       tiles={"layoutDirection":"horizontal","tiles":[{"width":0.35664062500000226},{"width":0.4800781249999928},{"width":0.16328125000000493}]}
 
-      [Wayland]
-      InputMethod=${pkgs.kdePackages.plasma-keyboard}/bin/plasma-keyboard
-      VirtualKeyboardEnabled=true
-
-      [Xwayland]
-      Scale=1
-      VirtualKeyboardEnabled=true
-
       [org.kde.kdecoration2]
       BorderSize=None
       BorderSizeAuto=false

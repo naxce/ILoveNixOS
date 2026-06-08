@@ -23,6 +23,8 @@
     kdePackages.kdeconnect-kde
     kdePackages.kcalc
     kdePackages.plasma-keyboard
+    maliit-keyboard
+    maliit-framework
 
     # Gry
     prismlauncher
