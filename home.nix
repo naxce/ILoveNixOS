@@ -1,4 +1,3 @@
-# home.nix
 { config, pkgs, ... }:
 
 {
@@ -54,6 +53,7 @@
       tiles={"layoutDirection":"horizontal","tiles":[{"width":0.35664062500000226},{"width":0.4800781249999928},{"width":0.16328125000000493}]}
 
       [Wayland]
+      InputMethod[$e]=${pkgs.kdePackages.plasma-keyboard}/bin/plasma-keyboard
       VirtualKeyboardEnabled=true
 
       [Xwayland]
