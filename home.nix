@@ -112,16 +112,19 @@
     enable = true;
 
     initExtra = ''
-      wipe
-
       nixkde() {
         wipe
 
-        if [ "$1" = "--hard" ]; then
-          pkill plasmashell || true
+        if [ "$1" = "--hard" ] || [ "$1" = "-h" ]; then
+          systemctl --user restart plasma-kwin_wayland.service || true
           systemctl --user restart plasma-plasmashell.service || true
           sleep 1
           qdbus org.kde.KWin /KWin reconfigure || true
+          return
+        fi
+
+        if [ "$1" = "--full" ] || [ "$1" = "-f" ]; then
+          loginctl terminate-session "$XDG_SESSION_ID"
           return
         fi
 
