@@ -19,11 +19,6 @@
 
   services.blueman.enable = true;
 
-  services.ollama = {
-    enable = true;
-    package = pkgs.ollama-cuda;
-  };
-
   programs.vscode = {
     enable = true;
     package = pkgs.vscodium.fhsWithPackages (
