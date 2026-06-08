@@ -216,7 +216,7 @@
       '';
 
       nixkde = ''
-        killall -9 plasmashell kwin_wayland 2>/dev/null; sleep 1 && kstart6 kwin_wayland plasmashell
+        killall plasmashell kwin_wayland 2>/dev/null; sleep 1 && plasmashell &
       '';
 
       nixclean = ''
