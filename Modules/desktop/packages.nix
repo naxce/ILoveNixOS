@@ -54,7 +54,6 @@
     curl
     wget
     gnumake
-    ollama
     git
     # Python
     python3
