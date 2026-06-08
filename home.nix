@@ -114,10 +114,25 @@
     initExtra = ''
       wipe
 
-      archivefix() {
-        STEAM_COMPAT_DATA_PATH="$HOME/.local/share/Steam/steamapps/compatdata/271590" \
-        "$HOME/.local/share/Steam/steamapps/common/Proton - Experimental/files/bin/wine" \
-        "/mnt/data/Games/Steam/steamapps/common/Grand Theft Auto V Enhanced/ArchiveFix.exe" "$1"
+      nixkde() {
+        wipe
+
+        if [ "$1" = "--hard" ]; then
+          pkill plasmashell || true
+          systemctl --user restart plasma-plasmashell.service || true
+          sleep 1
+          qdbus org.kde.KWin /KWin reconfigure || true
+          return
+        fi
+
+        systemctl --user restart plasma-plasmashell.service || {
+          kquitapp6 plasmashell || true
+          sleep 1
+          plasmashell --replace & disown
+        }
+
+        sleep 1
+        qdbus org.kde.KWin /KWin reconfigure || true
       }
     '';
 
@@ -213,25 +228,6 @@
         git commit -m "$msg" || true
         git push origin main
         home-manager switch --flake ~/NixOS#naxce
-      '';
-
-      nixkde = ''
-        wipe
-
-        if [ "$1" = "--hard" ]; then
-          pkill plasmashell || true
-          systemctl --user restart plasma-plasmashell.service || true
-          sleep 1
-          qdbus org.kde.KWin /KWin reconfigure || true
-          exit 0
-        fi
-        systemctl --user restart plasma-plasmashell.service || {
-          kquitapp6 plasmashell || true
-          sleep 1
-          plasmashell --replace & disown
-        }
-        sleep 1
-        qdbus org.kde.KWin /KWin reconfigure || true
       '';
 
       nixclean = ''
