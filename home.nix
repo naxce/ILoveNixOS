@@ -134,7 +134,6 @@
           return
         fi
 
-        qdbus org.kde.KWin /KWin reloadConfig || true
         qdbus org.kde.KWin /KWin reconfigure || true
       }
 
