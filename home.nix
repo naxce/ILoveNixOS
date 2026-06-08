@@ -126,12 +126,6 @@
           return
         fi
 
-        if [ "$1" = "--full" ] || [ "$1" = "-f" ]; then
-          qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout 0 3 3 || \
-            loginctl terminate-user "$USER"
-          return
-        fi
-
         qdbus org.kde.KWin /KWin reconfigure || true
       }
 
