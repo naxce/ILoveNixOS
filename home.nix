@@ -217,24 +217,23 @@
 
       nixkde = ''
         wipe
+        systemctl --user restart plasma-plasmashell.service || {
+          echo "fallback: kquitapp6 + plasmashell --replace"
 
-        kquitapp5 plasmashell || true
+          kquitapp6 plasmashell || true
+          sleep 1
+          plasmashell --replace & disown
+        }
         sleep 1
-
-        kwin_wayland --replace & disown
-        sleep 1
-
-        plasmashell --replace & disown
+        qdbus org.kde.KWin /KWin reconfigure || true
       '';
 
       nixkdehard = ''
         wipe
-
+        systemctl --user stop plasma-plasmashell.service || true
         killall plasmashell || true
         killall kwin_wayland || true
-
         sleep 1
-
         kwin_wayland --replace & disown
         plasmashell --replace & disown
       '';
