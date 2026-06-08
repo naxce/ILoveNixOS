@@ -53,6 +53,9 @@
         padding=4
         tiles={"layoutDirection":"horizontal","tiles":[{"width":0.35664062500000226},{"width":0.4800781249999928},{"width":0.16328125000000493}]}
 
+        [Wayland]
+        InputMethod[$e]=/run/current-system/sw/share/applications/com.github.maliit.keyboard.desktop
+
         [org.kde.kdecoration2]
         BorderSize=None
         BorderSizeAuto=false
