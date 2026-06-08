@@ -217,10 +217,8 @@
 
       nixkde = ''
         wipe
-        killall plasmashell kwin_x11 kwin_wayland 2>/dev/null || true
-        sleep 2
-        plasmashell &
-        disown
+        kquitapp6 plasmashell
+        kstart5 plasmashell
       '';
 
       nixclean = ''
