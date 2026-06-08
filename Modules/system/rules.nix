@@ -11,12 +11,6 @@
     XMODIFIERS = "@im=none";
     QT_QPA_PLATFORM = "wayland";
     KWIN_IM_SHOW_ALWAYS = "1";
-    QT_PLUGIN_PATH = [
-      "${pkgs.kdePackages.plasma-keyboard}/lib/qt-6/plugins"
-    ];
-    NIXPKGS_QT6_QML_IMPORT_PATH = [
-      "${pkgs.kdePackages.plasma-keyboard}/lib/qt-6/qml"
-    ];
   };
   security.sudo.extraRules = [
     {
