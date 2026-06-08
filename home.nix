@@ -1,3 +1,4 @@
+# home.nix
 { config, pkgs, ... }:
 
 {
@@ -5,6 +6,69 @@
   home.homeDirectory = "/home/naxce";
   programs.home-manager.enable = true;
   home.preferXdgDirectories = true;
+
+  xdg.configFile."kwinrc".text =
+    let
+      kzonesRaw = builtins.readFile ./Config/kwin/kzones.json;
+      kzonesParsed = builtins.fromJSON kzonesRaw;
+      kzonesCompact = builtins.toJSON kzonesParsed;
+      kzonesEscaped = builtins.replaceStrings [ "\n" ] [ "\\n" ] kzonesCompact;
+    in
+    ''
+      [Desktops]
+      Id_1=c3c67fa2-bbe1-4485-8d05-2ef9295c00e1
+      Number=1
+      Rows=1
+
+      [Effect-blur]
+      BlurStrength=8
+      NoiseStrength=0
+      Saturation=100
+
+      [Effect-translucency]
+      Menus=29
+
+      [Plugins]
+      blurEnabled=true
+      dimscreenEnabled=false
+      kzonesEnabled=true
+      overviewEnabled=false
+      trackmouseEnabled=true
+      translucencyEnabled=true
+
+      [Script-kzones]
+      layoutsJson=${kzonesEscaped}
+
+      [Tiling][c3c67fa2-bbe1-4485-8d05-2ef9295c00e1][5141d9d1-4740-4e9a-a08f-c6d29c2e60ec]
+      padding=4
+      tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+      [Tiling][c3c67fa2-bbe1-4485-8d05-2ef9295c00e1][54a993d2-9e9e-407c-b2f0-7449484e3bdd]
+      padding=4
+      tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+      [Tiling][c3c67fa2-bbe1-4485-8d05-2ef9295c00e1][a3323bf6-8adf-4d21-a526-b9da97e27c94]
+      padding=4
+      tiles={"layoutDirection":"horizontal","tiles":[{"width":0.6088541666666746},{"width":0.3911458333333254}]}
+
+      [Tiling][c3c67fa2-bbe1-4485-8d05-2ef9295c00e1][c11abbc2-c8ea-4e98-aca3-9eadf5fe774c]
+      padding=4
+      tiles={"layoutDirection":"horizontal","tiles":[{"width":0.35664062500000226},{"width":0.4800781249999928},{"width":0.16328125000000493}]}
+
+      [Wayland]
+      VirtualKeyboardEnabled=true
+
+      [Xwayland]
+      Scale=1
+      VirtualKeyboardEnabled=true
+
+      [org.kde.kdecoration2]
+      BorderSize=None
+      BorderSizeAuto=false
+      ButtonsOnLeft=
+      library=org.kde.kwin.aurorae.v2
+      theme=__aurorae__svg__Carl
+    '';
 
   home.packages = [
     (pkgs.writeShellScriptBin "kwork" ''
