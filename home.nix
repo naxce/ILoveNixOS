@@ -9,6 +9,7 @@
 
   xdg.configFile."kwinrc".text =
     let
+      # Czytaj czytelny JSON
       kzonesRaw = builtins.readFile ./Config/kwin/kzones.json;
       kzonesParsed = builtins.fromJSON kzonesRaw;
       kzonesCompact = builtins.toJSON kzonesParsed;
