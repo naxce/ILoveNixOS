@@ -17,10 +17,14 @@
       home-manager,
       ...
     }@inputs:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
     {
       nixosConfigurations = {
         naxce = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
+          inherit system;
           modules = [
             ./configuration.nix
             home-manager.nixosModules.home-manager
@@ -33,6 +37,11 @@
             }
           ];
         };
+      };
+
+      homeConfigurations.naxce = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [ ./home.nix ];
       };
     };
 }
