@@ -9,11 +9,10 @@
 
   xdg.configFile."kwinrc".text =
     let
-      # Czytaj czytelny JSON
+      # Czytaj plik z newline'ami (zachowuje formatowanie)
       kzonesRaw = builtins.readFile ./Config/kwin/kzones.json;
-      kzonesParsed = builtins.fromJSON kzonesRaw;
-      kzonesCompact = builtins.toJSON kzonesParsed;
-      kzonesEscaped = builtins.replaceStrings [ "\n" ] [ "\\n" ] kzonesCompact;
+      # Zamień rzeczywiste newline'y na \n (escaped dla kwinrc)
+      kzonesEscaped = builtins.replaceStrings [ "\n" ] [ "\\n" ] kzonesRaw;
     in
     ''
       [Desktops]
