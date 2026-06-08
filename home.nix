@@ -117,26 +117,28 @@
 
         if [ "$1" = "--hard" ] || [ "$1" = "-h" ]; then
           systemctl --user restart plasma-kwin_wayland.service || true
-          systemctl --user restart plasma-plasmashell.service || true
+          sleep 2
+          systemctl --user restart plasma-plasmashell.service || {
+            kquitapp6 plasmashell || true
+            sleep 1
+            plasmashell --replace & disown
+          }
           sleep 1
           qdbus org.kde.KWin /KWin reconfigure || true
           return
         fi
 
         if [ "$1" = "--full" ] || [ "$1" = "-f" ]; then
-          loginctl terminate-session "$XDG_SESSION_ID"
+          qdbus org.kde.KSplash /KSplash org.kde.KSplash.hide 2>/dev/null || true
+          loginctl terminate-user "$USER"
           return
         fi
 
-        systemctl --user restart plasma-plasmashell.service || {
-          kquitapp6 plasmashell || true
-          sleep 1
-          plasmashell --replace & disown
-        }
-
-        sleep 1
+        qdbus org.kde.KWin /KWin reloadConfig || true
         qdbus org.kde.KWin /KWin reconfigure || true
       }
+
+      wipe
     '';
 
     shellAliases = {
