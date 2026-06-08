@@ -114,6 +114,7 @@
     initExtra = ''
       nixkde() {
         wipe
+        nixhome
 
         if [ "$1" = "--hard" ] || [ "$1" = "-h" ]; then
           kwin_wayland --replace &
