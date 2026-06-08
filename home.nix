@@ -203,7 +203,15 @@
       '';
 
       nixhome = ''
-        wipe
+                wipe
+        cd ~/NixOS || exit
+
+        msg="$*"
+        [ -z "$msg" ] && msg="Update Commit"
+
+        git add .
+        git commit -m "$msg" || true
+        git push origin main
         home-manager switch --flake ~/NixOS#naxce
       '';
 
