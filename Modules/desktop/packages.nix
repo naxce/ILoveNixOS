@@ -24,6 +24,7 @@
     kdePackages.kcalc
     maliit-keyboard
     maliit-framework
+    kdePackages.qtvirtualkeyboard
 
     # Gry
     prismlauncher
