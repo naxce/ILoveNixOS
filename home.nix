@@ -116,13 +116,11 @@
         wipe
 
         if [ "$1" = "--hard" ] || [ "$1" = "-h" ]; then
-          kwin_wayland --replace & disown
-          sleep 2
-          systemctl --user restart plasma-plasmashell.service || {
-            kquitapp6 plasmashell || true
-            sleep 1
-            plasmashell --replace & disown
-          }
+          kwin_wayland --replace &
+          sleep 3
+          kquitapp6 plasmashell || true
+          sleep 1
+          plasmashell --replace &
           sleep 1
           qdbus org.kde.KWin /KWin reconfigure || true
           return
