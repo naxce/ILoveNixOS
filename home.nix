@@ -216,9 +216,7 @@
       '';
 
       nixkde = ''
-        wipe
-        kquitapp6 plasmashell
-        kstart5 plasmashell
+        killall -9 plasmashell kwin_x11 2>/dev/null; sleep 1 && kstart6 plasmashell kwin_x11
       '';
 
       nixclean = ''
