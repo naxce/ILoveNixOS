@@ -216,8 +216,27 @@
       '';
 
       nixkde = ''
-        systemctl --user restart plasma-plasmashell.service;
-        qdbus org.kde.KWin /KWin reconfigure
+        wipe
+
+        kquitapp5 plasmashell || true
+        sleep 1
+
+        kwin_wayland --replace & disown
+        sleep 1
+
+        plasmashell --replace & disown
+      '';
+
+      nixkdehard = ''
+        wipe
+
+        killall plasmashell || true
+        killall kwin_wayland || true
+
+        sleep 1
+
+        kwin_wayland --replace & disown
+        plasmashell --replace & disown
       '';
 
       nixclean = ''
