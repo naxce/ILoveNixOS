@@ -7,8 +7,6 @@
 
 {
   environment.sessionVariables = {
-    QT_IM_MODULE = "qtvirtualkeyboard";
-    QT_IM_MODULES = "qtvirtualkeyboard";
     GTK_IM_MODULE = "wayland";
     XMODIFIERS = "@im=none";
     QT_QPA_PLATFORM = "wayland";
