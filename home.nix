@@ -216,7 +216,8 @@
       '';
 
       nixkde = ''
-        killall -9 plasmashell kwin_wayland 2>/dev/null; sleep 1 && kwin_wayland > /dev/null 2>&1 & sleep 1 && plasmashell > /dev/null 2>&1 &
+        systemctl --user restart plasma-plasmashell.service;
+        qdbus org.kde.KWin /KWin reconfigure
       '';
 
       nixclean = ''
