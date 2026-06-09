@@ -1,24 +1,6 @@
 [
   {
-    "name": "Main Split",
-    "padding": 0,
-    "zones": [
-      {
-        "x": 0,
-        "y": 0,
-        "width": 60,
-        "height": 100
-      },
-      {
-        "x": 60,
-        "y": 0,
-        "width": 40,
-        "height": 100
-      }
-    ]
-  },
-  {
-    "name": "Secondary Split 1",
+    "name": "Split 1",
     "padding": 0,
     "zones": [
       {
@@ -42,7 +24,7 @@
     ]
   },
   {
-    "name": "Secondary Split 2",
+    "name": "Split 2",
     "padding": 0,
     "zones": [
       {
@@ -62,6 +44,24 @@
         "y": 60,
         "width": 50,
         "height": 40
+      }
+    ]
+  },
+  {
+    "name": "Split 3",
+    "padding": 0,
+    "zones": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 40,
+        "height": 100
+      },
+      {
+        "x": 40,
+        "y": 0,
+        "width": 60,
+        "height": 100
       }
     ]
   }
