@@ -65,34 +65,35 @@
 
   fonts.fontconfig = {
     enable = true;
+
     defaultFonts.emoji = [
       "Twemoji Color Emoji"
     ];
-
-    localConf = ''
-      <?xml version="1.0"?>
-      <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-      <fontconfig>
-
-        <alias>
-          <family>emoji</family>
-          <prefer>
-            <family>Twemoji Color Emoji</family>
-          </prefer>
-        </alias>
-
-        <match target="pattern">
-          <test name="family" qual="any">
-            <string>emoji</string>
-          </test>
-          <edit name="family" mode="prepend" binding="strong">
-            <string>Twemoji Color Emoji</string>
-          </edit>
-        </match>
-
-      </fontconfig>
-    '';
   };
+
+  xdg.configFile."fontconfig/conf.d/10-emoji.conf".text = ''
+    <?xml version="1.0"?>
+    <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+    <fontconfig>
+
+      <alias>
+        <family>emoji</family>
+        <prefer>
+          <family>Twemoji Color Emoji</family>
+        </prefer>
+      </alias>
+
+      <match target="pattern">
+        <test name="family" qual="any">
+          <string>emoji</string>
+        </test>
+        <edit name="family" mode="prepend" binding="strong">
+          <string>Twemoji Color Emoji</string>
+        </edit>
+      </match>
+
+    </fontconfig>
+  '';
 
   home.packages = [
     (pkgs.writeShellScriptBin "kwork" ''
