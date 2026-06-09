@@ -107,4 +107,19 @@
   fonts.fontconfig.defaultFonts = {
     emoji = [ "Noto Color Emoji" ];
   };
+
+  fonts.fontconfig.localConf = ''
+    <?xml version="1.0"?>
+    <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+    <fontconfig>
+      <match target="pattern">
+        <test name="family" qual="any">
+          <string>emoji</string>
+        </test>
+        <edit name="family" mode="prepend" binding="strong">
+          <string>Noto Color Emoji</string>
+        </edit>
+      </match>
+    </fontconfig>
+  '';
 }
