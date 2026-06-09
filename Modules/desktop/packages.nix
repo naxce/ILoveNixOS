@@ -98,12 +98,14 @@
   fonts.packages = with pkgs; [
     inter
     noto-fonts
+    noto-fonts-emoji
     noto-fonts-color-emoji
     jetbrains-mono
     nerd-fonts.jetbrains-mono
     nerd-fonts.symbols-only
   ];
 
-  # Flatpak
-  services.flatpak.enable = true;
+  fonts.fontconfig.defaultFonts = {
+    emoji = [ "Noto Color Emoji" ];
+  };
 }
