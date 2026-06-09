@@ -98,7 +98,6 @@
   fonts.packages = with pkgs; [
     inter
     noto-fonts
-    noto-fonts-emoji
     noto-fonts-color-emoji
     jetbrains-mono
     nerd-fonts.jetbrains-mono
