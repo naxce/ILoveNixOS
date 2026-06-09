@@ -63,38 +63,36 @@
       theme=__aurorae__svg__Carl
     '';
 
-  fonts.fontconfig.enable = true;
+  fonts.fontconfig = {
+    enable = true;
+    defaultFonts.emoji = [
+      "Twemoji Color Emoji"
+    ];
 
-  xdg.configFile."fontconfig/conf.d/10-emoji.conf".text = ''
-    <?xml version="1.0"?>
-    <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-    <fontconfig>
+    localConf = ''
+      <?xml version="1.0"?>
+      <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+      <fontconfig>
 
-      <match target="pattern">
-        <test name="family" qual="any">
-          <string>Noto Color Emoji</string>
-        </test>
-        <edit name="family" mode="delete"/>
-      </match>
+        <alias>
+          <family>emoji</family>
+          <prefer>
+            <family>Twemoji Color Emoji</family>
+          </prefer>
+        </alias>
 
-      <alias>
-        <family>emoji</family>
-        <prefer>
-          <family>Twemoji Color Emoji</family>
-        </prefer>
-      </alias>
+        <match target="pattern">
+          <test name="family" qual="any">
+            <string>emoji</string>
+          </test>
+          <edit name="family" mode="prepend" binding="strong">
+            <string>Twemoji Color Emoji</string>
+          </edit>
+        </match>
 
-      <match target="pattern">
-        <test name="family" qual="any">
-          <string>emoji</string>
-        </test>
-        <edit name="family" mode="prepend" binding="strong">
-          <string>Twemoji Color Emoji</string>
-        </edit>
-      </match>
-
-    </fontconfig>
-  '';
+      </fontconfig>
+    '';
+  };
 
   home.packages = [
     (pkgs.writeShellScriptBin "kwork" ''
