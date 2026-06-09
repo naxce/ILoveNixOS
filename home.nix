@@ -63,6 +63,39 @@
       theme=__aurorae__svg__Carl
     '';
 
+  fonts.fontconfig.enable = true;
+
+  fonts.fontconfig.localConf = ''
+    <?xml version="1.0"?>
+    <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+    <fontconfig>
+
+      <match target="pattern">
+        <test name="family" qual="any">
+          <string>Noto Color Emoji</string>
+        </test>
+        <edit name="family" mode="delete"/>
+      </match>
+
+      <alias>
+        <family>emoji</family>
+        <prefer>
+          <family>Twemoji Color Emoji</family>
+        </prefer>
+      </alias>
+
+      <match target="pattern">
+        <test name="family" qual="any">
+          <string>emoji</string>
+        </test>
+        <edit name="family" mode="prepend" binding="strong">
+          <string>Twemoji Color Emoji</string>
+        </edit>
+      </match>
+
+    </fontconfig>
+  '';
+
   home.packages = [
     (pkgs.writeShellScriptBin "kwork" ''
       THEME_FILE="$HOME/.config/kitty-work/theme"
