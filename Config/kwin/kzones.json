@@ -18,7 +18,31 @@
     ]
   },
   {
-    "name": "Secondary Split",
+    "name": "Secondary Split 1",
+    "padding": 0,
+    "zones": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 50,
+        "height": 100
+      },
+      {
+        "x": 50,
+        "y": 0,
+        "width": 50,
+        "height": 50
+      },
+      {
+        "x": 50,
+        "y": 50,
+        "width": 50,
+        "height": 50
+      }
+    ]
+  },
+  {
+    "name": "Secondary Split 2",
     "padding": 0,
     "zones": [
       {
