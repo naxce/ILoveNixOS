@@ -13,6 +13,24 @@
         "x": 60,
         "y": 0,
         "width": 40,
+        "height": 100
+      }
+    ]
+  },
+  {
+    "name": "Split 2",
+    "padding": 0,
+    "zones": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 60,
+        "height": 100
+      },
+      {
+        "x": 60,
+        "y": 0,
+        "width": 40,
         "height": 50
       },
       {
@@ -24,7 +42,7 @@
     ]
   },
   {
-    "name": "Split 2",
+    "name": "Split 3",
     "padding": 0,
     "zones": [
       {
@@ -48,7 +66,7 @@
     ]
   },
   {
-    "name": "Split 3",
+    "name": "Split 4",
     "padding": 0,
     "zones": [
       {
