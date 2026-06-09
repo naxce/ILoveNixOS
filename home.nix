@@ -65,7 +65,7 @@
 
   fonts.fontconfig.enable = true;
 
-  fonts.fontconfig.localConf = ''
+  xdg.configFile."fontconfig/conf.d/10-emoji.conf".text = ''
     <?xml version="1.0"?>
     <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
     <fontconfig>
