@@ -27,6 +27,7 @@
     # Gry
     prismlauncher
     protonup-qt
+    protontricks
     steam
     steam-run
     heroic
