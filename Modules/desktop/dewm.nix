@@ -60,9 +60,7 @@
     pim-sieve-editor
     ktnef
     ksmtp
-    kwallet
-    kwallet-pam
-    kwalletmanager
+    kdeconnect-kde
     plasma-thunderbolt
     plasma-firewall
     plasma-vault
