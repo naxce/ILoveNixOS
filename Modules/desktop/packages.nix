@@ -39,7 +39,7 @@
     vulkan-tools
     vulkan-loader
     vulkan-validation-layers
-    mesa-utils
+    mesa-demos
 
     # Internet / komunikacja
     firefox
