@@ -57,6 +57,10 @@
     enable32Bit = true;
   };
 
+  environment.variables = {
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+  };
+
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
