@@ -57,6 +57,8 @@
     git
     # Python
     python3
+    # Java
+    jdk21
     # C
     gcc
     clang
