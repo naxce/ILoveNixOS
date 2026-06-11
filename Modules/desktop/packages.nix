@@ -21,6 +21,7 @@
 
     # KDE
     kdePackages.kcalc
+    kdePackages.kfind
     maliit-keyboard
     maliit-framework
 
