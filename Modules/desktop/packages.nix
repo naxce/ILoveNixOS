@@ -19,6 +19,7 @@
     unrar
     bottles
     qbittorrent
+    iw
 
     # KDE
     kdePackages.kcalc
