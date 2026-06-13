@@ -18,6 +18,7 @@
     lm_sensors
     unrar
     bottles
+    qbittorrent
 
     # KDE
     kdePackages.kcalc
