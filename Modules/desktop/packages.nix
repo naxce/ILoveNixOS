@@ -25,6 +25,7 @@
     kdePackages.kfind
     maliit-keyboard
     maliit-framework
+    libnotify
 
     # Gry
     prismlauncher
