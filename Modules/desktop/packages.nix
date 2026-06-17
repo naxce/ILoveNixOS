@@ -60,6 +60,7 @@
     wget
     gnumake
     git
+    llama-cpp
     # Python
     python3
     # Java
