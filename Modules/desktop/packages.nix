@@ -20,6 +20,7 @@
     bottles
     qbittorrent
     iw
+    linux-wifi-hotspot
 
     # KDE
     kdePackages.kcalc
