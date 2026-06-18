@@ -19,29 +19,6 @@
 
   services.blueman.enable = true;
 
-  programs.vscode = {
-    enable = true;
-    package = pkgs.vscodium.fhsWithPackages (
-      ps: with ps; [
-        zlib
-        openssl
-        stdenv.cc.cc.lib
-        nodejs
-      ]
-    );
-    extensions = with pkgs.vscode-extensions; [
-      ritwickdey.liveserver
-      esbenp.prettier-vscode
-      mvllow.rose-pine
-      rust-lang.rust-analyzer
-      ms-vscode.cpptools
-      jnoortheen.nix-ide
-      redhat.vscode-yaml
-      yzhang.markdown-all-in-one
-      continue.continue
-    ];
-  };
-
   networking.firewall.allowedTCPPorts = [ ];
 
   virtualisation.libvirtd.enable = true;
