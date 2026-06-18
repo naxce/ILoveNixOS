@@ -123,6 +123,7 @@
       redhat.vscode-yaml
       yzhang.markdown-all-in-one
       anthropic.claude-code
+      piousdeer.adwaita-theme
     ];
   };
 
