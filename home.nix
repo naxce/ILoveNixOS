@@ -134,7 +134,6 @@
   home.file.".config/fastfetch".source = ./Config/fastfetch;
   home.file.".config/kitty".source = ./Config/kitty;
   home.file.".config/sptlrx".source = ./Config/sptlrx;
-  home.file.".config/hypr".source = ./Config/hypr;
 
   programs.bash = {
     enable = true;
