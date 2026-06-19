@@ -22,19 +22,6 @@
     iw
     linux-wifi-hotspot
 
-    # Hyprland
-    waybar
-    rofi
-    dunst
-    hyprpaper
-    hyprlock
-    hypridle
-    grim
-    slurp
-    wl-clipboard
-    cliphist
-    brightnessctl
-
     # KDE
     kdePackages.kcalc
     kdePackages.kfind
