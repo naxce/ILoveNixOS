@@ -24,7 +24,7 @@
 
     # Hyprland
     waybar
-    rofi-wayland
+    rofi
     dunst
     hyprpaper
     hyprlock
