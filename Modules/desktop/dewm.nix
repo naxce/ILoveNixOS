@@ -9,6 +9,21 @@
     wayland.enable = true;
   };
 
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+    xwayland.enable = true;
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config.common.default = "*";
+  };
+
   # KDE Plasma 6
   services.desktopManager.plasma6.enable = true;
   environment.variables.BALOO_ENABLED = "0";

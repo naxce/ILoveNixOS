@@ -134,6 +134,7 @@
   home.file.".config/fastfetch".source = ./Config/fastfetch;
   home.file.".config/kitty".source = ./Config/kitty;
   home.file.".config/sptlrx".source = ./Config/sptlrx;
+  home.file.".config/hypr".source = ./Config/hypr;
 
   programs.bash = {
     enable = true;
@@ -254,15 +255,21 @@
         home-manager switch --flake ~/NixOS#naxce
       '';
 
+      nixhypr = ''
+        nixhome
+        hyprctl reload
+        wipe
+      '';
+
       nixclean = ''
         wipe
         sudo nix-collect-garbage -d
         nix-collect-garbage -d
       '';
 
-      nixsh = ''
+      nixdev = ''
         wipe
-        nix-shell
+        nix develop
       '';
 
       rice = "wipe && ~/NixOS/scripts/rice.sh";
@@ -300,8 +307,6 @@
         echo -e kc2: Red
         echo -e kc3: Purple
       '';
-
-      khelp = ''wipe && echo -e \"\\n===============================\\nKITTY WORK HELP\\n===============================\\n\\nTABS\\nCtrl+Shift+T new tab\\nCtrl+Shift+W close tab\\nCtrl+Shift+Q close window\\n\\nSPLITS\\nCtrl+Shift+Enter split\\nCtrl+Alt+V split vertical\\nCtrl+Alt+H split horizontal\\n\\nNAVIGATION\\nCtrl+Alt+arrows\\n\\nRESIZE\\nCtrl+Shift+arrows\\n===============================\'';
     };
   };
 
