@@ -21,6 +21,7 @@
     qbittorrent
     iw
     linux-wifi-hotspot
+    chntpw
 
     # KDE
     kdePackages.kcalc
