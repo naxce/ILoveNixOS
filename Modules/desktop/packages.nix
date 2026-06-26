@@ -106,6 +106,7 @@
 
   programs.vscode = {
     enable = true;
+    mutableExtensionsDir = true;
     package = pkgs.vscodium.fhsWithPackages (
       ps: with ps; [
         zlib
