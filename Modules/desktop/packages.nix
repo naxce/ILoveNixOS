@@ -97,6 +97,7 @@
     fastfetch
     tty-clock
     cmatrix
+    toilet
     cbonsai
     pipes-rs
     lavat
