@@ -43,6 +43,7 @@
     gamemode
     gamescope
     steamtinkerlaunch
+    r2modman
     vulkan-tools
     vulkan-loader
     vulkan-validation-layers
