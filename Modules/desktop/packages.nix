@@ -67,6 +67,7 @@
     llama-cpp
     # Python
     python3
+    ruff
     # Java
     jdk21
     # C
