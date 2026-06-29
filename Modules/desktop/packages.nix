@@ -129,6 +129,8 @@
       yzhang.markdown-all-in-one
       anthropic.claude-code
       piousdeer.adwaita-theme
+      ms-python.python
+      charliermarsh.ruff
     ];
   };
 
