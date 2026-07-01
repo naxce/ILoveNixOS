@@ -37,6 +37,7 @@
     steam
     steam-run
     heroic
+    samrewritten
     wineWow64Packages.stable
     winetricks
     mangohud
