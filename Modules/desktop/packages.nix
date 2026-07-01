@@ -49,7 +49,6 @@
     vulkan-loader
     vulkan-validation-layers
     mesa-demos
-    melonloader-installer
 
     # Internet / komunikacja
     firefox
