@@ -135,6 +135,10 @@
     ];
   };
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "pnpm-10.29.2"
+  ];
+
   fonts.packages = with pkgs; [
     inter
     noto-fonts
