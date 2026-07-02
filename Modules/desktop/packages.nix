@@ -26,6 +26,7 @@
     # KDE
     kdePackages.kcalc
     kdePackages.kfind
+    kdePackages.partitionmanager
     maliit-keyboard
     maliit-framework
     libnotify
