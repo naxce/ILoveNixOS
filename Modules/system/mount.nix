@@ -9,9 +9,8 @@
     "ntfs"
     "vfat"
   ];
-/*
   fileSystems."/mnt/windows" = {
-    device = "/dev/disk/by-uuid/186AAA106AA9EAA8";
+    device = "/dev/disk/by-uuid/E818049F18046EBE";
     fsType = "ntfs";
     options = [
       "rw"
@@ -19,7 +18,6 @@
       "nofail"
     ];
   };
-*/
 
   fileSystems."/mnt/data" = {
     device = "/dev/disk/by-uuid/36E9EE794FF8FD45";
