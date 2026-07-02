@@ -82,6 +82,8 @@
     # Multimedia
     obs-studio
     gimp
+    yt-dlp
+    ffmpeg
 
     # Audio
     pavucontrol
