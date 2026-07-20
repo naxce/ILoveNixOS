@@ -1400,6 +1400,63 @@ class QuickSettings(Gtk.Box):
             self._bt_subtitle_async(self.bt_sub)
 
 
+class ClickOutsideCatcher(Gtk.Window):
+    """A separate, fullscreen, fully transparent layer-shell surface that
+    sits just below the popup panel, only to catch clicks that land outside
+    of it.
+
+    This has to be a second window rather than simply making the panel's
+    own window fullscreen: making the panel window itself span the whole
+    screen made GTK paint that whole area with its own solid theme
+    background (a big gray rectangle covering the monitor) instead of
+    staying transparent outside the panel, even with the same "unset"
+    background CSS that works fine for the panel-sized window. Keeping the
+    panel window sized to its content and adding this window underneath
+    avoids that entirely, since this window paints nothing of its own —
+    just forwards clicks.
+    """
+
+    def __init__(self, panel_window, monitor):
+        super().__init__()
+        self.set_decorated(False)
+        self._panel_window = panel_window
+
+        LayerShell.init_for_window(self)
+        LayerShell.set_layer(self, LayerShell.Layer.TOP)
+        LayerShell.set_namespace(self, "control-center-catcher")
+        LayerShell.set_keyboard_mode(self, LayerShell.KeyboardMode.NONE)
+        if monitor is not None:
+            LayerShell.set_monitor(self, monitor)
+        LayerShell.set_anchor(self, LayerShell.Edge.TOP, True)
+        LayerShell.set_anchor(self, LayerShell.Edge.BOTTOM, True)
+        LayerShell.set_anchor(self, LayerShell.Edge.LEFT, True)
+        LayerShell.set_anchor(self, LayerShell.Edge.RIGHT, True)
+        LayerShell.set_exclusive_zone(self, -1)
+
+        self.add_css_class("cc-click-catcher")
+
+        click_ctrl = Gtk.GestureClick()
+        click_ctrl.connect("pressed", self._on_click)
+        self.add_controller(click_ctrl)
+
+        self._armed = False
+
+    def _on_click(self, *_a):
+        if self._armed:
+            self._panel_window.hide_panel()
+
+    def arm_and_show(self):
+        self._armed = False
+        self.present()
+        # Grace delay so the click that opened the panel (e.g. from waybar)
+        # isn't immediately misread as "clicked outside".
+        GLib.timeout_add(200, self._arm)
+
+    def _arm(self):
+        self._armed = True
+        return False
+
+
 class ControlCenterWindow(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app)
@@ -1417,9 +1474,6 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
             LayerShell.set_monitor(self, monitor)
 
         LayerShell.set_anchor(self, LayerShell.Edge.TOP, True)
-        LayerShell.set_anchor(self, LayerShell.Edge.BOTTOM, True)
-        LayerShell.set_anchor(self, LayerShell.Edge.LEFT, True)
-        LayerShell.set_anchor(self, LayerShell.Edge.RIGHT, True)
         LayerShell.set_margin(self, LayerShell.Edge.TOP, 60)
 
         LayerShell.set_exclusive_zone(self, -1)
@@ -1430,12 +1484,11 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         key_ctrl.connect("key-pressed", self._on_key)
         self.add_controller(key_ctrl)
 
-        self._click_armed = False
-        click_ctrl = Gtk.GestureClick()
-        click_ctrl.connect("pressed", self._on_click)
-        self.add_controller(click_ctrl)
-
-        GLib.timeout_add(200, self._arm_click_close)
+        # A separate, fullscreen, fully transparent layer-shell window sits
+        # behind the panel just to catch clicks that land outside of it —
+        # see ClickOutsideCatcher below for why this has to be its own
+        # window rather than just making *this* window fullscreen.
+        self._catcher = ClickOutsideCatcher(self, monitor)
 
         GLib.timeout_add_seconds(1, self._tick_clock)
         GLib.timeout_add_seconds(5, self._tick_subtitles)
@@ -1534,21 +1587,6 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
     def _tick_subtitles(self):
         return self.quick_settings.refresh_subtitles()
 
-    def _arm_click_close(self):
-        self._click_armed = True
-        return False
-
-    def _on_click(self, _gesture, _n_press, x, y):
-        if not self._click_armed:
-            return
-        panel = self.get_child()
-        if panel is None:
-            return
-        ok, rect = panel.compute_bounds(self)
-        if ok and rect.contains_point(x, y):
-            return
-        self.hide_panel()
-
     def _on_key(self, _ctrl, keyval, _keycode, _state):
         if keyval == Gdk.KEY_Escape:
             self.hide_panel()
@@ -1557,13 +1595,13 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
 
     def hide_panel(self):
         self.set_visible(False)
+        self._catcher.set_visible(False)
 
     def show_panel(self):
-        self._click_armed = False
         self.quick_settings.reset_to_list()
         self._tick_clock()
         self.present()
-        GLib.timeout_add(200, self._arm_click_close)
+        self._catcher.arm_and_show()
 
 
 def load_css():

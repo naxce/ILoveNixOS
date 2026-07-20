@@ -2,6 +2,7 @@ window,
 window.cc-popup-window,
 window.background,
 window.cc-popup-window decoration,
+window.cc-click-catcher,
 decoration {
   font-family: "Inter", sans-serif;
   background: unset !important;
