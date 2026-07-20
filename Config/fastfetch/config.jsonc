@@ -1,0 +1,86 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+  "display": {
+    "separator": " 󰁔 ",
+    "color": {
+      "keys": "white",
+      "title": "white",
+    },
+  },
+  "logo": {
+    "source": "nixos_small",
+    "color": {
+      "1": "white",
+      "2": "white",
+    },
+    "padding": {
+      "top": 2,
+      "left": 3,
+      "right": 4,
+    },
+  },
+  "modules": [
+    {
+      "type": "title",
+      "format": "{#15}{user-name}{#default}@{#15}{host-name}",
+    },
+    {
+      "type": "separator",
+      "string": "—",
+    },
+    {
+      "type": "os",
+      "key": "󰣭  OS",
+      "format": "{3} {1}",
+    },
+    {
+      "type": "kernel",
+      "key": "󰒋  Kern",
+      "format": "{2}",
+    },
+    {
+      "type": "uptime",
+      "key": "󰅐  Up",
+      "format": "{2}d {3}h {4}m",
+    },
+    {
+      "type": "packages",
+      "key": "󰮯  Pkgs",
+    },
+    {
+      "type": "separator",
+      "string": "—",
+    },
+    {
+      "type": "de",
+      "key": "󰖲  DE",
+    },
+    {
+      "type": "wm",
+      "key": "󱂬  WM",
+    },
+    {
+      "type": "terminal",
+      "key": "  Term",
+    },
+    {
+      "type": "separator",
+      "string": "—",
+    },
+    {
+      "type": "cpu",
+      "key": "󰻠  CPU",
+      "format": "{1} @ {6}GHz",
+    },
+    {
+      "type": "gpu",
+      "key": "󰍛  GPU",
+      "format": "{2}",
+      "hideType": "integrated",
+    },
+    {
+      "type": "memory",
+      "key": "󰍛  Mem",
+    },
+  ],
+}

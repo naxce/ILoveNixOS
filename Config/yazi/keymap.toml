@@ -1,0 +1,25 @@
+[mgr]
+prepend_keymap = [
+  { on = "m", run = "open --interactive", desc = "Menu / Open with" },
+  { on = "O", run = "open --interactive", desc = "Open with" },
+  { on = "C", run = "shell 'ouch compress %s .tar.gz' --cursor=17 --interactive --block", desc = "Compress selected with ouch" },
+  { on = "E", run = "shell 'ouch decompress %s' --block", desc = "Extract selected archive(s)" },
+  { on = "L", run = "shell 'ouch list %s' --block", desc = "List archive contents" },
+  { on = "<Right>", run = "open", desc = "Open" },
+  { on = "<Left>", run = "leave", desc = "Parent directory" },
+  { on = ["g", "n"], run = "cd ~/NixOS", desc = "Go ~/NixOS" },
+  { on = ["g", "d"], run = "cd ~/Downloads", desc = "Go Downloads" },
+  { on = ["g", "p"], run = "cd ~/Pictures", desc = "Go Pictures" },
+  { on = ["g", "c"], run = "cd ~/.config", desc = "Go ~/.config" },
+  { on = ["c", "p"], run = "copy path", desc = "Copy path" },
+  { on = ["c", "f"], run = "copy filename", desc = "Copy filename" },
+  { on = ["c", "n"], run = "copy name_without_ext", desc = "Copy name without extension" },
+  { on = "!", run = 'shell "$SHELL" --block', desc = "Shell here" },
+  { on = "?", run = "help", desc = "Help" },
+]
+
+[pick]
+prepend_keymap = [
+  { on = "<Esc>", run = "close", desc = "Cancel" },
+  { on = "<Enter>", run = "close --submit", desc = "Submit" },
+]

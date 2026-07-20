@@ -1,0 +1,161 @@
+* {
+    bg:             #000000e8;
+    bg-soft:        #080808f2;
+    bg-elevated:    #101010f5;
+    bg-hover:       #ffffff10;
+    bg-selected:    #ffffff18;
+
+    fg:             #f2f2f2;
+    fg-muted:       #8c8c8c;
+    fg-dim:         #5f5f5f;
+    accent:         #ffffff;
+    border-col:     #ffffff22;
+    border-soft:    #ffffff12;
+    shadow:         #00000066;
+
+    background-color: transparent;
+    text-color: @fg;
+}
+
+window {
+    location: center;
+    anchor: center;
+    width: 640px;
+    border: 1px;
+    border-color: @border-col;
+    border-radius: 22px;
+    background-color: @bg;
+    padding: 2px;
+}
+
+mainbox {
+    padding: 18px;
+    spacing: 14px;
+    background-color: @bg-soft;
+    border: 1px;
+    border-color: @border-soft;
+    border-radius: 20px;
+    children: [ "inputbar", "message", "listview", "mode-switcher" ];
+}
+
+inputbar {
+    padding: 13px 16px;
+    spacing: 12px;
+    border: 1px;
+    border-color: @border-soft;
+    border-radius: 14px;
+    background-color: @bg-elevated;
+    children: [ "prompt", "entry" ];
+}
+
+prompt {
+    enabled: true;
+    text-color: @fg-muted;
+    font: "Inter 12";
+    vertical-align: 0.5;
+}
+
+entry {
+    placeholder: "Search the machine";
+    placeholder-color: @fg-dim;
+    text-color: @fg;
+    cursor-color: @accent;
+    font: "Inter 13";
+    vertical-align: 0.5;
+}
+
+message {
+    padding: 0px;
+    margin: 0px;
+    background-color: transparent;
+}
+
+textbox {
+    padding: 8px 12px;
+    border-radius: 10px;
+    background-color: @bg-hover;
+    text-color: @fg-muted;
+}
+
+listview {
+    lines: 8;
+    columns: 1;
+    fixed-height: true;
+    spacing: 6px;
+    padding: 2px;
+    border: 0px;
+    background-color: transparent;
+    scrollbar: false;
+}
+
+element {
+    orientation: horizontal;
+    padding: 10px 12px;
+    spacing: 12px;
+    border: 1px;
+    border-color: transparent;
+    border-radius: 12px;
+    background-color: transparent;
+}
+
+element normal.normal,
+element alternate.normal {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element normal.urgent,
+element alternate.urgent {
+    background-color: @bg-hover;
+    text-color: @fg;
+}
+
+element normal.active,
+element alternate.active {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element selected.normal,
+element selected.urgent,
+element selected.active {
+    background-color: @bg-selected;
+    border-color: @border-col;
+    text-color: @accent;
+}
+
+element-icon {
+    size: 22px;
+    padding: 0px;
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    vertical-align: 0.5;
+    highlight: bold #ffffff;
+}
+
+mode-switcher {
+    enabled: true;
+    spacing: 8px;
+    padding: 2px;
+    background-color: transparent;
+}
+
+button {
+    padding: 8px 12px;
+    border: 1px;
+    border-color: transparent;
+    border-radius: 12px;
+    background-color: transparent;
+    text-color: @fg-muted;
+}
+
+button selected {
+    background-color: @bg-selected;
+    border-color: @border-soft;
+    text-color: @accent;
+}

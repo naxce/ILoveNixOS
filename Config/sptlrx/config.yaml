@@ -1,0 +1,33 @@
+player: "mpris"
+ignoreErrors: true
+timerInterval: 200
+updateInterval: 500
+
+omitTitle: false
+centerLyrics: true
+
+style:
+  hAlignment: center
+  lineHeight: 2
+
+  before:
+    foreground: "#4d4d4d"
+    faint: true
+    bold: false
+
+  current:
+    foreground: "#ffffff"
+    background: ""
+    bold: true
+    italic: false
+
+  after:
+    foreground: "#8a8a8a"
+    faint: true
+
+pipe:
+  length: 0
+  overflow: word
+
+mpris:
+  players: ["chromium", "cider"]

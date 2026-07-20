@@ -1,0 +1,130 @@
+* {
+    all: unset;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+}
+
+.control-center {
+    background: rgba(10, 10, 10, 0.92);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e8e8e8;
+    padding: 8px;
+}
+
+.control-center-list {
+    background: transparent;
+}
+
+.floating-notifications {
+    background: transparent;
+}
+
+.notification-row {
+    margin: 6px;
+}
+
+.notification {
+    background: rgba(20, 20, 20, 0.95);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4px;
+    margin: 4px;
+}
+
+.notification-content {
+    padding: 10px 12px;
+}
+
+.notification-default-action,
+.notification-action {
+    color: #e8e8e8;
+}
+
+.close-button {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    color: #e8e8e8;
+    min-width: 22px;
+    min-height: 22px;
+    margin: 6px;
+}
+
+.close-button:hover {
+    background: rgba(255, 80, 80, 0.5);
+}
+
+.notification-default-action {
+    padding: 0;
+}
+
+summary {
+    color: #707070;
+    font-size: 12px;
+}
+
+.summary {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.body {
+    color: #b0b0b0;
+    font-size: 12px;
+}
+
+.time {
+    color: #707070;
+    font-size: 11px;
+}
+
+.widget-title {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 10px 14px;
+}
+
+.widget-title > button {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    color: #e8e8e8;
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.widget-title > button:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.widget-dnd {
+    padding: 6px 14px 12px 14px;
+}
+
+.widget-dnd > switch {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    min-width: 40px;
+    min-height: 22px;
+}
+
+.widget-dnd > switch:checked {
+    background: #ffffff;
+}
+
+.widget-dnd > switch slider {
+    background: #e8e8e8;
+    border-radius: 50%;
+    min-width: 18px;
+    min-height: 18px;
+}
+
+.notification-group-headers {
+    color: #707070;
+}
+
+.empty {
+    color: #707070;
+    font-size: 13px;
+}

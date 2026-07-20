@@ -1,0 +1,20 @@
+configuration {
+    modi: "drun,window,run";
+    show-icons: true;
+
+    drun-display-format: "{name}";
+    display-drun: "󰀻  Apps";
+    display-window: "󰖲  Windows";
+    display-run: "󰆍  Run";
+    font: "Inter 12";
+    terminal: "kitty";
+    hide-scrollbar: true;
+    sidebar-mode: false;
+    matching: "fuzzy";
+    sort: true;
+    sorting-method: "fzf";
+    case-sensitive: false;
+    click-to-exit: true;
+}
+
+@theme "noir"
