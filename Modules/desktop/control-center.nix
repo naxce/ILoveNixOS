@@ -49,7 +49,6 @@ let
         --prefix GI_TYPELIB_PATH : "${pkgs.gtk4-layer-shell}/lib/girepository-1.0" \
         --set LD_PRELOAD "${pkgs.gtk4-layer-shell}/lib/libgtk4-layer-shell.so" \
         --set GDK_BACKEND wayland \
-        --set GTK_THEME Adwaita:dark \
         --set GTK_APPLICATION_PREFER_DARK_THEME 1
     '';
   };

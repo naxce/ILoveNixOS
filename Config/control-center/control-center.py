@@ -1421,6 +1421,16 @@ class ClickOutsideCatcher(Gtk.Window):
         self.set_decorated(False)
         self._panel_window = panel_window
 
+        # Belt-and-suspenders: some GTK4/Wayland theme combos repaint this
+        # surface with the system theme's opaque background the second time
+        # present() is called after hide() (i.e. second panel open), even
+        # though the CSS provider still says "transparent". Removing the
+        # "background" style class and forcing this at the widget level
+        # keeps it transparent regardless of what the active GTK theme does
+        # on re-present.
+        self.remove_css_class("background")
+        self.set_opacity(1.0)
+
         LayerShell.init_for_window(self)
         LayerShell.set_layer(self, LayerShell.Layer.TOP)
         LayerShell.set_namespace(self, "control-center-catcher")
@@ -1462,6 +1472,7 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         super().__init__(application=app)
         self.set_title("control-center")
         self.set_decorated(False)
+        self.remove_css_class("background")
         self.add_css_class("cc-popup-window")
 
         LayerShell.init_for_window(self)
