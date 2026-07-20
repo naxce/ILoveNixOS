@@ -5,9 +5,6 @@
   ...
 }:
 {
-  # Login screen: nixgreet (see ./nixgreet.nix) replaces regreet — it's a
-  # small custom GTK4 greeter built to match hyprlock.conf's look exactly,
-  # with a session picker added on top.
   imports = [ ./nixgreet.nix ];
 
   programs.hyprland = {

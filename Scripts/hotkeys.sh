@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-# Interactive keybindings cheat-sheet.
-# Run "hotkeys" in any terminal, or press Super + F1, to open a category
-# menu (fzf), then browse all shortcuts for the chosen app.
-#
-# All hotkeys use "Super" to refer to the key with the Windows/logo icon.
 
 set -euo pipefail
 
@@ -16,10 +11,6 @@ FZF_NOIR=(
   --height=90%
   --layout=reverse
 )
-
-# ---------------------------------------------------------------------------
-# Category content. Each block is "key<TAB>action" so fzf can column-align it.
-# ---------------------------------------------------------------------------
 
 hyprland_binds() {
   cat <<'EOF'
@@ -330,10 +321,6 @@ israel	Force an immediate reboot (magic SysRq, skips clean shutdown)
 hotkeys	Open this keybindings menu
 EOF
 }
-
-# ---------------------------------------------------------------------------
-# Menu machinery
-# ---------------------------------------------------------------------------
 
 require_fzf() {
   if ! command -v fzf >/dev/null 2>&1; then

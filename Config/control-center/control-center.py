@@ -12,9 +12,10 @@ Layout (three columns inside one popover window):
              Night Light, Do Not Disturb, Performance) — each row expands
              into its own detail view in place, in the same panel.
 
-The window itself is sized to fit the panel only (not the full screen) and
-closes automatically as soon as it loses keyboard focus, i.e. the instant
-you click anywhere else — no visible backdrop, no manual dismissal.
+The window surface itself covers the whole screen (invisible outside the
+panel) so it can catch clicks anywhere, but closes automatically only when
+the click lands outside the panel — no visible backdrop, no manual
+dismissal.
 
 Design mirrors nixgreet/hyprlock/swaync: pure black translucent panels,
 1px hairline borders at 8% white, 10-14px rounding, Inter/JetBrainsMono
@@ -52,7 +53,8 @@ try:
     gi.require_version("Gtk", "4.0")
     gi.require_version("Gtk4LayerShell", "1.0")
 
-    from gi.repository import Gtk, Gtk4LayerShell as LayerShell, GLib, Gdk, Gio
+    from gi.repository import Gdk, GLib, Gtk
+    from gi.repository import Gtk4LayerShell as LayerShell
 except Exception:
     _log(traceback.format_exc())
     raise
@@ -67,22 +69,15 @@ import subprocess
 import threading
 
 APP_ID = "dev.nixos.control-center"
-MONITOR_NAME = os.environ.get("CC_MONITOR")  # e.g. "DP-6"; falls back to largest
+MONITOR_NAME = os.environ.get("CC_MONITOR")
 LOCAL_MONITORS_CONF = os.path.expanduser("~/.config/hypr/local/monitors.conf")
 NIGHTLIGHT_STATE = os.path.expanduser("~/.cache/control-center/nightlight")
 PERF_STATE = os.path.expanduser("~/.cache/control-center/performance")
 
 
-# --------------------------------------------------------------------------
-# Small process helpers. Every external command is optional at runtime —
-# tools that aren't installed just make that row report itself as
-# unavailable instead of crashing the whole panel.
-# --------------------------------------------------------------------------
 def run(cmd, timeout=4):
     try:
-        result = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=timeout
-        )
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
         return result.returncode, result.stdout.strip(), result.stderr.strip()
     except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
         return 1, "", str(exc)
@@ -90,9 +85,7 @@ def run(cmd, timeout=4):
 
 def run_bg(cmd):
     try:
-        subprocess.Popen(
-            cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
-        )
+        subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except FileNotFoundError:
         _log(f"missing binary for: {cmd}")
 
@@ -123,9 +116,6 @@ def run_off_thread(work, on_done):
     threading.Thread(target=_worker, daemon=True).start()
 
 
-# --------------------------------------------------------------------------
-# Wi-Fi backend (NetworkManager / nmcli)
-# --------------------------------------------------------------------------
 class WifiBackend:
     available = has("nmcli")
 
@@ -209,9 +199,6 @@ class WifiBackend:
                 run(["nmcli", "dev", "disconnect", dev])
 
 
-# --------------------------------------------------------------------------
-# Bluetooth backend (bluez / bluetoothctl)
-# --------------------------------------------------------------------------
 class BluetoothBackend:
     available = has("bluetoothctl")
 
@@ -226,19 +213,12 @@ class BluetoothBackend:
 
     @staticmethod
     def list_devices():
-        # Avoid one "bluetoothctl info <mac>" round-trip per device (which is
-        # what used to make the panel stutter/lag whenever Bluetooth was
-        # open): "devices Paired" and "devices Connected" each do a single
-        # cheap call and give us everything we need in bulk instead.
         code, out, _ = run(["bluetoothctl", "devices"])
         _, paired_out, _ = run(["bluetoothctl", "devices", "Paired"])
         _, connected_out, _ = run(["bluetoothctl", "devices", "Connected"])
 
         def _macs(text):
-            return {
-                m.group(1)
-                for m in re.finditer(r"Device ([0-9A-Fa-f:]+) ", text)
-            }
+            return {m.group(1) for m in re.finditer(r"Device ([0-9A-Fa-f:]+) ", text)}
 
         paired_macs = _macs(paired_out)
         connected_macs = _macs(connected_out)
@@ -277,9 +257,6 @@ class BluetoothBackend:
         run(["bluetoothctl", "scan", "off"])
 
 
-# --------------------------------------------------------------------------
-# Volume backend (pamixer)
-# --------------------------------------------------------------------------
 class VolumeBackend:
     available = has("pamixer")
 
@@ -320,24 +297,16 @@ class VolumeBackend:
         run(["pactl", "set-default-sink", sink_id])
 
 
-# --------------------------------------------------------------------------
-# Now playing backend (playerctl — works with any MPRIS player: Cider,
-# browser tabs playing YouTube/Spotify web, Spotify, etc). Whichever player
-# is currently active gets picked up automatically, and its name is shown
-# as the little tag above the title instead of a hardcoded "CIDER".
-# --------------------------------------------------------------------------
 class MediaBackend:
     available = has("playerctl")
-
-    # Friendly display names for known MPRIS bus/player identities.
     _NAME_MAP = {
         "cider": "CIDER",
         "cider2": "CIDER",
         "spotify": "SPOTIFY",
-        "firefox": "YOUTUBE",
-        "chromium": "YOUTUBE",
-        "google-chrome": "YOUTUBE",
-        "brave": "YOUTUBE",
+        "firefox": "WEB",
+        "chromium": "WEB",
+        "google-chrome": "WEB",
+        "brave": "WEB",
         "vlc": "VLC",
         "mpv": "MPV",
     }
@@ -351,7 +320,6 @@ class MediaBackend:
             return None
         players = [p.strip() for p in out.splitlines() if p.strip()]
 
-        # Prefer a player that is actually Playing over one that's just Paused.
         playing, paused = [], []
         for p in players:
             pcode, pout, _ = run(["playerctl", "--player=" + p, "status"])
@@ -369,8 +337,6 @@ class MediaBackend:
 
     @classmethod
     def _display_name(cls, player_id):
-        # playerctl identities often look like "firefox.instance123" or
-        # "chromium.instanceXYZ" — strip the instance suffix before mapping.
         base = player_id.split(".")[0].lower()
         return cls._NAME_MAP.get(base, base.upper())
 
@@ -410,9 +376,6 @@ class MediaBackend:
             run(["playerctl", "--player=" + player, "previous"])
 
 
-# --------------------------------------------------------------------------
-# Displays backend (hyprctl for live state, monitors.conf for persistence)
-# --------------------------------------------------------------------------
 class DisplayBackend:
     available = has("hyprctl")
 
@@ -499,9 +462,6 @@ class DisplayBackend:
         )
 
 
-# --------------------------------------------------------------------------
-# Night Light backend (hyprsunset)
-# --------------------------------------------------------------------------
 class NightLightBackend:
     available = has("hyprsunset")
 
@@ -521,9 +481,6 @@ class NightLightBackend:
             os.remove(NIGHTLIGHT_STATE)
 
 
-# --------------------------------------------------------------------------
-# Performance mode backend (this repo's own gaming.sh / rice-restore.sh)
-# --------------------------------------------------------------------------
 class PerformanceBackend:
     gaming_script = os.path.expanduser("~/NixOS/Scripts/gaming.sh")
     restore_script = os.path.expanduser("~/NixOS/Scripts/rice-restore.sh")
@@ -545,9 +502,6 @@ class PerformanceBackend:
             os.remove(PERF_STATE)
 
 
-# --------------------------------------------------------------------------
-# Do Not Disturb backend (swaync)
-# --------------------------------------------------------------------------
 class DndBackend:
     available = has("swaync-client")
 
@@ -561,9 +515,6 @@ class DndBackend:
         run(["swaync-client", "-dn" if enabled else "-df"])
 
 
-# ==========================================================================
-# UI helpers
-# ==========================================================================
 def make_row_button(icon, title, subtitle_getter, on_click):
     """A quick-settings row: icon, title, dynamic subtitle, chevron.
     Clicking anywhere on the row opens its detail panel."""
@@ -653,10 +604,6 @@ def section_header(back_cb, title):
     return header
 
 
-# ==========================================================================
-# Detail panels — each builds a Gtk.Widget shown inside the right column's
-# Gtk.Stack when its quick-settings row is clicked.
-# ==========================================================================
 class WifiPanel(Gtk.Box):
     def __init__(self, go_back):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
@@ -745,9 +692,7 @@ class WifiPanel(Gtk.Box):
                 lambda *_a, n=net: self._on_network_clicked(n),
             )
             gesture = Gtk.GestureClick()
-            gesture.connect(
-                "released", lambda *_a, n=net: self._on_network_clicked(n)
-            )
+            gesture.connect("released", lambda *_a, n=net: self._on_network_clicked(n))
             row.add_controller(gesture)
             self.list_box.append(row)
 
@@ -817,8 +762,6 @@ class BluetoothPanel(Gtk.Box):
             self.append(lbl)
             return
 
-        # Powered state is a single cheap call, fine to do synchronously so
-        # the switch is correct the instant the panel appears.
         toggle_row, self.switch = make_toggle_row(
             "\uf294", "Bluetooth", None, BluetoothBackend.powered(), self._on_toggle
         )
@@ -845,8 +788,6 @@ class BluetoothPanel(Gtk.Box):
         self._populate()
 
     def _on_toggle(self, state):
-        # power on/off + refresh all happen off the main thread so flipping
-        # the switch doesn't stall the whole panel while bluetoothd responds.
         run_off_thread(
             lambda: BluetoothBackend.set_power(state),
             lambda _res: GLib.timeout_add(400, lambda: (self._populate(), False)[1]),
@@ -861,12 +802,6 @@ class BluetoothPanel(Gtk.Box):
         return False
 
     def _populate(self):
-        # The old code shelled out to "bluetoothctl info <mac>" once per
-        # device synchronously on the UI thread — with a few paired devices
-        # that's several blocking subprocess calls in a row, which is what
-        # made the panel visibly freeze/lag. Now list_devices() itself is
-        # cheaper (see BluetoothBackend), and it also runs on a background
-        # thread so even a slow/unresponsive bluetoothd can't stall the UI.
         run_off_thread(BluetoothBackend.list_devices, self._render_devices)
 
     def _render_devices(self, devices):
@@ -907,9 +842,11 @@ class BluetoothPanel(Gtk.Box):
             self.list_box.append(row)
 
     def _on_device_clicked(self, dev):
-        # connect/disconnect can each take several seconds (12s/8s timeouts)
-        # against a slow or unresponsive device — always off the main thread.
-        action = BluetoothBackend.disconnect if dev["connected"] else BluetoothBackend.connect
+        action = (
+            BluetoothBackend.disconnect
+            if dev["connected"]
+            else BluetoothBackend.connect
+        )
         run_off_thread(lambda: action(dev["mac"]), lambda _res: self._populate())
 
 
@@ -938,7 +875,9 @@ class VolumePanel(Gtk.Box):
         self.adj = Gtk.Adjustment(
             value=vol, lower=0, upper=100, step_increment=1, page_increment=5
         )
-        self.scale = Gtk.Scale(orientation=Gtk.Orientation.HORIZONTAL, adjustment=self.adj)
+        self.scale = Gtk.Scale(
+            orientation=Gtk.Orientation.HORIZONTAL, adjustment=self.adj
+        )
         self.scale.set_hexpand(True)
         self.scale.set_draw_value(False)
         self.scale.add_css_class("volume-scale")
@@ -1041,8 +980,9 @@ class DisplaysPanel(Gtk.Box):
         desc_lbl.set_ellipsize(3)
         card.append(desc_lbl)
 
-        # Resolution + refresh rate picker
-        res_options = sorted({(w, h) for (w, h, r) in mon["modes"]}, key=lambda t: -t[0] * t[1])
+        res_options = sorted(
+            {(w, h) for (w, h, r) in mon["modes"]}, key=lambda t: -t[0] * t[1]
+        )
         res_strings = [f"{w}\u00d7{h}" for (w, h) in res_options]
         current_res = f"{mon['width']}\u00d7{mon['height']}"
         if current_res not in res_strings and res_strings:
@@ -1094,7 +1034,6 @@ class DisplaysPanel(Gtk.Box):
         picker_row.append(refresh_dropdown)
         card.append(picker_row)
 
-        # Position fields
         pos_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         x_entry = Gtk.Entry()
         x_entry.set_text(str(mon["x"]))
@@ -1108,13 +1047,16 @@ class DisplaysPanel(Gtk.Box):
         pos_row.append(y_entry)
         card.append(pos_row)
 
-        # Apply / Save
         btn_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         btn_row.set_halign(Gtk.Align.END)
 
         def gather():
             sel = res_dropdown.get_selected()
-            w, h = res_options[sel] if 0 <= sel < len(res_options) else (mon["width"], mon["height"])
+            w, h = (
+                res_options[sel]
+                if 0 <= sel < len(res_options)
+                else (mon["width"], mon["height"])
+            )
             opts = refresh_options_for(w, h)
             rsel = refresh_dropdown.get_selected()
             refresh = opts[rsel] if 0 <= rsel < len(opts) else mon["refresh"]
@@ -1134,7 +1076,9 @@ class DisplaysPanel(Gtk.Box):
             DisplayBackend.apply_live(mon["name"], w, h, refresh, x, y, mon["scale"])
             DisplayBackend.persist(mon["name"], w, h, refresh, x, y, mon["scale"])
             save_btn.set_label("Saved")
-            GLib.timeout_add(1400, lambda: (save_btn.set_label("Save layout"), False)[1])
+            GLib.timeout_add(
+                1400, lambda: (save_btn.set_label("Save layout"), False)[1]
+            )
 
         apply_btn = Gtk.Button(label="Apply")
         apply_btn.add_css_class("detail-action")
@@ -1151,9 +1095,6 @@ class DisplaysPanel(Gtk.Box):
         return card
 
 
-# ==========================================================================
-# Left column widgets: mini calendar + now playing
-# ==========================================================================
 class MiniCalendar(Gtk.Box):
     def __init__(self):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=8)
@@ -1264,7 +1205,9 @@ class NowPlaying(Gtk.Box):
 
         prev_btn = Gtk.Button(label="\uf048")
         prev_btn.add_css_class("nowplaying-ctrl")
-        prev_btn.connect("clicked", lambda *_: (MediaBackend.previous(), self.refresh()))
+        prev_btn.connect(
+            "clicked", lambda *_: (MediaBackend.previous(), self.refresh())
+        )
 
         self.play_btn = Gtk.Button(label="\uf04b")
         self.play_btn.add_css_class("nowplaying-ctrl-main")
@@ -1307,9 +1250,6 @@ class NowPlaying(Gtk.Box):
         self.play_btn.set_label("\uf04c" if status["playing"] else "\uf04b")
 
 
-# ==========================================================================
-# Right column: quick-settings list <-> detail views, via a Gtk.Stack
-# ==========================================================================
 class QuickSettings(Gtk.Box):
     def __init__(self):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
@@ -1338,13 +1278,17 @@ class QuickSettings(Gtk.Box):
 
     def _build_list_page(self):
         wifi_row, self.wifi_sub = make_row_button(
-            "\uf1eb", "Wi-Fi", self._wifi_subtitle,
+            "\uf1eb",
+            "Wi-Fi",
+            self._wifi_subtitle,
             lambda *_: self._open("wifi", WifiPanel),
         )
         self.list_page.append(wifi_row)
 
         bt_row, self.bt_sub = make_row_button(
-            "\uf294", "Bluetooth", self._bt_subtitle,
+            "\uf294",
+            "Bluetooth",
+            self._bt_subtitle,
             lambda *_: self._open("bluetooth", BluetoothPanel),
         )
         self.list_page.append(bt_row)
@@ -1352,13 +1296,17 @@ class QuickSettings(Gtk.Box):
             self._bt_subtitle_async(self.bt_sub)
 
         vol_row, self.vol_sub = make_row_button(
-            "\uf028", "Volume", self._vol_subtitle,
+            "\uf028",
+            "Volume",
+            self._vol_subtitle,
             lambda *_: self._open("volume", VolumePanel),
         )
         self.list_page.append(vol_row)
 
         disp_row, self.disp_sub = make_row_button(
-            "\uf108", "Displays", self._disp_subtitle,
+            "\uf108",
+            "Displays",
+            self._disp_subtitle,
             lambda *_: self._open("displays", DisplaysPanel),
         )
         self.list_page.append(disp_row)
@@ -1371,7 +1319,9 @@ class QuickSettings(Gtk.Box):
 
         if NightLightBackend.available:
             nl_row, self.nl_switch = make_toggle_row(
-                "\uf185", "Night Light", "Warmer colors after dark",
+                "\uf185",
+                "Night Light",
+                "Warmer colors after dark",
                 NightLightBackend.is_enabled(),
                 lambda state: NightLightBackend.set_enabled(state),
             )
@@ -1379,7 +1329,9 @@ class QuickSettings(Gtk.Box):
 
         if DndBackend.available:
             dnd_row, self.dnd_switch = make_toggle_row(
-                "\uf1f6", "Do Not Disturb", "Silence notifications",
+                "\uf1f6",
+                "Do Not Disturb",
+                "Silence notifications",
                 DndBackend.is_enabled(),
                 lambda state: DndBackend.set_enabled(state),
             )
@@ -1387,7 +1339,9 @@ class QuickSettings(Gtk.Box):
 
         if PerformanceBackend.available:
             perf_row, self.perf_switch = make_toggle_row(
-                "\uf135", "Performance Mode", "Low-latency, gaming profile",
+                "\uf135",
+                "Performance Mode",
+                "Low-latency, gaming profile",
                 PerformanceBackend.is_gaming_mode(),
                 lambda state: PerformanceBackend.set_gaming_mode(state),
             )
@@ -1404,22 +1358,16 @@ class QuickSettings(Gtk.Box):
             return "Unavailable"
         if not BluetoothBackend.powered():
             return "Off"
-        # Don't shell out per-device here — this runs on a 5s timer for as
-        # long as the panel is open, so it must stay cheap. list_devices()
-        # already went from N+1 calls down to 3 fixed calls, but we still
-        # keep the periodic subtitle refresh off the connected-device
-        # lookup entirely and just show "On"; the Bluetooth row itself
-        # (BluetoothPanel) shows the connected device once opened.
         return "On"
 
     def _bt_subtitle_async(self, label):
-        # Used once, right when the list page is first built, so the
-        # subtitle isn't stuck on "On" if something is already connected.
         run_off_thread(
             lambda: [d for d in BluetoothBackend.list_devices() if d["connected"]],
-            lambda devices: label.set_label(devices[0]["name"] if devices else "On")
-            if devices is not None
-            else None,
+            lambda devices: (
+                label.set_label(devices[0]["name"] if devices else "On")
+                if devices is not None
+                else None
+            ),
         )
 
     def _vol_subtitle(self):
@@ -1446,19 +1394,12 @@ class QuickSettings(Gtk.Box):
         return True
 
     def reset_to_list(self):
-        # Called every time the panel is re-shown (the window/process is
-        # reused, see hide_panel/show_panel) so it never reappears stuck on
-        # a detail page (Wi-Fi, Bluetooth, ...) from the previous time it
-        # was open, and subtitles reflect current state right away.
         self._go_list()
         self.refresh_subtitles()
         if BluetoothBackend.available and BluetoothBackend.powered():
             self._bt_subtitle_async(self.bt_sub)
 
 
-# ==========================================================================
-# Main window
-# ==========================================================================
 class ControlCenterWindow(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app)
@@ -1476,15 +1417,11 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
             LayerShell.set_monitor(self, monitor)
 
         LayerShell.set_anchor(self, LayerShell.Edge.TOP, True)
+        LayerShell.set_anchor(self, LayerShell.Edge.BOTTOM, True)
+        LayerShell.set_anchor(self, LayerShell.Edge.LEFT, True)
+        LayerShell.set_anchor(self, LayerShell.Edge.RIGHT, True)
         LayerShell.set_margin(self, LayerShell.Edge.TOP, 60)
 
-        # Crucial: this is a floating popover, not a dock/panel. Without an
-        # explicit exclusive zone, some layer-shell setups reserve screen
-        # space for it and push/tile other windows out of the way instead
-        # of letting it float on top of them. -1 means "don't reserve any
-        # space, just overlay" — combined with Layer.OVERLAY above, tiled
-        # windows keep their normal size and the popover simply floats
-        # above everything, like a real quick-settings flyout.
         LayerShell.set_exclusive_zone(self, -1)
 
         self._build_ui()
@@ -1493,26 +1430,12 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         key_ctrl.connect("key-pressed", self._on_key)
         self.add_controller(key_ctrl)
 
-        # Close the panel the moment it loses keyboard focus — i.e. as soon
-        # as the user clicks anywhere else (another window, the desktop,
-        # waybar, ...). This is what makes it behave like a real popover
-        # instead of a window you have to manually dismiss.
-        #
-        # Naively closing on the very first "leave" fires immediately: the
-        # compositor/GTK generate their own focus churn while the surface is
-        # still being mapped, before the user has clicked anything at all.
-        # So we wait for a genuine "enter" first (proof the window is fully
-        # up and focused) and only start reacting to "leave" after that.
-        self._focus_armed = False
-        focus_ctrl = Gtk.EventControllerFocus()
-        focus_ctrl.connect("enter", self._on_focus_enter)
-        focus_ctrl.connect("leave", self._on_focus_leave)
-        self.add_controller(focus_ctrl)
+        self._click_armed = False
+        click_ctrl = Gtk.GestureClick()
+        click_ctrl.connect("pressed", self._on_click)
+        self.add_controller(click_ctrl)
 
-        # Safety net: some compositors don't reliably fire a focus "enter"
-        # signal right after the surface is mapped. Arm auto-close after a
-        # flat delay regardless, so the panel never gets stuck un-closeable.
-        GLib.timeout_add(600, self._arm_focus_close)
+        GLib.timeout_add(200, self._arm_click_close)
 
         GLib.timeout_add_seconds(1, self._tick_clock)
         GLib.timeout_add_seconds(5, self._tick_subtitles)
@@ -1542,7 +1465,6 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         panel.add_css_class("cc-panel")
         outer.append(panel)
 
-        # ---- left column ----
         left = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=14)
         left.add_css_class("cc-column")
         left.add_css_class("cc-column-left")
@@ -1555,7 +1477,6 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         vsep1.add_css_class("cc-vsep")
         panel.append(vsep1)
 
-        # ---- center column ----
         center = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
         center.add_css_class("cc-column")
         center.add_css_class("cc-column-center")
@@ -1586,9 +1507,7 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
 
         settings_btn = Gtk.Button(label="\uf013")
         settings_btn.add_css_class("cc-power-btn")
-        settings_btn.connect(
-            "clicked", lambda *_: run_bg(["kitty", "-e", "hotkeys"])
-        )
+        settings_btn.connect("clicked", lambda *_: run_bg(["kitty", "-e", "hotkeys"]))
         power_row.append(settings_btn)
 
         center.append(power_row)
@@ -1598,7 +1517,6 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         vsep2.add_css_class("cc-vsep")
         panel.append(vsep2)
 
-        # ---- right column ----
         right = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         right.add_css_class("cc-column")
         right.add_css_class("cc-column-right")
@@ -1616,29 +1534,20 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
     def _tick_subtitles(self):
         return self.quick_settings.refresh_subtitles()
 
-    def _on_focus_enter(self, *_a):
-        # Arm auto-close only after a short grace period so the initial
-        # focus-in (from the window being mapped/presented) doesn't
-        # immediately count as "the user clicked away".
-        GLib.timeout_add(200, self._arm_focus_close)
-
-    def _arm_focus_close(self):
-        self._focus_armed = True
+    def _arm_click_close(self):
+        self._click_armed = True
         return False
 
-    def _on_focus_leave(self, *_a):
-        if not self._focus_armed:
+    def _on_click(self, _gesture, _n_press, x, y):
+        if not self._click_armed:
             return
-        # A brief grace delay avoids the panel closing itself on churn
-        # (e.g. moving focus between the panel's own internal widgets)
-        # and lets a click on one of the panel's own popovers/detail rows
-        # re-focus before we tear the window down.
-        GLib.timeout_add(120, self._close_if_unfocused)
-
-    def _close_if_unfocused(self):
-        if self._focus_armed and not self.is_active():
-            self.hide_panel()
-        return False
+        panel = self.get_child()
+        if panel is None:
+            return
+        ok, rect = panel.compute_bounds(self)
+        if ok and rect.contains_point(x, y):
+            return
+        self.hide_panel()
 
     def _on_key(self, _ctrl, keyval, _keycode, _state):
         if keyval == Gdk.KEY_Escape:
@@ -1647,22 +1556,14 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         return False
 
     def hide_panel(self):
-        # Hide rather than quit/destroy: the process, GTK init, and
-        # layer-shell surface all stay alive in the background so the next
-        # waybar click just has to re-show and repaint, instead of paying
-        # Python/GTK/layer-shell startup cost again. This is what makes
-        # re-opening the panel feel instant.
         self.set_visible(False)
 
     def show_panel(self):
-        # Rebuild the dynamic bits fresh each time it's shown, so state
-        # (Wi-Fi/Bluetooth/volume/etc) is never stale from the last time
-        # the panel was open, even though the window itself is reused.
-        self._focus_armed = False
+        self._click_armed = False
         self.quick_settings.reset_to_list()
         self._tick_clock()
         self.present()
-        GLib.timeout_add(200, self._arm_focus_close)
+        GLib.timeout_add(200, self._arm_click_close)
 
 
 def load_css():
@@ -1677,11 +1578,6 @@ def load_css():
 
 
 def force_dark_theme():
-    # Belt-and-suspenders alongside the GTK_THEME/GTK_APPLICATION_PREFER_DARK_THEME
-    # env vars set in the Nix wrapper: without this, some GTK theme setups
-    # paint the window's *default* (light Adwaita) background before our
-    # "background: transparent" CSS rule takes effect, which shows up as a
-    # bright rectangle behind/around the actual dark panel.
     settings = Gtk.Settings.get_default()
     if settings is not None:
         settings.set_property("gtk-application-prefer-dark-theme", True)
@@ -1689,19 +1585,6 @@ def force_dark_theme():
 
 def on_activate(app):
     try:
-        # First activation: do the (relatively) expensive one-time setup —
-        # state dirs, dark theme, CSS provider, building the GTK4 window and
-        # its layer-shell surface — and keep the window around afterwards.
-        #
-        # Every activation after that (i.e. every subsequent click on the
-        # waybar clock) reuses the same already-initialized window and just
-        # shows it again. Because the app id is unique (see main(), no more
-        # NON_UNIQUE flag), GTK activates this same running process over
-        # D-Bus instead of a brand new process being spawned each time — so
-        # this is the code path that makes "click waybar clock -> panel
-        # appears" fast on the 2nd, 3rd, ... click: no Python interpreter
-        # startup, no GTK/gi typelib loading, no layer-shell surface
-        # creation, just re-showing an existing window.
         win = getattr(app, "_cc_window", None)
         if win is None:
             ensure_state_dir()
@@ -1709,17 +1592,9 @@ def on_activate(app):
             load_css()
             win = ControlCenterWindow(app)
             app._cc_window = win
-            # hide_panel() only ever calls set_visible(False), never
-            # destroy(), so GTK's "quit when the last window closes"
-            # behavior wouldn't normally trigger here — app.hold() makes
-            # that explicit so the process reliably stays alive in the
-            # background (ready for instant reopen) instead of exiting the
-            # moment the panel is first hidden.
             app.hold()
             win.present()
         elif win.is_visible():
-            # Clicking the waybar clock while the panel is already open
-            # should toggle it closed, same as before.
             win.hide_panel()
         else:
             win.show_panel()
@@ -1730,12 +1605,6 @@ def on_activate(app):
 
 def main():
     _log("main() entered")
-    # Unique (default) application id: a second `control-center` invocation
-    # doesn't start a new process at all, it just re-triggers "activate" on
-    # the already-running one via D-Bus. Combined with on_activate() above
-    # reusing the existing window, this is what makes reopening the panel
-    # near-instant instead of paying full Python+GTK+layer-shell startup
-    # cost on every single click.
     app = Gtk.Application(application_id=APP_ID)
     app.connect("activate", on_activate)
     exit_code = app.run(None)
@@ -1744,4 +1613,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

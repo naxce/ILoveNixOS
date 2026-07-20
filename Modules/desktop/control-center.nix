@@ -1,11 +1,12 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
-  # Must match APP_ID in control-center.py exactly — this is the
-  # GApplication id that `gapplication launch` below uses to find/activate
-  # the already-running instance instead of spawning a new process.
   APP_ID = "dev.nixos.control-center";
 
-  # Python + GTK4 + layer-shell bindings, same stack nixgreet already uses.
   pythonEnv = pkgs.python3.withPackages (ps: [ ps.pygobject3 ]);
 
   controlCenterPy = ../../Config/control-center/control-center.py;
@@ -53,30 +54,11 @@ let
     '';
   };
 
-  # control-center-bin now stays running in the background after the first
-  # launch (it hides its window instead of quitting — see hide_panel() /
-  # show_panel() in control-center.py) and uses a unique GApplication id, so
-  # `gapplication launch` will activate that same already-warm process
-  # instead of a brand new one being spawned + initialized from scratch.
-  # That's what makes reopening the panel fast: no repeated
-  # Python/GTK/layer-shell startup cost on the 2nd, 3rd, ... click.
-  #
-  # `gapplication launch` can only reach an already-running instance over
-  # D-Bus (there's no .desktop file here for D-Bus to auto-spawn one from
-  # cold), so: try to activate a running instance first, and if none owns
-  # the app id yet, fall back to actually starting the process. Every
-  # activation after that first one is a cheap D-Bus call to the
-  # already-warm process — no repeated Python/GTK/layer-shell startup.
   controlCenterToggle = pkgs.writeShellScriptBin "control-center" ''
     set -euo pipefail
     if ${pkgs.glib}/bin/gapplication launch ${APP_ID} 2>/dev/null; then
       exit 0
     fi
-    # Cold start only: the process now stays alive in the background
-    # (app.hold() in control-center.py) waiting for future D-Bus
-    # activations above, so it must be launched detached here — otherwise
-    # this script, and the waybar click that ran it, would block for as
-    # long as the panel process keeps running (i.e. until logout).
     disown -a 2>/dev/null || true
     nohup ${controlCenterPkg}/bin/control-center-bin >/dev/null 2>&1 &
     disown

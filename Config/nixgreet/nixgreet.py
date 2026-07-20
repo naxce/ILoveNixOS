@@ -17,9 +17,6 @@ Talks to greetd over its unix socket using the JSON IPC protocol described in
 `man 7 greetd-ipc`.
 """
 
-# --- crash logging, set up before anything else can fail -------------------
-# /tmp is writable by every user (including the unprivileged "greeter"
-# account greetd runs this as), so log there rather than /var/log.
 import sys
 import traceback
 
@@ -48,24 +45,24 @@ try:
     gi.require_version("Gtk", "4.0")
     gi.require_version("Gtk4LayerShell", "1.0")
 
-    from gi.repository import Gtk, Gtk4LayerShell as LayerShell, GLib, Gdk
+    from gi.repository import Gdk, GLib, Gtk
+    from gi.repository import Gtk4LayerShell as LayerShell
 except Exception:
     _log(traceback.format_exc())
     raise
 
-import json
-import os
-import socket
-import struct
 import datetime
 import getpass
+import json
+import os
 import pwd
-
+import socket
+import struct
 
 GREETD_SOCK = os.environ.get("GREETD_SOCK")
 WALLPAPER_PATH = os.environ.get("NIXGREET_WALLPAPER", "/etc/greetd/wallpaper.png")
-SESSIONS_DIR = "/etc/greetd/environments"  # newline-separated list, same file hyprland.nix writes
-PRIMARY_MONITOR_NAME = os.environ.get("NIXGREET_MONITOR")  # optional explicit override, e.g. "DP-6"
+SESSIONS_DIR = "/etc/greetd/environments"
+PRIMARY_MONITOR_NAME = os.environ.get("NIXGREET_MONITOR")
 
 
 def pick_primary_monitor(display):
@@ -141,13 +138,11 @@ def prepare_background(src_path):
         pass
 
     try:
-        from PIL import Image, ImageFilter, ImageEnhance
+        from PIL import Image, ImageEnhance, ImageFilter
 
         img = Image.open(src_path).convert("RGB")
-        # hyprlock: blur_passes=3, blur_size=7 -> apply a few gaussian passes
         for _ in range(3):
             img = img.filter(ImageFilter.GaussianBlur(radius=7))
-        # hyprlock: contrast=0.9, brightness=0.65
         img = ImageEnhance.Contrast(img).enhance(0.9)
         img = ImageEnhance.Brightness(img).enhance(0.65)
         img.save(cache_path, "PNG")
@@ -244,7 +239,7 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         self.set_decorated(False)
 
         self.client = GreetdClient(GREETD_SOCK) if GREETD_SOCK else None
-        self.auth_stage = "username"  # username -> password -> done
+        self.auth_stage = "username"
         self.sessions = read_sessions()
 
         LayerShell.init_for_window(self)
@@ -272,10 +267,6 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         self._tick_clock()
         GLib.timeout_add_seconds(1, self._tick_clock)
 
-    # ---------------------------------------------------------------
-    # UI construction — every offset below is copied straight from
-    # hyprlock.conf so the two screens line up pixel for pixel.
-    # ---------------------------------------------------------------
     def _build_ui(self):
         overlay = Gtk.Overlay()
         overlay.set_hexpand(True)
@@ -284,8 +275,6 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         overlay.set_valign(Gtk.Align.FILL)
         self.set_child(overlay)
 
-        # background image — blurred once at startup to mirror hyprlock's
-        # blur_passes/blur_size/contrast/brightness values
         bg = Gtk.Picture()
         bg.set_filename(prepare_background(WALLPAPER_PATH))
         bg.set_content_fit(Gtk.ContentFit.COVER)
@@ -303,17 +292,6 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         darken.set_valign(Gtk.Align.FILL)
         overlay.add_overlay(darken)
 
-        # Centering wrapper. Plain Gtk.Align.CENTER isn't enough here: cage
-        # (the compositor greetd runs this in) spans its client surface
-        # across the bounding box of ALL connected monitors when there's
-        # more than one, not just the target output — so "centered in the
-        # window" can land near the seam between monitors instead of the
-        # middle of the one we actually want. We already know that
-        # monitor's geometry (self.target_geometry) from LayerShell.
-        # set_monitor()'s pick, so compute manual left/top margins that
-        # center within that monitor's rectangle specifically, and
-        # recompute them whenever the window is (re)allocated in case the
-        # bounding box size wasn't known yet on the first pass.
         center_wrapper = Gtk.Box()
         center_wrapper.set_hexpand(True)
         center_wrapper.set_vexpand(True)
@@ -336,21 +314,15 @@ class NixGreetWindow(Gtk.ApplicationWindow):
                 ),
             )
 
-        # time label -> hyprlock position 0, 140 (above center)
         self.time_label = Gtk.Label()
         self.time_label.add_css_class("time-label")
         center_box.append(self.time_label)
 
-        # date label -> hyprlock position 0, 40
         self.date_label = Gtk.Label()
         self.date_label.add_css_class("date-label")
         self.date_label.set_margin_bottom(46)
         center_box.append(self.date_label)
 
-        # avatar -> hyprlock position 0, -30
-        # Drawn as a simple circle with the user's initial rather than a
-        # system icon-theme lookup, since icon themes may not resolve
-        # correctly in the stripped-down greeter environment.
         avatar = Gtk.DrawingArea()
         avatar.set_content_width(96)
         avatar.set_content_height(96)
@@ -359,33 +331,20 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         avatar.set_draw_func(self._draw_avatar, initial)
         center_box.append(avatar)
 
-        # username label -> hyprlock position 0, -95
         self.username_label = Gtk.Label(label=LOGIN_USER)
         self.username_label.add_css_class("username-label")
         self.username_label.set_margin_top(10)
         self.username_label.set_margin_bottom(14)
         center_box.append(self.username_label)
 
-        # password entry -> hyprlock position 0, -155
         self.entry = Gtk.PasswordEntry()
         self.entry.set_show_peek_icon(False)
         self.entry.add_css_class("password-entry")
-        # Gtk.PasswordEntry has no set_placeholder_text() method (unlike
-        # plain Gtk.Entry) but does expose "placeholder-text" as a GObject
-        # property via the Gtk.Editable interface it implements.
         self.entry.set_property("placeholder-text", "Enter password")
         self.entry.set_size_request(260, 46)
         self.entry.connect("activate", self._on_entry_activate)
         center_box.append(self.entry)
 
-        # session picker -> new element, sits directly under the entry
-        #
-        # Deliberately NOT a Gtk.DropDown: under gtk4-layer-shell its popup
-        # opens as a separate top-level surface that the compositor doesn't
-        # give the app's CSS/transparency to, so it shows up as a plain
-        # white window instead of a themed list. Gtk.MenuButton + a manual
-        # Gtk.Popover (a dropdown-pill pattern) stays attached to this
-        # window and picks up nixgreet.css normally.
         session_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         session_row.set_halign(Gtk.Align.CENTER)
         session_row.set_margin_top(14)
@@ -404,9 +363,7 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         self.session_label.set_hexpand(True)
         button_content.append(self.session_label)
 
-        arrow = Gtk.Label(label="\u25be")  # small down-triangle; avoids icon-theme
-        # lookups, which (same rationale as the avatar above) may not resolve
-        # correctly in the stripped-down greeter environment.
+        arrow = Gtk.Label(label="\u25be")
         arrow.add_css_class("session-dropdown-arrow")
         button_content.append(arrow)
         self.session_button.set_child(button_content)
@@ -433,7 +390,6 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         session_row.append(self.session_button)
         center_box.append(session_row)
 
-        # hint label -> hyprlock position 0, -215
         self.hint_label = Gtk.Label(label="Press Enter to log in")
         self.hint_label.add_css_class("hint-label")
         self.hint_label.set_margin_top(14)
@@ -462,7 +418,7 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         surface_w = self.get_width()
         surface_h = self.get_height()
         if surface_w <= 0 or surface_h <= 0:
-            return GLib.SOURCE_CONTINUE  # not allocated yet, try again next idle
+            return GLib.SOURCE_CONTINUE
 
         _log(
             f"reposition: surface={surface_w}x{surface_h} "
@@ -470,18 +426,12 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         )
 
         if surface_w == geo.width and surface_h == geo.height:
-            # Surface already matches the target monitor exactly - no
-            # bounding-box spanning happened, nothing to correct.
             center_box.set_margin_start(0)
             center_box.set_margin_end(0)
             center_box.set_margin_top(0)
             center_box.set_margin_bottom(0)
             return GLib.SOURCE_REMOVE
 
-        # Surface spans a larger area (cage's whole-bounding-box case).
-        # Both the monitor rect and the surface are in the same global
-        # space here, since the surface covers the full multi-monitor
-        # layout starting at (0, 0).
         monitor_center_x = geo.x + geo.width / 2
         monitor_center_y = geo.y + geo.height / 2
         surface_center_x = surface_w / 2
@@ -490,12 +440,6 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         offset_x = round(monitor_center_x - surface_center_x)
         offset_y = round(monitor_center_y - surface_center_y)
 
-        # For a Gtk.Align.CENTER child, its midpoint shifts by
-        # (margin_start - margin_end) / 2, not by margin_start alone.
-        # To shift the center by offset_x we need margin_start - margin_end
-        # == offset_x * 2. Margins can't be negative, so put the full
-        # 2*offset on whichever side pushes in the right direction and
-        # leave the other at 0.
         center_box.set_margin_start(max(0, offset_x * 2))
         center_box.set_margin_end(max(0, -offset_x * 2))
         center_box.set_margin_top(max(0, offset_y * 2))
@@ -507,22 +451,22 @@ class NixGreetWindow(Gtk.ApplicationWindow):
 
         cx, cy, r = width / 2, height / 2, min(width, height) / 2 - 1
 
-        # fill — mirrors hyprlock's image {} border_color/background feel
         cr.arc(cx, cy, r, 0, 2 * 3.14159265)
         cr.set_source_rgba(1, 1, 1, 0.08)
         cr.fill_preserve()
 
-        # border — hyprlock: border_size = 2, border_color rgba(255,255,255,0.9)
         cr.set_source_rgba(1, 1, 1, 0.9)
         cr.set_line_width(2)
         cr.stroke()
 
-        # initial letter, centered
         cr.select_font_face("Inter", _cairo.FONT_SLANT_NORMAL, _cairo.FONT_WEIGHT_BOLD)
         cr.set_font_size(36)
         cr.set_source_rgba(1, 1, 1, 0.9)
         extents = cr.text_extents(initial)
-        cr.move_to(cx - extents.width / 2 - extents.x_bearing, cy - extents.height / 2 - extents.y_bearing)
+        cr.move_to(
+            cx - extents.width / 2 - extents.x_bearing,
+            cy - extents.height / 2 - extents.y_bearing,
+        )
         cr.show_text(initial)
 
     def _on_session_selected(self, listbox, row):
@@ -537,16 +481,12 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         self.date_label.set_text(now.strftime("%A, %d %B"))
         return True
 
-    # ---------------------------------------------------------------
-    # Auth flow against greetd
-    # ---------------------------------------------------------------
     def _on_entry_activate(self, _entry):
         password = self.entry.get_text()
         username = LOGIN_USER
         _display_name, session = self.sessions[self.selected_session_index]
 
         if self.client is None:
-            # No greetd socket available (e.g. testing outside a real session)
             self.hint_label.set_text("No greetd socket found")
             self.hint_label.add_css_class("error")
             return
@@ -564,7 +504,7 @@ class NixGreetWindow(Gtk.ApplicationWindow):
                 self.hint_label.set_text("Incorrect password")
                 self.hint_label.add_css_class("error")
                 self.client.cancel_session()
-        except Exception as exc:  # noqa: BLE001 - surface any IPC failure to the user
+        except Exception as exc:
             self.hint_label.set_text(f"Login error: {exc}")
             self.hint_label.add_css_class("error")
 

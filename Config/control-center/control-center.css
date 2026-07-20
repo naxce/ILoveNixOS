@@ -1,525 +1,495 @@
-/* control-center.css — same noir language as waybar/style.css, swaync/style.css
-   and hyprlock/nixgreet: near-black translucent panels, 1px hairline borders
-   at 8% white, soft rounding, no color accents beyond white/gray. */
-
-/* Must beat the active GTK theme's own default window background — hence
-   !important here. GTK_THEME is forced to Adwaita:dark in the Nix wrapper
-   (see control-center.nix) for dark-mode widget styling, but Adwaita-dark's
-   own window background is a solid dark *gray*, not transparent — so
-   without overriding it, that gray shows through everywhere that isn't
-   covered by our own (rounded, near-black) .cc-panel, which reads as a
-   flat gray backdrop poking out around the panel's rounded corners.
-
-   Note this uses `background: unset`, not `background: transparent`.
-   transparent still leaves GTK's paint operation for this node in place
-   (just painting a transparent-but-still-drawn fill), which in some GTK4
-   theme/backend combinations doesn't fully suppress the themed backdrop.
-   unset removes the paint operation entirely, which is the fix GNOME
-   upstream recommends for real per-pixel window transparency in GTK4.
-
-   GTK4 also draws a separate "decoration" CSS node for top-level windows
-   (part of the client-side-decoration machinery, normally used to paint
-   the window's own drop-shadow/rounded-corner chrome around a titlebar).
-   Even with set_decorated(False) this node can still exist and paint a
-   themed background/shadow of its own, so it needs the same treatment. */
 window,
 window.cc-popup-window,
 window.background,
 window.cc-popup-window decoration,
 decoration {
-    font-family: "Inter", sans-serif;
-    background: unset !important;
-    background-color: transparent !important;
-    background-image: none !important;
-    box-shadow: none !important;
-    border: none !important;
-    border-radius: 0 !important;
+  font-family: "Inter", sans-serif;
+  background: unset !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
 }
 
 .cc-panel {
-    background: rgba(8, 8, 8, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    padding: 0;
-    margin-top: 4px;
-    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+  background: rgba(8, 8, 8, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 0;
+  margin-top: 4px;
+  box-shadow: none;
 }
 
 .cc-column {
-    padding: 32px 28px;
+  padding: 32px 28px;
 }
 
 .cc-vsep {
-    background: rgba(255, 255, 255, 0.08);
-    min-width: 1px;
-    margin: 18px 0;
+  background: rgba(255, 255, 255, 0.08);
+  min-width: 1px;
+  margin: 18px 0;
 }
 
-/* ---------------- center column ---------------- */
 .cc-time-label {
-    font-size: 58px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.96);
-    font-family: "JetBrainsMono Nerd Font", "Inter", sans-serif;
+  font-size: 58px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.96);
+  font-family: "JetBrainsMono Nerd Font", "Inter", sans-serif;
 }
 
 .cc-date-label {
-    font-size: 15px;
-    color: rgba(176, 176, 176, 0.85);
-    margin-top: 2px;
+  font-size: 15px;
+  color: rgba(176, 176, 176, 0.85);
+  margin-top: 2px;
 }
 
 .cc-brand-label {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: rgba(112, 112, 112, 0.75);
-    font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(112, 112, 112, 0.75);
+  font-weight: 600;
 }
 
 .cc-power-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
-    color: rgba(232, 232, 232, 0.85);
-    min-width: 38px;
-    min-height: 38px;
-    font-family: "JetBrainsMono Nerd Font", sans-serif;
-    font-size: 14px;
-    box-shadow: none;
-    background-image: none;
-    transition: background-color 150ms ease, border-color 150ms ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: rgba(232, 232, 232, 0.85);
+  min-width: 38px;
+  min-height: 38px;
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 14px;
+  box-shadow: none;
+  background-image: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
 }
 
 .cc-power-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
 }
 
-/* ---------------- left column: calendar ---------------- */
 .calendar-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 12px;
 }
 
 .calendar-nav {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    background-image: none;
-    color: rgba(176, 176, 176, 0.8);
-    min-width: 22px;
-    min-height: 22px;
-    font-size: 13px;
-    padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  background-image: none;
+  color: rgba(176, 176, 176, 0.8);
+  min-width: 22px;
+  min-height: 22px;
+  font-size: 13px;
+  padding: 0;
 }
 
 .calendar-nav:hover {
-    color: #ffffff;
+  color: #ffffff;
 }
 
 .calendar-month-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: rgba(232, 232, 232, 0.9);
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(232, 232, 232, 0.9);
 }
 
 .calendar-weekday {
-    font-size: 10px;
-    color: rgba(112, 112, 112, 0.8);
-    padding: 4px 0;
+  font-size: 10px;
+  color: rgba(112, 112, 112, 0.8);
+  padding: 4px 0;
 }
 
 .calendar-day {
-    font-size: 11px;
-    color: rgba(200, 200, 200, 0.85);
-    padding: 5px 0;
-    border-radius: 6px;
+  font-size: 11px;
+  color: rgba(200, 200, 200, 0.85);
+  padding: 5px 0;
+  border-radius: 6px;
 }
 
 .calendar-day-today {
-    background: rgba(255, 255, 255, 0.92);
-    color: #050505;
-    font-weight: 700;
+  background: rgba(255, 255, 255, 0.92);
+  color: #050505;
+  font-weight: 700;
 }
 
-/* ---------------- left column: now playing ---------------- */
 .nowplaying-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 12px;
 }
 
 .nowplaying-icon {
-    font-family: "JetBrainsMono Nerd Font", sans-serif;
-    font-size: 11px;
-    color: rgba(176, 176, 176, 0.8);
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 11px;
+  color: rgba(176, 176, 176, 0.8);
 }
 
 .nowplaying-tag {
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: rgba(112, 112, 112, 0.75);
-    font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(112, 112, 112, 0.75);
+  font-weight: 700;
 }
 
 .nowplaying-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(232, 232, 232, 0.95);
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(232, 232, 232, 0.95);
 }
 
 .nowplaying-artist {
-    font-size: 11px;
-    color: rgba(150, 150, 150, 0.8);
+  font-size: 11px;
+  color: rgba(150, 150, 150, 0.8);
 }
 
 .nowplaying-ctrl,
 .nowplaying-ctrl-main {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    box-shadow: none;
-    background-image: none;
-    border-radius: 8px;
-    color: rgba(220, 220, 220, 0.85);
-    font-family: "JetBrainsMono Nerd Font", sans-serif;
-    font-size: 11px;
-    min-width: 30px;
-    min-height: 30px;
-    padding: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: none;
+  background-image: none;
+  border-radius: 8px;
+  color: rgba(220, 220, 220, 0.85);
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 11px;
+  min-width: 30px;
+  min-height: 30px;
+  padding: 0;
 }
 
 .nowplaying-ctrl-main {
-    min-width: 36px;
-    min-height: 36px;
-    background: rgba(255, 255, 255, 0.1);
+  min-width: 36px;
+  min-height: 36px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .nowplaying-ctrl:hover,
 .nowplaying-ctrl-main:hover {
-    background: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
 }
 
-/* ---------------- right column: quick settings ---------------- */
 .quicksettings-card {
-    min-width: 260px;
+  min-width: 260px;
 }
 
 .qs-row {
-    background: transparent;
-    background-image: none;
-    box-shadow: none;
-    border: none;
-    border-radius: 10px;
-    padding: 8px 8px;
-    transition: background-color 150ms ease;
+  background: transparent;
+  background-image: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 8px;
+  transition: background-color 150ms ease;
 }
 
 button.qs-row:hover {
-    background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .qs-row-icon {
-    font-family: "JetBrainsMono Nerd Font", sans-serif;
-    font-size: 15px;
-    color: rgba(220, 220, 220, 0.85);
-    min-width: 20px;
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 15px;
+  color: rgba(220, 220, 220, 0.85);
+  min-width: 20px;
 }
 
 .qs-row-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(232, 232, 232, 0.95);
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(232, 232, 232, 0.95);
 }
 
 .qs-row-subtitle {
-    font-size: 11px;
-    color: rgba(140, 140, 140, 0.85);
+  font-size: 11px;
+  color: rgba(140, 140, 140, 0.85);
 }
 
 .qs-row-chevron {
-    color: rgba(112, 112, 112, 0.6);
-    font-size: 15px;
+  color: rgba(112, 112, 112, 0.6);
+  font-size: 15px;
 }
 
 .qs-separator {
-    background: rgba(255, 255, 255, 0.07);
-    min-height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  min-height: 1px;
 }
 
 switch {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    min-width: 40px;
-    min-height: 22px;
-    box-shadow: none;
-    background-image: none;
-    border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  min-width: 40px;
+  min-height: 22px;
+  box-shadow: none;
+  background-image: none;
+  border: none;
 }
 
 switch:checked {
-    background: #ffffff;
+  background: #ffffff;
 }
 
 switch slider {
-    background: #e8e8e8;
-    border-radius: 50%;
-    min-width: 18px;
-    min-height: 18px;
-    box-shadow: none;
+  background: #e8e8e8;
+  border-radius: 50%;
+  min-width: 18px;
+  min-height: 18px;
+  box-shadow: none;
 }
 
 switch:checked slider {
-    background: #050505;
+  background: #050505;
 }
 
-/* ---------------- detail panels (Wi-Fi / Bluetooth / Volume / Displays) --- */
 .detail-back {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    box-shadow: none;
-    background-image: none;
-    border-radius: 8px;
-    color: rgba(220, 220, 220, 0.85);
-    min-width: 26px;
-    min-height: 26px;
-    font-size: 15px;
-    padding: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: none;
+  background-image: none;
+  border-radius: 8px;
+  color: rgba(220, 220, 220, 0.85);
+  min-width: 26px;
+  min-height: 26px;
+  font-size: 15px;
+  padding: 0;
 }
 
 .detail-back:hover {
-    background: rgba(255, 255, 255, 0.12);
-    color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
 }
 
 .detail-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.95);
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .detail-subheading {
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: rgba(112, 112, 112, 0.85);
-    font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(112, 112, 112, 0.85);
+  font-weight: 600;
 }
 
 .detail-list {
-    background: transparent;
+  background: transparent;
 }
 
 .detail-list row,
 .detail-list listview {
-    background: transparent;
-    background-image: none;
+  background: transparent;
+  background-image: none;
 }
 
 .detail-list-row {
-    padding: 7px 8px;
-    border-radius: 8px;
-    background: transparent;
-    background-image: none;
-    color: rgba(220, 220, 220, 0.9);
+  padding: 7px 8px;
+  border-radius: 8px;
+  background: transparent;
+  background-image: none;
+  color: rgba(220, 220, 220, 0.9);
 }
 
 .detail-list-row:hover {
-    background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .detail-list-icon {
-    font-family: "JetBrainsMono Nerd Font", sans-serif;
-    font-size: 12px;
-    color: rgba(150, 150, 150, 0.85);
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 12px;
+  color: rgba(150, 150, 150, 0.85);
 }
 
 .detail-list-active {
-    color: #ffffff;
-    font-weight: 600;
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .detail-list-tag {
-    font-size: 10px;
-    color: rgba(0, 0, 0, 0.85);
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 6px;
-    padding: 1px 7px;
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.85);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 6px;
+  padding: 1px 7px;
 }
 
 .detail-action {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: none;
-    background-image: none;
-    border-radius: 8px;
-    color: rgba(220, 220, 220, 0.9);
-    font-size: 12px;
-    padding: 7px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  background-image: none;
+  border-radius: 8px;
+  color: rgba(220, 220, 220, 0.9);
+  font-size: 12px;
+  padding: 7px 12px;
 }
 
 .detail-action:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 .detail-action-primary {
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(255, 255, 255, 0.92);
-    box-shadow: none;
-    background-image: none;
-    border-radius: 8px;
-    color: #050505;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 7px 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow: none;
+  background-image: none;
+  border-radius: 8px;
+  color: #050505;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 12px;
 }
 
 .detail-action-primary:hover {
-    background: #ffffff;
+  background: #ffffff;
 }
 
-/* volume panel */
 .volume-mute-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    box-shadow: none;
-    background-image: none;
-    border-radius: 8px;
-    color: rgba(220, 220, 220, 0.9);
-    font-family: "JetBrainsMono Nerd Font", sans-serif;
-    font-size: 13px;
-    min-width: 32px;
-    min-height: 32px;
-    padding: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: none;
+  background-image: none;
+  border-radius: 8px;
+  color: rgba(220, 220, 220, 0.9);
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 13px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
 }
 
 .volume-mute-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .volume-scale trough {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    min-height: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  min-height: 5px;
 }
 
 .volume-scale highlight {
-    background: #ffffff;
-    border-radius: 20px;
-    min-height: 5px;
+  background: #ffffff;
+  border-radius: 20px;
+  min-height: 5px;
 }
 
 .volume-scale slider {
-    background: #ffffff;
-    border-radius: 50%;
-    min-width: 14px;
-    min-height: 14px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  background: #ffffff;
+  border-radius: 50%;
+  min-width: 14px;
+  min-height: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .volume-pct {
-    font-size: 11px;
-    color: rgba(150, 150, 150, 0.85);
-    min-width: 32px;
+  font-size: 11px;
+  color: rgba(150, 150, 150, 0.85);
+  min-width: 32px;
 }
 
-/* displays panel */
 .monitor-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
-    padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .monitor-card-name {
-    font-size: 12px;
-    font-weight: 700;
-    color: rgba(232, 232, 232, 0.95);
-    font-family: "JetBrainsMono Nerd Font", "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(232, 232, 232, 0.95);
+  font-family: "JetBrainsMono Nerd Font", "Inter", sans-serif;
 }
 
 .monitor-dropdown {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: none;
-    background-image: none;
-    border-radius: 8px;
-    color: rgba(220, 220, 220, 0.9);
-    font-size: 11px;
-    padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  background-image: none;
+  border-radius: 8px;
+  color: rgba(220, 220, 220, 0.9);
+  font-size: 11px;
+  padding: 4px 8px;
 }
 
 .monitor-dropdown popover,
 .monitor-dropdown popover.background {
-    background: transparent;
-    box-shadow: none;
-    background-image: none;
+  background: transparent;
+  box-shadow: none;
+  background-image: none;
 }
 
 .monitor-dropdown popover > contents {
-    background: #0a0a0a;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
-    padding: 4px;
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 4px;
 }
 
 .monitor-dropdown listview > row {
-    color: rgba(220, 220, 220, 0.9);
-    border-radius: 6px;
-    padding: 4px 8px;
+  color: rgba(220, 220, 220, 0.9);
+  border-radius: 6px;
+  padding: 4px 8px;
 }
 
 .monitor-dropdown listview > row:hover {
-    background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .monitor-dropdown listview > row:selected {
-    background: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
 }
 
 .monitor-pos-entry {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: none;
-    background-image: none;
-    border-radius: 8px;
-    color: rgba(232, 232, 232, 0.95);
-    caret-color: #ffffff;
-    font-size: 11px;
-    padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  background-image: none;
+  border-radius: 8px;
+  color: rgba(232, 232, 232, 0.95);
+  caret-color: #ffffff;
+  font-size: 11px;
+  padding: 4px 8px;
 }
 
-/* password dialog */
 .password-dialog {
-    background: rgba(10, 10, 10, 0.97);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 14px;
-    padding: 18px;
-    min-width: 260px;
+  background: rgba(10, 10, 10, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 18px;
+  min-width: 260px;
 }
 
 .password-entry {
-    background: rgba(255, 255, 255, 0.06);
-    border: none;
-    border-radius: 10px;
-    color: rgba(232, 232, 232, 1);
-    caret-color: #ffffff;
-    padding: 0 14px;
-    min-height: 38px;
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  border-radius: 10px;
+  color: rgba(232, 232, 232, 1);
+  caret-color: #ffffff;
+  padding: 0 14px;
+  min-height: 38px;
 }
 
 .password-entry text {
-    color: rgba(232, 232, 232, 1);
+  color: rgba(232, 232, 232, 1);
 }
 
 tooltip {
-    background: #0d0d0d;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    color: #e8e8e8;
+  background: #0d0d0d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #e8e8e8;
 }

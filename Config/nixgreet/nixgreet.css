@@ -1,148 +1,128 @@
-/* nixgreet.css — values copied 1:1 from hyprlock.conf so the login screen
-   matches the lock screen exactly. */
-
 window {
-    font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif;
 }
-
-/* Actual blurring now happens once at startup on the image itself
-   (see prepare_background() in nixgreet.py) since GTK4 CSS has no
-   backdrop-filter. This is just a very light extra tint so text stays
-   legible over bright parts of the wallpaper, same role as hyprlock's
-   remaining darkness after its own blur/contrast/brightness pass. */
 .darken {
-    background-color: rgba(0, 0, 0, 0.08);
+  background-color: rgba(0, 0, 0, 0.08);
 }
 
 .time-label {
-    font-size: 92px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.95);
+  font-size: 92px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .date-label {
-    font-size: 18px;
-    color: rgba(180, 180, 180, 0.85);
+  font-size: 18px;
+  color: rgba(180, 180, 180, 0.85);
 }
 
 .avatar {
-    color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .username-label {
-    font-size: 15px;
-    color: rgba(232, 232, 232, 0.9);
+  font-size: 15px;
+  color: rgba(232, 232, 232, 0.9);
 }
 
 .password-entry {
-    background: rgba(255, 255, 255, 0.06);
-    border: none;
-    border-radius: 10px;
-    color: rgba(232, 232, 232, 1);
-    caret-color: #ffffff;
-    padding: 0 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  border-radius: 10px;
+  color: rgba(232, 232, 232, 1);
+  caret-color: #ffffff;
+  padding: 0 16px;
 }
 
 .password-entry text {
-    color: rgba(232, 232, 232, 1);
+  color: rgba(232, 232, 232, 1);
 }
 
 .password-entry image {
-    color: rgba(112, 112, 112, 1);
+  color: rgba(112, 112, 112, 1);
 }
 
-/* Gtk.MenuButton renders internally as a <button> node. The default GTK
-   theme (Adwaita) gives every button node its own background/border/
-   box-shadow that a class selector alone doesn't reliably beat, which is
-   what was showing up as a plain white pill instead of the styled one
-   below. Target button.session-dropdown directly, and reset the parts of
-   the themed button look (box-shadow, image) that would otherwise still
-   bleed through in some states (hover/focus). */
 menubutton.session-dropdown,
 menubutton.session-dropdown > button {
-    background: rgba(255, 255, 255, 0.06);
-    background-image: none;
-    box-shadow: none;
-    border: none;
-    border-radius: 10px;
-    color: rgba(232, 232, 232, 1);
-    padding: 8px 14px;
-    font-size: 13px;
-    min-height: 0;
+  background: rgba(255, 255, 255, 0.06);
+  background-image: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 10px;
+  color: rgba(232, 232, 232, 1);
+  padding: 8px 14px;
+  font-size: 13px;
+  min-height: 0;
 }
 
 menubutton.session-dropdown > button:hover,
 menubutton.session-dropdown > button:focus,
 menubutton.session-dropdown > button:checked {
-    background: rgba(255, 255, 255, 0.09);
-    background-image: none;
-    box-shadow: none;
+  background: rgba(255, 255, 255, 0.09);
+  background-image: none;
+  box-shadow: none;
 }
 
 .session-dropdown-label {
-    color: rgba(232, 232, 232, 1);
-    font-size: 13px;
+  color: rgba(232, 232, 232, 1);
+  font-size: 13px;
 }
 
 .session-dropdown-arrow {
-    color: rgba(232, 232, 232, 0.6);
-    font-size: 10px;
+  color: rgba(232, 232, 232, 0.6);
+  font-size: 10px;
 }
 
-/* The popover node itself must be made transparent, or GTK's default
-   theme background (white) shows through around/behind our own
-   ".session-popover > contents" background below — this is the actual
-   fix for the dropdown rendering as a plain white box. */
 popover.session-popover,
 popover.session-popover.background {
-    background: transparent;
-    background-image: none;
-    box-shadow: none;
+  background: transparent;
+  background-image: none;
+  box-shadow: none;
 }
 
 popover.session-popover > contents {
-    background: #0a0a0a;
-    background-image: none;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
-    padding: 4px;
-    min-width: 200px;
+  background: #0a0a0a;
+  background-image: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 4px;
+  min-width: 200px;
 }
 
 popover.session-popover > arrow {
-    background: #0a0a0a;
-    background-image: none;
+  background: #0a0a0a;
+  background-image: none;
 }
 
 .session-list,
 .session-list listview,
 .session-list row {
-    background: transparent;
-    background-image: none;
+  background: transparent;
+  background-image: none;
 }
 
 .session-list-row {
-    color: rgba(232, 232, 232, 0.9);
-    padding: 6px 10px;
-    border-radius: 6px;
-    background: transparent;
-    background-image: none;
+  color: rgba(232, 232, 232, 0.9);
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: transparent;
+  background-image: none;
 }
 
 .session-list-row:hover {
-    background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .session-list-row:selected {
-    background: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
 }
 
 .hint-label {
-    font-size: 12px;
-    color: rgba(112, 112, 112, 0.7);
+  font-size: 12px;
+  color: rgba(112, 112, 112, 0.7);
 }
 
 .hint-label.error {
-    color: #ff5050;
+  color: #ff5050;
 }
