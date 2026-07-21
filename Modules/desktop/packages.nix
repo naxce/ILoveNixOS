@@ -106,6 +106,7 @@ in
 
     firefox
     vesktop
+    discord
     ferdium
     cider-2
 
