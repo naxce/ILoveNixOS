@@ -51,6 +51,7 @@ in
     gtk3
     gtk4
     adw-gtk3
+    file-roller
     nemo
     nemo-with-extensions
     nemo-fileroller
