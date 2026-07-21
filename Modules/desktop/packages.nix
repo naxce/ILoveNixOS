@@ -52,6 +52,7 @@ in
     gtk4
     adw-gtk3
     nemo
+    nemo-with-extensions
     nemo-fileroller
     nemo-preview
     nemo-python
