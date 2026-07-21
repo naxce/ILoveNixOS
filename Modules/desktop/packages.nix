@@ -52,12 +52,7 @@ in
     gtk4
     adw-gtk3
     file-roller
-    nemo
     nemo-with-extensions
-    nemo-fileroller
-    nemo-preview
-    nemo-python
-    nemo-emblems
     yazi
     xdg-utils
     desktop-file-utils
