@@ -120,6 +120,7 @@ in
     git
     llama-cpp
     lazygit
+    claude-code
 
     python3
     ruff
