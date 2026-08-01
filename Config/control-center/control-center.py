@@ -22,8 +22,8 @@ Design mirrors nixgreet/hyprlock/swaync: pure black translucent panels,
 Nerd Font, no color accents beyond white/gray.
 
 State that should survive a reboot (last picked monitor layout) is written
-straight into ~/.config/hypr/local/monitors.conf, which hyprland.conf
-already `source`s — nothing extra to wire up for persistence.
+straight into ~/.config/hypr/local/monitors.lua, which hyprland.lua
+already `require`s — nothing extra to wire up for persistence.
 """
 
 import sys
@@ -70,7 +70,7 @@ import threading
 
 APP_ID = "dev.nixos.control-center"
 MONITOR_NAME = os.environ.get("CC_MONITOR")
-LOCAL_MONITORS_CONF = os.path.expanduser("~/.config/hypr/local/monitors.conf")
+LOCAL_MONITORS_CONF = os.path.expanduser("~/.config/hypr/local/monitors.lua")
 NIGHTLIGHT_STATE = os.path.expanduser("~/.cache/control-center/nightlight")
 PERF_STATE = os.path.expanduser("~/.cache/control-center/performance")
 
@@ -414,9 +414,16 @@ class DisplayBackend:
 
     @staticmethod
     def apply_live(name, width, height, refresh, x, y, scale=1.0):
-        res = f"{width}x{height}@{refresh}"
-        pos = f"{x}x{y}"
-        run(["hyprctl", "keyword", "monitor", f"{name},{res},{pos},{scale}"])
+        run(
+            [
+                "hyprctl",
+                "eval",
+                f'hl.monitor({{ output = "{name}", '
+                f'mode = "{width}x{height}@{refresh}", '
+                f'position = "{x}x{y}", '
+                f"scale = {scale} }})",
+            ]
+        )
 
     @staticmethod
     def read_persisted_lines():
@@ -428,17 +435,27 @@ class DisplayBackend:
 
     @classmethod
     def persist(cls, name, width, height, refresh, x, y, scale=1.0):
-        """Write/replace a `monitor = name, ...` line in
-        ~/.config/hypr/local/monitors.conf so the layout survives reboots.
-        hyprland.conf already sources this file right after the shipped
-        monitors.conf, so a line here simply overrides the default for
+        """Write/replace an `hl.monitor({ output = "name", ... })` call in
+        ~/.config/hypr/local/monitors.lua so the layout survives reboots.
+        hyprland.lua already `require`s this file right after the shipped
+        monitors.lua, so a call here simply overrides the default for
         that connector — the same override mechanism home.nix's
         hyprLocalOverrides activation script already sets up.
+
+        Each monitor is kept on exactly one line so the whole entry can be
+        matched and replaced by output name without parsing Lua.
         """
         os.makedirs(os.path.dirname(LOCAL_MONITORS_CONF), exist_ok=True)
         lines = cls.read_persisted_lines()
-        new_line = f"monitor = {name}, {width}x{height}@{refresh}, {x}x{y}, {scale}"
-        pattern = re.compile(rf"^\s*monitor\s*=\s*{re.escape(name)}\s*,")
+        new_line = (
+            f'hl.monitor({{ output = "{name}", '
+            f'mode = "{width}x{height}@{refresh}", '
+            f'position = "{x}x{y}", '
+            f"scale = {scale} }})"
+        )
+        pattern = re.compile(
+            rf'^\s*hl\.monitor\(\{{\s*output\s*=\s*"{re.escape(name)}"'
+        )
         replaced = False
         for i, ln in enumerate(lines):
             if pattern.match(ln):
@@ -452,14 +469,13 @@ class DisplayBackend:
 
     @staticmethod
     def set_disabled(name, disabled):
-        run(
-            [
-                "hyprctl",
-                "keyword",
-                "monitor",
-                f"{name},disable" if disabled else f"{name},preferred,auto,1",
-            ]
+        spec = (
+            f'{{ output = "{name}", disabled = true }}'
+            if disabled
+            else f'{{ output = "{name}", mode = "preferred", '
+            f'position = "auto", scale = 1 }}'
         )
+        run(["hyprctl", "eval", f"hl.monitor({spec})"])
 
 
 class NightLightBackend:

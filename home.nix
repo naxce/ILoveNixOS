@@ -116,21 +116,22 @@
   home.file.".config/kitty".source = ./Config/kitty;
   home.file.".config/sptlrx".source = ./Config/sptlrx;
   home.file.".config/nvim".source = ./Config/nvim;
-  home.file.".config/hypr/autostart.conf".source = ./Config/hypr/autostart.conf;
-  home.file.".config/hypr/binds.conf".source = ./Config/hypr/binds.conf;
+  home.file.".config/hypr/autostart.lua".source = ./Config/hypr/autostart.lua;
+  home.file.".config/hypr/binds.lua".source = ./Config/hypr/binds.lua;
+  home.file.".config/hypr/hyprland.lua".source = ./Config/hypr/hyprland.lua;
+  home.file.".config/hypr/input.lua".source = ./Config/hypr/input.lua;
+  home.file.".config/hypr/looknfeel.lua".source = ./Config/hypr/looknfeel.lua;
+  home.file.".config/hypr/monitors.lua".source = ./Config/hypr/monitors.lua;
+  home.file.".config/hypr/windowrules.lua".source = ./Config/hypr/windowrules.lua;
+
   home.file.".config/hypr/hypridle.conf".source = ./Config/hypr/hypridle.conf;
-  home.file.".config/hypr/hyprland.conf".source = ./Config/hypr/hyprland.conf;
   home.file.".config/hypr/hyprlock.conf".source = ./Config/hypr/hyprlock.conf;
   home.file.".config/hypr/hyprpaper.conf".source = ./Config/hypr/hyprpaper.conf;
-  home.file.".config/hypr/input.conf".source = ./Config/hypr/input.conf;
-  home.file.".config/hypr/looknfeel.conf".source = ./Config/hypr/looknfeel.conf;
-  home.file.".config/hypr/monitors.conf".source = ./Config/hypr/monitors.conf;
-  home.file.".config/hypr/windowrules.conf".source = ./Config/hypr/windowrules.conf;
 
   home.activation.hyprLocalOverrides = config.lib.dag.entryAfter [ "writeBoundary" ] ''
     localDir="$HOME/.config/hypr/local"
     $DRY_RUN_CMD mkdir -p "$localDir"
-    for f in monitors.conf looknfeel.conf input.conf gaming.conf; do
+    for f in monitors.lua looknfeel.lua input.lua gaming.lua; do
       if [ ! -e "$localDir/$f" ]; then
         $DRY_RUN_CMD touch "$localDir/$f"
       fi
