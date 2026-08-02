@@ -18,6 +18,11 @@ hl.monitor({
     scale    = 1,
 })
 
+hl.monitor({
+    output = "HDMI-A-2",
+    mirror = "DP-5",
+})
+
 for i = 1, 5 do
     hl.workspace_rule({
         workspace = tostring(i),
