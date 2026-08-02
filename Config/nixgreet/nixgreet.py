@@ -252,7 +252,9 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         self.set_decorated(False)
 
         self.interactive = interactive
-        self.client = GreetdClient(GREETD_SOCK) if (GREETD_SOCK and interactive) else None
+        self.client = (
+            GreetdClient(GREETD_SOCK) if (GREETD_SOCK and interactive) else None
+        )
         self.auth_stage = "username"
         self.sessions = read_sessions()
 
@@ -406,8 +408,6 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         if self.interactive:
             self.entry.grab_focus()
         else:
-            # Mirror-only surface: it has no keyboard, so don't let it show
-            # a focused/blinking-cursor entry field.
             self.entry.set_sensitive(False)
             self.session_button.set_sensitive(False)
 
@@ -500,9 +500,6 @@ def on_activate(app):
 
         primary = pick_primary_monitor(monitors)
 
-        # One layer-shell surface per output, each centered on its own
-        # monitor - mirrors hyprlock.conf's blank `monitor =` behaviour
-        # instead of showing the greeter on a single screen.
         for monitor in monitors:
             win = NixGreetWindow(app, monitor=monitor, interactive=(monitor == primary))
             win.present()

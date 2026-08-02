@@ -74,12 +74,6 @@ LOCAL_MONITORS_CONF = os.path.expanduser("~/.config/hypr/local/monitors.lua")
 NIGHTLIGHT_STATE = os.path.expanduser("~/.cache/control-center/nightlight")
 PERF_STATE = os.path.expanduser("~/.cache/control-center/performance")
 
-# Written fresh by the `control-center` launcher script every time it's
-# invoked (e.g. from waybar's clock on-click), with the connector name of
-# whichever monitor the cursor was on at click time. Read fresh — never
-# cached — so a single already-running instance can be told to jump to a
-# different monitor on each activation instead of always opening on the
-# monitor it first started on.
 TARGET_MONITOR_FILE = os.path.expanduser("~/.cache/control-center/target-monitor")
 
 
@@ -1454,13 +1448,6 @@ class ClickOutsideCatcher(Gtk.Window):
         self.set_decorated(False)
         self._panel_window = panel_window
 
-        # Belt-and-suspenders: some GTK4/Wayland theme combos repaint this
-        # surface with the system theme's opaque background the second time
-        # present() is called after hide() (i.e. second panel open), even
-        # though the CSS provider still says "transparent". Removing the
-        # "background" style class and forcing this at the widget level
-        # keeps it transparent regardless of what the active GTK theme does
-        # on re-present.
         self.remove_css_class("background")
         self.set_opacity(1.0)
 
@@ -1499,8 +1486,6 @@ class ClickOutsideCatcher(Gtk.Window):
     def arm_and_show(self):
         self._armed = False
         self.present()
-        # Grace delay so the click that opened the panel (e.g. from waybar)
-        # isn't immediately misread as "clicked outside".
         GLib.timeout_add(200, self._arm)
 
     def _arm(self):
@@ -1537,10 +1522,6 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         key_ctrl.connect("key-pressed", self._on_key)
         self.add_controller(key_ctrl)
 
-        # A separate, fullscreen, fully transparent layer-shell window sits
-        # behind the panel just to catch clicks that land outside of it —
-        # see ClickOutsideCatcher below for why this has to be its own
-        # window rather than just making *this* window fullscreen.
         self._catcher = ClickOutsideCatcher(self, monitor)
 
         GLib.timeout_add_seconds(1, self._tick_clock)
@@ -1564,9 +1545,6 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         candidates = self._all_monitors()
         if not candidates:
             return None
-        # Prefer whichever monitor was just clicked (written fresh by the
-        # `control-center` launcher script), falling back to the CC_MONITOR
-        # env var some callers may still set, then the largest monitor.
         wanted = get_target_monitor() or MONITOR_NAME
         found = self._find_monitor(wanted)
         if found is not None:
@@ -1724,9 +1702,6 @@ def on_activate(app):
         elif win.is_visible():
             target = get_target_monitor()
             if target and target != win._current_monitor_name:
-                # Clicked the clock on a *different* monitor while the
-                # panel was already open elsewhere -> jump it there instead
-                # of just closing it.
                 win.show_panel()
             else:
                 win.hide_panel()

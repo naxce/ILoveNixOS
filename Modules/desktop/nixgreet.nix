@@ -52,7 +52,7 @@ let
         --set LD_PRELOAD "${pkgs.gtk4-layer-shell}/lib/libgtk4-layer-shell.so" \
         --set GDK_BACKEND wayland \
         --set NIXGREET_WALLPAPER /etc/greetd/wallpaper.png \
-        --set NIXGREET_MONITOR DP-6 # only picks which output owns keyboard focus; nixgreet mirrors onto every monitor
+        --set NIXGREET_MONITOR DP-6
     '';
   };
 in

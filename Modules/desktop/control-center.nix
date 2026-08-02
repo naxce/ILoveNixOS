@@ -56,11 +56,6 @@ let
   controlCenterToggle = pkgs.writeShellScriptBin "control-center" ''
     set -euo pipefail
 
-    # Figure out which monitor the cursor is on right now -- since this
-    # script is invoked directly from waybar's clock on-click, that's the
-    # same monitor the person just clicked on. Stash it in a state file so
-    # control-center.py (whether it's starting fresh or already running)
-    # knows which monitor to open/move the panel on.
     target_dir="$HOME/.cache/control-center"
     mkdir -p "$target_dir"
     target_file="$target_dir/target-monitor"
