@@ -16,11 +16,15 @@ hl.monitor({
     mode     = "1920x1080@179.96",
     position = "0x500",
     scale    = 1,
+    vrr      = 0,
 })
 
 hl.monitor({
-    output = "HDMI-A-2",
-    mirror = "DP-5",
+    output   = "HDMI-A-2",
+    mode     = "1920x1080@60",
+    position = "4480x0",
+    scale    = 1,
+    mirror   = "DP-5",
 })
 
 for i = 1, 5 do
