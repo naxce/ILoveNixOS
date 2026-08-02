@@ -5,7 +5,7 @@
   ...
 }:
 {
-  imports = [ ./nixgreet.nix ];
+  imports = [ ./hyprlogin.nix ];
 
   programs.hyprland = {
     enable = true;
