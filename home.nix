@@ -318,7 +318,7 @@
         wipe
         cd ~/NixOS || exit
         nix flake update
-        msg="$*"; [ -z "$msg" ] || msg="Update Commit"
+        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
         git add .
         git commit -m "$msg" || true
         git push origin main
@@ -333,7 +333,7 @@
       nixos = ''
         wipe
         cd ~/NixOS || exit
-        msg="$*"; [ -z "$msg" ] || msg="Update Commit"
+        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
         git add .
         git commit -m "$msg" || true
         git push origin main
@@ -344,7 +344,7 @@
         wipe
         cd ~/NixOS || exit
         nix flake update
-        msg="$*"; [ -z "$msg" ] || msg="Update Commit"
+        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
         git add .
         git commit -m "$msg" || true
         git push origin main
@@ -354,7 +354,7 @@
       nixgit = ''
         wipe
         cd ~/NixOS || exit
-        msg="$*"; [ -z "$msg" ] || msg="Update Commit"
+        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
         git add .
         git commit -m "$msg" || true
         git push origin main
@@ -369,7 +369,7 @@
       nixhome = ''
         wipe
         cd ~/NixOS || exit
-        msg="$*"; [ -z "$msg" ] || msg="Update Commit"
+        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
         git add .
         git commit -m "$msg" || true
         git push origin main
@@ -458,7 +458,7 @@
         cd ~/NixOS || exit
 
         msg="$*"
-        [ -z "$msg" ] || msg="Update Commit"
+        [ -z "$msg" ] && msg="Update Commit"
 
         git add .
         git commit -m "$msg" || true
@@ -474,7 +474,7 @@
         nix flake update
 
         msg="$*"
-        [ -z "$msg" ] || msg="Update Commit"
+        [ -z "$msg" ] && msg="Update Commit"
 
         git add .
         git commit -m "$msg" || true
@@ -488,7 +488,7 @@
         cd ~/NixOS || exit
 
         msg="$*"
-        [ -z "$msg" ] || msg="Update Commit"
+        [ -z "$msg" ] && msg="Update Commit"
 
         git add .
         git commit -m "$msg" || true
@@ -506,7 +506,7 @@
         cd ~/NixOS || exit
 
         msg="$*"
-        [ -z "$msg" ] || msg="Update Commit"
+        [ -z "$msg" ] && msg="Update Commit"
 
         git add .
         git commit -m "$msg" || true

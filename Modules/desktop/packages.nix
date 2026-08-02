@@ -111,6 +111,7 @@ in
     discord
     ferdium
     cider-2
+    signal-desktop
 
     filezilla
     nixfmt

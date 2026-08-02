@@ -19,15 +19,14 @@ hl.monitor({
     vrr      = 0,
 })
 
---[[
 hl.monitor({
     output   = "HDMI-A-2",
+    disabled = true,
     mode     = "1920x1080@60",
     position = "4480x0",
     scale    = 1,
     mirror   = "DP-5",
 })
-]]
 
 for i = 1, 5 do
     hl.workspace_rule({
