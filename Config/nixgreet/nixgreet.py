@@ -65,39 +65,42 @@ SESSIONS_DIR = "/etc/greetd/environments"
 PRIMARY_MONITOR_NAME = os.environ.get("NIXGREET_MONITOR")
 
 
-def pick_primary_monitor(display):
-    """Pick which output the greeter should appear on.
-
-    On a multi-monitor setup, gtk4-layer-shell maps the surface to
-    whichever output the compositor happens to choose if we don't say
-    otherwise - not necessarily the "main" one the user actually looks
-    at. If NIXGREET_MONITOR names a connector (matching hyprland's
-    monitors.conf naming, e.g. "DP-6"), use that; otherwise fall back to
-    the monitor with the largest pixel area, which is normally the main
-    display in these mixed-resolution setups.
+def get_all_monitors(display):
+    """Return every connected output, so the greeter can mirror itself onto
+    all of them at once (each one centered on its own geometry) instead of
+    picking just one - the same behaviour hyprlock.conf gets for free by
+    leaving `monitor =` blank in every section.
     """
     monitors = display.get_monitors()
     n = monitors.get_n_items()
-    if n == 0:
+    return [monitors.get_item(i) for i in range(n)]
+
+
+def pick_primary_monitor(monitors):
+    """Pick which of the (already mirrored) outputs should own the keyboard
+    focus / greetd session logic. If NIXGREET_MONITOR names a connector
+    (matching hyprland's monitors.conf naming, e.g. "DP-6"), use that;
+    otherwise fall back to the monitor with the largest pixel area, which is
+    normally the main display in these mixed-resolution setups.
+    """
+    if not monitors:
         return None
 
-    candidates = [monitors.get_item(i) for i in range(n)]
-
     if PRIMARY_MONITOR_NAME:
-        for m in candidates:
+        for m in monitors:
             connector = m.get_connector() or ""
             if connector == PRIMARY_MONITOR_NAME:
                 return m
         _log(
             f"NIXGREET_MONITOR={PRIMARY_MONITOR_NAME!r} not found among "
-            f"{[m.get_connector() for m in candidates]}, falling back to largest"
+            f"{[m.get_connector() for m in monitors]}, falling back to largest"
         )
 
     def area(m):
         geo = m.get_geometry()
         return geo.width * geo.height
 
-    return max(candidates, key=area)
+    return max(monitors, key=area)
 
 
 def detect_login_user():
@@ -233,12 +236,23 @@ class GreetdClient:
 
 
 class NixGreetWindow(Gtk.ApplicationWindow):
-    def __init__(self, app):
+    """One layer-shell surface anchored to a single output.
+
+    The app creates one of these per connected monitor so the greeter is
+    mirrored on every screen (each copy centered on its own monitor), the
+    same way hyprlock.conf behaves with `monitor =` left blank. Only the
+    `interactive` instance grabs keyboard focus and talks to greetd; the
+    others are purely visual mirrors so multiple surfaces don't fight over
+    the one keyboard.
+    """
+
+    def __init__(self, app, monitor, interactive):
         super().__init__(application=app)
         self.set_title("nixgreet")
         self.set_decorated(False)
 
-        self.client = GreetdClient(GREETD_SOCK) if GREETD_SOCK else None
+        self.interactive = interactive
+        self.client = GreetdClient(GREETD_SOCK) if (GREETD_SOCK and interactive) else None
         self.auth_stage = "username"
         self.sessions = read_sessions()
 
@@ -246,13 +260,10 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         LayerShell.set_layer(self, LayerShell.Layer.OVERLAY)
         LayerShell.set_exclusive_zone(self, -1)
 
-        monitor = pick_primary_monitor(Gdk.Display.get_default())
         if monitor is not None:
             LayerShell.set_monitor(self, monitor)
-            self.target_geometry = monitor.get_geometry()
         else:
-            _log("no monitors found via Gdk.Display, letting compositor choose")
-            self.target_geometry = None
+            _log("no monitor assigned to this surface, letting compositor choose")
 
         for edge in (
             LayerShell.Edge.TOP,
@@ -261,7 +272,13 @@ class NixGreetWindow(Gtk.ApplicationWindow):
             LayerShell.Edge.RIGHT,
         ):
             LayerShell.set_anchor(self, edge, True)
-        LayerShell.set_keyboard_mode(self, LayerShell.KeyboardMode.EXCLUSIVE)
+
+        LayerShell.set_keyboard_mode(
+            self,
+            LayerShell.KeyboardMode.EXCLUSIVE
+            if interactive
+            else LayerShell.KeyboardMode.NONE,
+        )
 
         self._build_ui()
         self._tick_clock()
@@ -304,15 +321,6 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         center_box.set_valign(Gtk.Align.CENTER)
         center_box.set_spacing(0)
         center_wrapper.append(center_box)
-
-        if self.target_geometry is not None:
-            geo = self.target_geometry
-            self.connect(
-                "realize",
-                lambda *_a: GLib.idle_add(
-                    self._reposition_for_monitor, center_box, geo
-                ),
-            )
 
         self.time_label = Gtk.Label()
         self.time_label.add_css_class("time-label")
@@ -395,56 +403,13 @@ class NixGreetWindow(Gtk.ApplicationWindow):
         self.hint_label.set_margin_top(14)
         center_box.append(self.hint_label)
 
-        self.entry.grab_focus()
-
-    def _reposition_for_monitor(self, center_box, geo):
-        """Nudge center_box so it's centered within `geo` (this window's
-        target monitor) rather than the whole surface, in case cage handed
-        us a surface spanning more than just that monitor.
-
-        cage can allocate its client surface across the bounding box of
-        every connected monitor when there's more than one, so "centered
-        in the window" and "centered on the monitor we picked" aren't
-        necessarily the same rectangle. geo.x/geo.y/width/height describe
-        the target monitor in the *global* multi-monitor coordinate space.
-        self.get_width()/get_height() only tell us the surface's own
-        size, which could be either that same global bounding box, or
-        already just the target monitor's own size if the compositor
-        constrained it via set_monitor()+anchoring — mixing the two
-        coordinate spaces (as an earlier version of this code did) produces
-        a bogus, too-small offset. Detect which case we're in by comparing
-        sizes instead of assuming.
-        """
-        surface_w = self.get_width()
-        surface_h = self.get_height()
-        if surface_w <= 0 or surface_h <= 0:
-            return GLib.SOURCE_CONTINUE
-
-        _log(
-            f"reposition: surface={surface_w}x{surface_h} "
-            f"target_geo=({geo.x},{geo.y},{geo.width},{geo.height})"
-        )
-
-        if surface_w == geo.width and surface_h == geo.height:
-            center_box.set_margin_start(0)
-            center_box.set_margin_end(0)
-            center_box.set_margin_top(0)
-            center_box.set_margin_bottom(0)
-            return GLib.SOURCE_REMOVE
-
-        monitor_center_x = geo.x + geo.width / 2
-        monitor_center_y = geo.y + geo.height / 2
-        surface_center_x = surface_w / 2
-        surface_center_y = surface_h / 2
-
-        offset_x = round(monitor_center_x - surface_center_x)
-        offset_y = round(monitor_center_y - surface_center_y)
-
-        center_box.set_margin_start(max(0, offset_x * 2))
-        center_box.set_margin_end(max(0, -offset_x * 2))
-        center_box.set_margin_top(max(0, offset_y * 2))
-        center_box.set_margin_bottom(max(0, -offset_y * 2))
-        return GLib.SOURCE_REMOVE
+        if self.interactive:
+            self.entry.grab_focus()
+        else:
+            # Mirror-only surface: it has no keyboard, so don't let it show
+            # a focused/blinking-cursor entry field.
+            self.entry.set_sensitive(False)
+            self.session_button.set_sensitive(False)
 
     def _draw_avatar(self, area, cr, width, height, initial):
         import cairo as _cairo
@@ -523,8 +488,24 @@ def load_css():
 def on_activate(app):
     try:
         load_css()
-        win = NixGreetWindow(app)
-        win.present()
+
+        display = Gdk.Display.get_default()
+        monitors = get_all_monitors(display)
+
+        if not monitors:
+            _log("no monitors found via Gdk.Display, letting compositor choose")
+            win = NixGreetWindow(app, monitor=None, interactive=True)
+            win.present()
+            return
+
+        primary = pick_primary_monitor(monitors)
+
+        # One layer-shell surface per output, each centered on its own
+        # monitor - mirrors hyprlock.conf's blank `monitor =` behaviour
+        # instead of showing the greeter on a single screen.
+        for monitor in monitors:
+            win = NixGreetWindow(app, monitor=monitor, interactive=(monitor == primary))
+            win.present()
     except Exception:
         _log(traceback.format_exc())
         raise
