@@ -74,6 +74,23 @@ LOCAL_MONITORS_CONF = os.path.expanduser("~/.config/hypr/local/monitors.lua")
 NIGHTLIGHT_STATE = os.path.expanduser("~/.cache/control-center/nightlight")
 PERF_STATE = os.path.expanduser("~/.cache/control-center/performance")
 
+# Written fresh by the `control-center` launcher script every time it's
+# invoked (e.g. from waybar's clock on-click), with the connector name of
+# whichever monitor the cursor was on at click time. Read fresh — never
+# cached — so a single already-running instance can be told to jump to a
+# different monitor on each activation instead of always opening on the
+# monitor it first started on.
+TARGET_MONITOR_FILE = os.path.expanduser("~/.cache/control-center/target-monitor")
+
+
+def get_target_monitor():
+    try:
+        with open(TARGET_MONITOR_FILE) as f:
+            name = f.read().strip()
+        return name or None
+    except OSError:
+        return None
+
 
 def run(cmd, timeout=4):
     try:
@@ -1471,6 +1488,14 @@ class ClickOutsideCatcher(Gtk.Window):
         if self._armed:
             self._panel_window.hide_panel()
 
+    def set_monitor(self, monitor):
+        """Move this click-catcher surface to a different monitor. Must be
+        called while the window is unmapped (hidden) — the caller is
+        responsible for hiding it first."""
+        if monitor is None:
+            return
+        LayerShell.set_monitor(self, monitor)
+
     def arm_and_show(self):
         self._armed = False
         self.present()
@@ -1497,6 +1522,7 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         LayerShell.set_keyboard_mode(self, LayerShell.KeyboardMode.ON_DEMAND)
 
         monitor = self._pick_monitor()
+        self._current_monitor_name = monitor.get_connector() if monitor else None
         if monitor is not None:
             LayerShell.set_monitor(self, monitor)
 
@@ -1521,19 +1547,54 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         GLib.timeout_add_seconds(5, self._tick_subtitles)
         self._tick_clock()
 
-    def _pick_monitor(self):
+    def _all_monitors(self):
         display = Gdk.Display.get_default()
         monitors = display.get_monitors()
-        n = monitors.get_n_items()
-        if n == 0:
+        return [monitors.get_item(i) for i in range(monitors.get_n_items())]
+
+    def _find_monitor(self, name):
+        if not name:
             return None
-        candidates = [monitors.get_item(i) for i in range(n)]
-        if MONITOR_NAME:
-            for m in candidates:
-                if (m.get_connector() or "") == MONITOR_NAME:
-                    return m
+        for m in self._all_monitors():
+            if (m.get_connector() or "") == name:
+                return m
+        return None
+
+    def _pick_monitor(self):
+        candidates = self._all_monitors()
+        if not candidates:
+            return None
+        # Prefer whichever monitor was just clicked (written fresh by the
+        # `control-center` launcher script), falling back to the CC_MONITOR
+        # env var some callers may still set, then the largest monitor.
+        wanted = get_target_monitor() or MONITOR_NAME
+        found = self._find_monitor(wanted)
+        if found is not None:
+            return found
         area = lambda m: m.get_geometry().width * m.get_geometry().height
         return max(candidates, key=area)
+
+    def sync_to_target_monitor(self):
+        """Called every time the panel is (re)activated. If the monitor
+        that was just clicked differs from the one this panel currently
+        lives on, move both this window and its click-catcher there.
+        Returns True if a move actually happened."""
+        target_name = get_target_monitor()
+        if not target_name or target_name == self._current_monitor_name:
+            return False
+        monitor = self._find_monitor(target_name)
+        if monitor is None:
+            return False
+
+        was_visible = self.is_visible()
+        if was_visible:
+            self.set_visible(False)
+            self._catcher.set_visible(False)
+
+        LayerShell.set_monitor(self, monitor)
+        self._catcher.set_monitor(monitor)
+        self._current_monitor_name = target_name
+        return True
 
     def _build_ui(self):
         outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -1625,6 +1686,7 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         self._catcher.set_visible(False)
 
     def show_panel(self):
+        self.sync_to_target_monitor()
         self.quick_settings.reset_to_list()
         self._tick_clock()
         self.present()
@@ -1660,7 +1722,14 @@ def on_activate(app):
             app.hold()
             win.present()
         elif win.is_visible():
-            win.hide_panel()
+            target = get_target_monitor()
+            if target and target != win._current_monitor_name:
+                # Clicked the clock on a *different* monitor while the
+                # panel was already open elsewhere -> jump it there instead
+                # of just closing it.
+                win.show_panel()
+            else:
+                win.hide_panel()
         else:
             win.show_panel()
     except Exception:
