@@ -314,12 +314,26 @@
 
       cmatrix = "cmatrix -C white";
 
-      nixhelp = "wipe && echo -e \"\\nnixos: update + rebuild + push\\nnixgit: commit only\\nnixbuild: rebuild\\nnixhome: home-manager switch\\nnixhypr: home-manager switch + hyprctl reload\\nnixclean: garbage cleanup\\ngaming: low-latency mode for games\\nungaming: restore full rice\\nhotkeys: interactive keybindings menu\\n\"";
+      nixall = ''
+        wipe
+        cd ~/NixOS || exit
+        nix flake update
+        msg="$*"; [ -z "$msg" ] || msg="Update Commit"
+        git add .
+        git commit -m "$msg" || true
+        git push origin main
+        sudo nixos-rebuild switch --flake .
+        home-manager switch --flake ~/NixOS
+        sudo nix-collect-garbage -d
+        nix-collect-garbage -d
+        hyprctl reload
+        hyprctl configerrors
+      '';
 
       nixos = ''
         wipe
         cd ~/NixOS || exit
-        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
+        msg="$*"; [ -z "$msg" ] || msg="Update Commit"
         git add .
         git commit -m "$msg" || true
         git push origin main
@@ -330,7 +344,7 @@
         wipe
         cd ~/NixOS || exit
         nix flake update
-        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
+        msg="$*"; [ -z "$msg" ] || msg="Update Commit"
         git add .
         git commit -m "$msg" || true
         git push origin main
@@ -340,7 +354,7 @@
       nixgit = ''
         wipe
         cd ~/NixOS || exit
-        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
+        msg="$*"; [ -z "$msg" ] || msg="Update Commit"
         git add .
         git commit -m "$msg" || true
         git push origin main
@@ -355,7 +369,7 @@
       nixhome = ''
         wipe
         cd ~/NixOS || exit
-        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
+        msg="$*"; [ -z "$msg" ] || msg="Update Commit"
         git add .
         git commit -m "$msg" || true
         git push origin main
@@ -444,7 +458,7 @@
         cd ~/NixOS || exit
 
         msg="$*"
-        [ -z "$msg" ] && msg="Update Commit"
+        [ -z "$msg" ] || msg="Update Commit"
 
         git add .
         git commit -m "$msg" || true
@@ -460,7 +474,7 @@
         nix flake update
 
         msg="$*"
-        [ -z "$msg" ] && msg="Update Commit"
+        [ -z "$msg" ] || msg="Update Commit"
 
         git add .
         git commit -m "$msg" || true
@@ -474,7 +488,7 @@
         cd ~/NixOS || exit
 
         msg="$*"
-        [ -z "$msg" ] && msg="Update Commit"
+        [ -z "$msg" ] || msg="Update Commit"
 
         git add .
         git commit -m "$msg" || true
@@ -492,7 +506,7 @@
         cd ~/NixOS || exit
 
         msg="$*"
-        [ -z "$msg" ] && msg="Update Commit"
+        [ -z "$msg" ] || msg="Update Commit"
 
         git add .
         git commit -m "$msg" || true
