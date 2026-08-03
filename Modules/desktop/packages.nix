@@ -23,6 +23,7 @@ in
     quickemu
     quickgui
     gparted-full
+    hyprpolkitagent
 
     qbittorrent
     iw
