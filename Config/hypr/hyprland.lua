@@ -14,7 +14,7 @@ for _, override in ipairs({
     pcall(require, override)
 end
 
-exec_once("systemctl --user start hyprpolkitagent")
+os.execute("systemctl --user start hyprpolkitagent >/dev/null 2>&1 &")
 
 hl.env("XCURSOR_SIZE", "20")
 hl.env("XCURSOR_THEME", "Bibata-Modern-Classic")
