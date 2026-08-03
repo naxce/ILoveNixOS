@@ -18,19 +18,17 @@
     ];
   };
 
-  /*
-    fileSystems."/mnt/data" = {
-      device = "/dev/disk/by-uuid/36E9EE794FF8FD45";
-      fsType = "ntfs-3g";
-      options = [
-        "rw"
-        "uid=1000"
-        "gid=1000"
-        "umask=022"
-        "nofail"
+  fileSystems."/mnt/data" = {
+    device = "/dev/disk/by-uuid/36E9EE794FF8FD45";
+    fsType = "ntfs-3g";
+    options = [
+      "rw"
+      "uid=1000"
+      "gid=1000"
+      "umask=022"
+      "nofail"
 
-        "x-systemd.device-timeout=10"
-      ];
-    };
-  */
+      "x-systemd.device-timeout=10"
+    ];
+  };
 }
