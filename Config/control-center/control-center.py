@@ -1528,7 +1528,7 @@ class ThemePanel(Gtk.Box):
 
         scroller = Gtk.ScrolledWindow()
         scroller.set_min_content_height(220)
-        scroller.set_max_content_height(300)
+        scroller.set_max_content_height(220)
         scroller.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         scroller.set_child(self.list_box)
         self.append(scroller)
@@ -1556,6 +1556,7 @@ class ThemePanel(Gtk.Box):
             text_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=1)
             text_box.set_hexpand(True)
             text_box.set_valign(Gtk.Align.CENTER)
+            text_box.set_size_request(180, -1)
 
             name_lbl = Gtk.Label(label=theme["name"])
             name_lbl.set_halign(Gtk.Align.START)
@@ -1752,6 +1753,8 @@ class QuickSettings(Gtk.Box):
         self.add_css_class("quicksettings-card")
 
         self.stack = Gtk.Stack()
+        self.stack.set_hhomogeneous(True)
+        self.stack.set_vhomogeneous(True)
         self.stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
         self.stack.set_transition_duration(180)
         self.append(self.stack)
