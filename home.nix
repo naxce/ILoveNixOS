@@ -490,7 +490,6 @@
       '';
 
       nixgit = ''
-        wipe
         cd ~/NixOS || exit
 
         msg="$*"
