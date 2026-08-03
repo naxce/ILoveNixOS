@@ -505,43 +505,13 @@ switch:checked slider {
   );
 }
 
-.theme-swatch-nord {
+.theme-swatch-dachshund {
   background-image: linear-gradient(
     90deg,
-    #2e3440 0%,
-    #3b4252 33%,
-    #88c0d0 66%,
-    #eceff4 100%
-  );
-}
-
-.theme-swatch-dracula {
-  background-image: linear-gradient(
-    90deg,
-    #282a36 0%,
-    #44475a 33%,
-    #bd93f9 66%,
-    #f8f8f2 100%
-  );
-}
-
-.theme-swatch-gruvbox {
-  background-image: linear-gradient(
-    90deg,
-    #282828 0%,
-    #3c3836 33%,
-    #fabd2f 66%,
-    #ebdbb2 100%
-  );
-}
-
-.theme-swatch-catppuccin {
-  background-image: linear-gradient(
-    90deg,
-    #1e1e2e 0%,
-    #313244 33%,
-    #f5c2e7 66%,
-    #cdd6f4 100%
+    #1c120c 0%,
+    #3d2418 33%,
+    #a85c32 66%,
+    #e8b98c 100%
   );
 }
 

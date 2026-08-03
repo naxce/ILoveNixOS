@@ -674,28 +674,10 @@ class ThemeBackend:
             "swatch": ["#050505", "#1a1a1a", "#e8e8e8", "#ffffff"],
         },
         {
-            "id": "nord",
-            "name": "Nord",
-            "desc": "Cool arctic blues",
-            "swatch": ["#2e3440", "#3b4252", "#88c0d0", "#eceff4"],
-        },
-        {
-            "id": "dracula",
-            "name": "Dracula",
-            "desc": "Purple-tinted dark",
-            "swatch": ["#282a36", "#44475a", "#bd93f9", "#f8f8f2"],
-        },
-        {
-            "id": "gruvbox",
-            "name": "Gruvbox",
-            "desc": "Warm retro contrast",
-            "swatch": ["#282828", "#3c3836", "#fabd2f", "#ebdbb2"],
-        },
-        {
-            "id": "catppuccin",
-            "name": "Catppuccin Mocha",
-            "desc": "Soft pastel dark",
-            "swatch": ["#1e1e2e", "#313244", "#f5c2e7", "#cdd6f4"],
+            "id": "dachshund",
+            "name": "Dachshund",
+            "desc": "Warm browns & tan",
+            "swatch": ["#1c120c", "#3d2418", "#a85c32", "#e8b98c"],
         },
     ]
 
