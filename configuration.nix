@@ -8,7 +8,6 @@
     ./Modules/desktop/gaming.nix
     ./Modules/desktop/packages.nix
     ./Modules/desktop/control-center.nix
-    ./Modules/desktop/hyprlogin.nix
 
     ./Modules/system/boot.nix
     ./Modules/system/hardware.nix
