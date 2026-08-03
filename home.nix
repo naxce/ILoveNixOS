@@ -315,12 +315,12 @@
       cmatrix = "cmatrix -C white";
 
       nixall = ''
-        wipe
         cd ~/NixOS || exit
         nix flake update
-        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
+        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git add .
         git commit -m "$msg" || true
+        git pull --rebase origin main
         git push origin main
         sudo nixos-rebuild switch --flake .
         home-manager switch --flake ~/NixOS
@@ -333,9 +333,10 @@
       nixos = ''
         wipe
         cd ~/NixOS || exit
-        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
+        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git add .
         git commit -m "$msg" || true
+        git pull --rebase origin main
         git push origin main
         sudo nixos-rebuild switch --flake .
       '';
@@ -344,9 +345,10 @@
         wipe
         cd ~/NixOS || exit
         nix flake update
-        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
+        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git add .
         git commit -m "$msg" || true
+        git pull --rebase origin main
         git push origin main
         sudo nixos-rebuild switch --flake .
       '';
@@ -354,9 +356,10 @@
       nixgit = ''
         wipe
         cd ~/NixOS || exit
-        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
+        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git add .
         git commit -m "$msg" || true
+        git pull --rebase origin main
         git push origin main
       '';
 
@@ -369,9 +372,10 @@
       nixhome = ''
         wipe
         cd ~/NixOS || exit
-        msg="$*"; [ -z "$msg" ] && msg="Update Commit"
+        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git add .
         git commit -m "$msg" || true
+        git pull --rebase origin main
         git push origin main
         home-manager switch --flake ~/NixOS
       '';
@@ -458,10 +462,11 @@
         cd ~/NixOS || exit
 
         msg="$*"
-        [ -z "$msg" ] && msg="Update Commit"
+        [ -n "$msg" ] || msg="Update Commit"
 
         git add .
         git commit -m "$msg" || true
+        git pull --rebase origin main
         git push origin main
 
         sudo nixos-rebuild switch --flake .
@@ -474,10 +479,11 @@
         nix flake update
 
         msg="$*"
-        [ -z "$msg" ] && msg="Update Commit"
+        [ -n "$msg" ] || msg="Update Commit"
 
         git add .
         git commit -m "$msg" || true
+        git pull --rebase origin main
         git push origin main
 
         sudo nixos-rebuild switch --flake .
@@ -488,10 +494,11 @@
         cd ~/NixOS || exit
 
         msg="$*"
-        [ -z "$msg" ] && msg="Update Commit"
+        [ -n "$msg" ] || msg="Update Commit"
 
         git add .
         git commit -m "$msg" || true
+        git pull --rebase origin main
         git push origin main
       '';
 
@@ -506,10 +513,11 @@
         cd ~/NixOS || exit
 
         msg="$*"
-        [ -z "$msg" ] && msg="Update Commit"
+        [ -n "$msg" ] || msg="Update Commit"
 
         git add .
         git commit -m "$msg" || true
+        git pull --rebase origin main
         git push origin main
         home-manager switch --flake ~/NixOS
       '';

@@ -44,7 +44,8 @@ and Home Manager:
 home-manager switch --flake ~/NixOS#naxce
 ```
 
-Reboot, and you should land on the login screen, then Hyprland.
+Reboot, and you should land on a plain TTY login prompt. Log in with your
+username and password, then type `hl` to start Hyprland.
 
 If Home Manager complains about existing dotfiles it doesn't want to overwrite:
 

@@ -210,6 +210,130 @@ class WifiBackend:
                 run(["nmcli", "dev", "disconnect", dev])
 
 
+class HotspotBackend:
+    available = has("nmcli")
+    CON_NAME = "Hotspot"
+
+    @staticmethod
+    def list_wifi_devices():
+        """All network devices of type 'wifi', as (ifname, state) pairs."""
+        code, out, _ = run(["nmcli", "-t", "-f", "device,type,state", "dev", "status"])
+        devices = []
+        for line in out.splitlines():
+            parts = (line.split(":") + ["", "", ""])[:3]
+            dev, typ, state = parts
+            if typ == "wifi" and dev:
+                devices.append((dev, state))
+        return devices
+
+    @classmethod
+    def _exists(cls):
+        code, out, _ = run(["nmcli", "-t", "-f", "name", "con", "show"])
+        return cls.CON_NAME in out.splitlines()
+
+    @classmethod
+    def is_active(cls):
+        code, out, _ = run(["nmcli", "-t", "-f", "name", "con", "show", "--active"])
+        return cls.CON_NAME in out.splitlines()
+
+    @classmethod
+    def current_config(cls):
+        """Returns (ssid, band, ifname) for the saved Hotspot profile, or
+        (None, None, None) if it hasn't been configured yet."""
+        if not cls._exists():
+            return None, None, None
+        code, out, _ = run(
+            [
+                "nmcli",
+                "-t",
+                "-f",
+                "802-11-wireless.ssid,802-11-wireless.band,connection.interface-name",
+                "con",
+                "show",
+                cls.CON_NAME,
+            ]
+        )
+        ssid, band, ifname = None, None, None
+        for line in out.splitlines():
+            if line.startswith("802-11-wireless.ssid:"):
+                ssid = line.split(":", 1)[1]
+            elif line.startswith("802-11-wireless.band:"):
+                band = line.split(":", 1)[1]
+            elif line.startswith("connection.interface-name:"):
+                ifname = line.split(":", 1)[1]
+        return ssid, band, ifname
+
+    @classmethod
+    def configure(cls, ssid, password, ifname, band="bg"):
+        """Create or update the saved Hotspot profile on the given wifi
+        interface. Does not turn it on."""
+        if not ifname:
+            return 1, "", "no wifi interface selected"
+        if cls._exists():
+            run(["nmcli", "con", "down", cls.CON_NAME], timeout=10)
+            run(["nmcli", "con", "delete", cls.CON_NAME])
+        cmd = [
+            "nmcli",
+            "con",
+            "add",
+            "type",
+            "wifi",
+            "ifname",
+            ifname,
+            "con-name",
+            cls.CON_NAME,
+            "autoconnect",
+            "no",
+            "ssid",
+            ssid,
+        ]
+        code, out, err = run(cmd, timeout=10)
+        if code != 0:
+            return code, out, err
+
+        run(
+            [
+                "nmcli",
+                "con",
+                "modify",
+                cls.CON_NAME,
+                "802-11-wireless.mode",
+                "ap",
+                "802-11-wireless.band",
+                band,
+                "ipv4.method",
+                "shared",
+                "ipv6.method",
+                "ignore",
+                "connection.autoconnect-priority",
+                "999",
+            ]
+        )
+        if password:
+            run(
+                [
+                    "nmcli",
+                    "con",
+                    "modify",
+                    cls.CON_NAME,
+                    "wifi-sec.key-mgmt",
+                    "wpa-psk",
+                    "wifi-sec.psk",
+                    password,
+                ]
+            )
+        else:
+            run(["nmcli", "con", "modify", cls.CON_NAME, "wifi-sec.key-mgmt", ""])
+        return 0, "", ""
+
+    @classmethod
+    def set_active(cls, enabled):
+        if enabled:
+            if not cls._exists():
+                return 1, "", "hotspot not configured"
+            return run(["nmcli", "con", "up", cls.CON_NAME], timeout=15)
+        return run(["nmcli", "con", "down", cls.CON_NAME], timeout=10)
+
 class BluetoothBackend:
     available = has("bluetoothctl")
 
@@ -607,10 +731,26 @@ def make_toggle_row(icon, title, subtitle, active, on_toggle):
     switch = Gtk.Switch()
     switch.set_active(active)
     switch.set_valign(Gtk.Align.CENTER)
-    switch.connect("state-set", lambda w, state: (on_toggle(state), False)[1])
+    handler_id = switch.connect(
+        "state-set", lambda w, state: (on_toggle(state), False)[1]
+    )
+    switch._toggle_handler_id = handler_id
     box.append(switch)
 
     return box, switch
+
+
+def set_switch_active_silently(switch, active):
+    """Programmatically correct a switch's state (e.g. after a failed
+    backend call) without re-triggering its own 'state-set' handler,
+    which would otherwise cause the toggle to loop back and forth."""
+    handler_id = getattr(switch, "_toggle_handler_id", None)
+    if handler_id is not None:
+        switch.handler_block(handler_id)
+    switch.set_active(active)
+    switch.set_state(active)
+    if handler_id is not None:
+        switch.handler_unblock(handler_id)
 
 
 def section_header(back_cb, title):
@@ -776,6 +916,195 @@ class WifiPanel(Gtk.Box):
         dialog.set_child(box)
         dialog.present()
         entry.grab_focus()
+
+
+class HotspotPanel(Gtk.Box):
+    def __init__(self, go_back):
+        super().__init__(orientation=Gtk.Orientation.VERTICAL)
+        self.append(section_header(lambda *_: go_back(), "Mobile Hotspot"))
+
+        if not HotspotBackend.available:
+            self.append(self._unavailable("NetworkManager (nmcli) not found"))
+            return
+
+        self._busy = False
+
+        active = HotspotBackend.is_active()
+        toggle_row, self.switch = make_toggle_row(
+            "\uf519", "Hotspot", None, active, self._on_toggle
+        )
+        self.append(toggle_row)
+
+        ssid, band, saved_ifname = HotspotBackend.current_config()
+
+        form = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        form.set_margin_top(10)
+
+        self.wifi_devices = HotspotBackend.list_wifi_devices()
+
+        if not self.wifi_devices:
+            self.append(self._unavailable("No Wi-Fi device found"))
+            self.iface_dropdown = None
+        else:
+            iface_lbl = Gtk.Label(label="Wi-Fi device")
+            iface_lbl.add_css_class("qs-row-subtitle")
+            iface_lbl.set_halign(Gtk.Align.START)
+            form.append(iface_lbl)
+
+            iface_names = [d for d, _state in self.wifi_devices]
+            self.iface_dropdown = Gtk.DropDown.new_from_strings(iface_names)
+            self.iface_dropdown.add_css_class("monitor-dropdown")
+            try:
+                default_idx = (
+                    iface_names.index(saved_ifname)
+                    if saved_ifname in iface_names
+                    else 0
+                )
+            except ValueError:
+                default_idx = 0
+            self.iface_dropdown.set_selected(default_idx)
+            form.append(self.iface_dropdown)
+
+        ssid_lbl = Gtk.Label(label="Network name")
+        ssid_lbl.add_css_class("qs-row-subtitle")
+        ssid_lbl.set_halign(Gtk.Align.START)
+        form.append(ssid_lbl)
+
+        self.ssid_entry = Gtk.Entry()
+        self.ssid_entry.add_css_class("password-entry")
+        self.ssid_entry.set_text(ssid or f"{os.environ.get('USER', 'nixos')}-hotspot")
+        form.append(self.ssid_entry)
+
+        pass_lbl = Gtk.Label(label="Password (min. 8 characters)")
+        pass_lbl.add_css_class("qs-row-subtitle")
+        pass_lbl.set_halign(Gtk.Align.START)
+        pass_lbl.set_margin_top(6)
+        form.append(pass_lbl)
+
+        self.pass_entry = Gtk.PasswordEntry()
+        self.pass_entry.set_show_peek_icon(True)
+        self.pass_entry.add_css_class("password-entry")
+        form.append(self.pass_entry)
+
+        band_lbl = Gtk.Label(label="Band")
+        band_lbl.add_css_class("qs-row-subtitle")
+        band_lbl.set_halign(Gtk.Align.START)
+        band_lbl.set_margin_top(6)
+        form.append(band_lbl)
+
+        self.band_dropdown = Gtk.DropDown.new_from_strings(["2.4 GHz", "5 GHz"])
+        self.band_dropdown.add_css_class("monitor-dropdown")
+        self.band_dropdown.set_selected(1 if band == "a" else 0)
+        form.append(self.band_dropdown)
+
+        save_btn = Gtk.Button(label="Save")
+        save_btn.add_css_class("detail-action-primary")
+        save_btn.set_margin_top(10)
+        save_btn.connect("clicked", self._on_save)
+        form.append(save_btn)
+
+        self.status_lbl = Gtk.Label(label="")
+        self.status_lbl.add_css_class("qs-row-subtitle")
+        self.status_lbl.set_halign(Gtk.Align.START)
+        self.status_lbl.set_margin_top(4)
+        form.append(self.status_lbl)
+
+        self.append(form)
+
+        if not ssid:
+            self.status_lbl.set_label("Set a name and password, then Save, to enable the toggle above.")
+
+    def _unavailable(self, msg):
+        lbl = Gtk.Label(label=msg)
+        lbl.add_css_class("qs-row-subtitle")
+        return lbl
+
+    def _on_save(self, _btn):
+        ssid = self.ssid_entry.get_text().strip()
+        password = self.pass_entry.get_text()
+        band = "a" if self.band_dropdown.get_selected() == 1 else "bg"
+
+        if self.iface_dropdown is None:
+            self.status_lbl.set_label("No Wi-Fi device found.")
+            return
+        idx = self.iface_dropdown.get_selected()
+        if idx < 0 or idx >= len(self.wifi_devices):
+            self.status_lbl.set_label("Select a Wi-Fi device.")
+            return
+        ifname = self.wifi_devices[idx][0]
+
+        if not ssid:
+            self.status_lbl.set_label("Network name can't be empty.")
+            return
+        if password and len(password) < 8:
+            self.status_lbl.set_label("Password must be at least 8 characters.")
+            return
+
+        was_active = HotspotBackend.is_active()
+        self.status_lbl.set_label("Saving\u2026")
+
+        def work():
+            return HotspotBackend.configure(ssid, password, ifname, band)
+
+        def done(result):
+            code, _out, err = result if result else (1, "", "unknown error")
+            if code != 0:
+                self.status_lbl.set_label(f"Failed to save: {err or 'unknown error'}")
+                return
+            if not was_active:
+                self.status_lbl.set_label("Saved.")
+                return
+            self.status_lbl.set_label("Saved. Restarting hotspot\u2026")
+            self._busy = True
+
+            def reactivate():
+                return HotspotBackend.set_active(True)
+
+            def reactivate_done(react_result):
+                self._busy = False
+                r_code, _r_out, r_err = (
+                    react_result if react_result else (1, "", "unknown error")
+                )
+                if r_code != 0:
+                    self.status_lbl.set_label(
+                        f"Saved, but failed to restart: {r_err or 'unknown error'}"
+                    )
+                    set_switch_active_silently(self.switch, False)
+                else:
+                    self.status_lbl.set_label("Saved.")
+                    set_switch_active_silently(self.switch, True)
+
+            run_off_thread(reactivate, reactivate_done)
+
+        run_off_thread(work, done)
+
+    def _on_toggle(self, state):
+        if self._busy:
+            return True  # ignore re-entrant toggles while one is in flight, keep switch as-is
+
+        ssid, _band, _ifname = HotspotBackend.current_config()
+        if state and not ssid:
+            self.status_lbl.set_label("Set a name and password, then Save, before enabling.")
+            GLib.idle_add(lambda: (set_switch_active_silently(self.switch, False), False)[1])
+            return False
+
+        self._busy = True
+        self.status_lbl.set_label("Turning on\u2026" if state else "Turning off\u2026")
+
+        def work():
+            return HotspotBackend.set_active(state)
+
+        def done(result):
+            self._busy = False
+            code, _out, err = result if result else (1, "", "unknown error")
+            if code != 0:
+                self.status_lbl.set_label(f"Failed: {err or 'unknown error'}")
+                set_switch_active_silently(self.switch, not state)
+            else:
+                self.status_lbl.set_label("")
+
+        run_off_thread(work, done)
+        return False
 
 
 class BluetoothPanel(Gtk.Box):
@@ -1312,6 +1641,14 @@ class QuickSettings(Gtk.Box):
         )
         self.list_page.append(wifi_row)
 
+        hotspot_row, self.hotspot_sub = make_row_button(
+            "\uf519",
+            "Mobile Hotspot",
+            self._hotspot_subtitle,
+            lambda *_: self._open("hotspot", HotspotPanel),
+        )
+        self.list_page.append(hotspot_row)
+
         bt_row, self.bt_sub = make_row_button(
             "\uf294",
             "Bluetooth",
@@ -1380,6 +1717,11 @@ class QuickSettings(Gtk.Box):
         ssid = WifiBackend.current_ssid()
         return ssid if ssid else ("On" if WifiBackend.radio_enabled() else "Off")
 
+    def _hotspot_subtitle(self):
+        if not HotspotBackend.available:
+            return "Unavailable"
+        return "On" if HotspotBackend.is_active() else "Off"
+
     def _bt_subtitle(self):
         if not BluetoothBackend.available:
             return "Unavailable"
@@ -1415,6 +1757,7 @@ class QuickSettings(Gtk.Box):
         if self.stack.get_visible_child_name() != "list":
             return True
         self.wifi_sub.set_label(self._wifi_subtitle())
+        self.hotspot_sub.set_label(self._hotspot_subtitle())
         self.bt_sub.set_label(self._bt_subtitle())
         self.vol_sub.set_label(self._vol_subtitle())
         self.disp_sub.set_label(self._disp_subtitle())

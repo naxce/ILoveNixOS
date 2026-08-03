@@ -5,11 +5,31 @@
   ...
 }:
 {
-  imports = [ ./hyprlogin.nix ];
+  services.displayManager.sddm.enable = false;
+  services.greetd.enable = false;
+  services.xserver.enable = false;
 
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
+  };
+
+  /*
+    environment.systemPackages = [
+      (pkgs.writeShellScriptBin "start-hyprland" ''
+        # Refuse to nest sessions or run outside a real TTY.
+        if [ -n "$WAYLAND_DISPLAY" ] || [ -n "$DISPLAY" ]; then
+          echo "start-hyprland: a graphical session is already running" >&2
+          exit 1
+        fi
+
+        exec ${pkgs.hyprland}/bin/Hyprland
+      '')
+    ];
+  */
+
+  programs.zsh.shellAliases = {
+    hl = "start-hyprland";
   };
 
   environment.sessionVariables = {

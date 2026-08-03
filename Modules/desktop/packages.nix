@@ -20,6 +20,8 @@ in
     virt-manager
     lm_sensors
     unrar
+    quickemu
+    quickgui
 
     qbittorrent
     iw
