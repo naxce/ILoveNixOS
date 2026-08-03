@@ -315,6 +315,7 @@
       cmatrix = "cmatrix -C white";
 
       nixall = ''
+        wipe
         cd ~/NixOS || exit
         nix flake update
         msg="$*"; [ -n "$msg" ] || msg="Update Commit"

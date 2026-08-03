@@ -22,6 +22,7 @@ in
     unrar
     quickemu
     quickgui
+    gparted-full
 
     qbittorrent
     iw
