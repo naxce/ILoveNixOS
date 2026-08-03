@@ -73,6 +73,7 @@ MONITOR_NAME = os.environ.get("CC_MONITOR")
 LOCAL_MONITORS_CONF = os.path.expanduser("~/.config/hypr/local/monitors.lua")
 NIGHTLIGHT_STATE = os.path.expanduser("~/.cache/control-center/nightlight")
 PERF_STATE = os.path.expanduser("~/.cache/control-center/performance")
+THEME_STATE = os.path.expanduser("~/.cache/control-center/theme")
 
 TARGET_MONITOR_FILE = os.path.expanduser("~/.cache/control-center/target-monitor")
 
@@ -108,6 +109,7 @@ def has(binary):
 def ensure_state_dir():
     os.makedirs(os.path.dirname(NIGHTLIGHT_STATE), exist_ok=True)
     os.makedirs(os.path.dirname(PERF_STATE), exist_ok=True)
+    os.makedirs(os.path.dirname(THEME_STATE), exist_ok=True)
 
 
 def run_off_thread(work, on_done):
@@ -651,6 +653,82 @@ class PerformanceBackend:
             open(PERF_STATE, "w").close()
         elif os.path.exists(PERF_STATE):
             os.remove(PERF_STATE)
+
+
+class ThemeBackend:
+    """Rice/palette switcher for the quick-settings 'Theme' panel.
+
+    This currently only tracks and persists which palette is selected so
+    the picker UI has something real to point at and highlight. Actually
+    re-ricing the desktop (waybar/hypr/kitty/etc. colors) is wired up
+    separately in a follow-up step: if ~/NixOS/Scripts/apply-theme.sh
+    exists, set_theme() will call it with the chosen theme id; until then
+    it's a no-op beyond remembering the choice.
+    """
+
+    THEMES = [
+        {
+            "id": "noir",
+            "name": "Noir",
+            "desc": "Monochrome black & white (current default)",
+            "swatch": ["#050505", "#1a1a1a", "#e8e8e8", "#ffffff"],
+        },
+        {
+            "id": "nord",
+            "name": "Nord",
+            "desc": "Cool arctic blues",
+            "swatch": ["#2e3440", "#3b4252", "#88c0d0", "#eceff4"],
+        },
+        {
+            "id": "dracula",
+            "name": "Dracula",
+            "desc": "Purple-tinted dark",
+            "swatch": ["#282a36", "#44475a", "#bd93f9", "#f8f8f2"],
+        },
+        {
+            "id": "gruvbox",
+            "name": "Gruvbox",
+            "desc": "Warm retro contrast",
+            "swatch": ["#282828", "#3c3836", "#fabd2f", "#ebdbb2"],
+        },
+        {
+            "id": "catppuccin",
+            "name": "Catppuccin Mocha",
+            "desc": "Soft pastel dark",
+            "swatch": ["#1e1e2e", "#313244", "#f5c2e7", "#cdd6f4"],
+        },
+    ]
+
+    available = True
+    apply_script = os.path.expanduser("~/NixOS/Scripts/apply-theme.sh")
+
+    @classmethod
+    def current(cls):
+        ensure_state_dir()
+        try:
+            with open(THEME_STATE) as f:
+                value = f.read().strip()
+            if any(t["id"] == value for t in cls.THEMES):
+                return value
+        except OSError:
+            pass
+        return "noir"
+
+    @classmethod
+    def current_name(cls):
+        current_id = cls.current()
+        for t in cls.THEMES:
+            if t["id"] == current_id:
+                return t["name"]
+        return "Noir"
+
+    @classmethod
+    def set_theme(cls, theme_id):
+        ensure_state_dir()
+        with open(THEME_STATE, "w") as f:
+            f.write(theme_id)
+        if os.path.exists(cls.apply_script):
+            run_bg(["bash", cls.apply_script, theme_id])
 
 
 class DndBackend:
@@ -1451,6 +1529,86 @@ class DisplaysPanel(Gtk.Box):
         return card
 
 
+class ThemePanel(Gtk.Box):
+    def __init__(self, go_back):
+        super().__init__(orientation=Gtk.Orientation.VERTICAL)
+        self.append(section_header(lambda *_: go_back(), "Theme"))
+
+        hint = Gtk.Label(label="Pick a rice palette for the whole desktop")
+        hint.add_css_class("qs-row-subtitle")
+        hint.set_halign(Gtk.Align.START)
+        hint.set_margin_bottom(8)
+        self.append(hint)
+
+        self.list_box = Gtk.ListBox()
+        self.list_box.add_css_class("detail-list")
+        self.list_box.set_selection_mode(Gtk.SelectionMode.NONE)
+
+        scroller = Gtk.ScrolledWindow()
+        scroller.set_min_content_height(220)
+        scroller.set_max_content_height(300)
+        scroller.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        scroller.set_child(self.list_box)
+        self.append(scroller)
+
+        self._populate()
+
+    def _populate(self):
+        child = self.list_box.get_first_child()
+        while child:
+            nxt = child.get_next_sibling()
+            self.list_box.remove(child)
+            child = nxt
+
+        current = ThemeBackend.current()
+        for theme in ThemeBackend.THEMES:
+            row = Gtk.ListBoxRow()
+            row.add_css_class("detail-list-row")
+            hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+
+            swatch = Gtk.Box()
+            swatch.add_css_class("theme-swatch")
+            swatch.add_css_class(f"theme-swatch-{theme['id']}")
+            hbox.append(swatch)
+
+            text_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=1)
+            text_box.set_hexpand(True)
+            text_box.set_valign(Gtk.Align.CENTER)
+
+            name_lbl = Gtk.Label(label=theme["name"])
+            name_lbl.set_halign(Gtk.Align.START)
+            if theme["id"] == current:
+                name_lbl.add_css_class("detail-list-active")
+            text_box.append(name_lbl)
+
+            desc_lbl = Gtk.Label(label=theme["desc"])
+            desc_lbl.add_css_class("qs-row-subtitle")
+            desc_lbl.set_halign(Gtk.Align.START)
+            text_box.append(desc_lbl)
+
+            hbox.append(text_box)
+
+            if theme["id"] == current:
+                check = Gtk.Label(label="\uf00c")
+                check.add_css_class("detail-list-icon")
+                hbox.append(check)
+
+            row.set_child(hbox)
+            row.connect("activate", lambda *_a, t=theme: self._on_theme_clicked(t))
+            gesture = Gtk.GestureClick()
+            gesture.connect(
+                "released", lambda *_a, t=theme: self._on_theme_clicked(t)
+            )
+            row.add_controller(gesture)
+            self.list_box.append(row)
+
+    def _on_theme_clicked(self, theme):
+        if theme["id"] == ThemeBackend.current():
+            return
+        ThemeBackend.set_theme(theme["id"])
+        self._populate()
+
+
 class MiniCalendar(Gtk.Box):
     def __init__(self):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=8)
@@ -1675,6 +1833,14 @@ class QuickSettings(Gtk.Box):
         )
         self.list_page.append(disp_row)
 
+        theme_row, self.theme_sub = make_row_button(
+            "\uf1fc",
+            "Theme",
+            self._theme_subtitle,
+            lambda *_: self._open("theme", ThemePanel),
+        )
+        self.list_page.append(theme_row)
+
         sep = Gtk.Separator()
         sep.add_css_class("qs-separator")
         sep.set_margin_top(6)
@@ -1753,6 +1919,11 @@ class QuickSettings(Gtk.Box):
         active = [m for m in mons if not m["disabled"]]
         return f"{len(active)} active" if mons else "No displays"
 
+    def _theme_subtitle(self):
+        if not ThemeBackend.available:
+            return "Unavailable"
+        return ThemeBackend.current_name()
+
     def refresh_subtitles(self):
         if self.stack.get_visible_child_name() != "list":
             return True
@@ -1761,6 +1932,7 @@ class QuickSettings(Gtk.Box):
         self.bt_sub.set_label(self._bt_subtitle())
         self.vol_sub.set_label(self._vol_subtitle())
         self.disp_sub.set_label(self._disp_subtitle())
+        self.theme_sub.set_label(self._theme_subtitle())
         return True
 
     def reset_to_list(self):
