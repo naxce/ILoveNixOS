@@ -1519,6 +1519,7 @@ class ThemePanel(Gtk.Box):
         hint = Gtk.Label(label="Pick a rice palette for the whole desktop")
         hint.add_css_class("qs-row-subtitle")
         hint.set_halign(Gtk.Align.START)
+        hint.set_wrap(True)
         hint.set_margin_bottom(8)
         self.append(hint)
 
@@ -1556,7 +1557,6 @@ class ThemePanel(Gtk.Box):
             text_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=1)
             text_box.set_hexpand(True)
             text_box.set_valign(Gtk.Align.CENTER)
-            text_box.set_size_request(180, -1)
 
             name_lbl = Gtk.Label(label=theme["name"])
             name_lbl.set_halign(Gtk.Align.START)
@@ -1567,6 +1567,7 @@ class ThemePanel(Gtk.Box):
             desc_lbl = Gtk.Label(label=theme["desc"])
             desc_lbl.add_css_class("qs-row-subtitle")
             desc_lbl.set_halign(Gtk.Align.START)
+            desc_lbl.set_ellipsize(3)
             text_box.append(desc_lbl)
 
             hbox.append(text_box)
