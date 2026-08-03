@@ -60,6 +60,8 @@
     package = pkgs.openrgb;
   };
 
+  services.udisks2.enable = true;
+
   systemd.user.services.openrgb-profile = {
     description = "Load OpenRGB Profile 1 on Startup";
     after = [ "graphical-session.target" ];
