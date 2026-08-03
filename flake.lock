@@ -8,11 +8,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784557545,
-        "narHash": "sha256-viFD65YUhU6VBf9lpx2ckAXaKkrcBZeGEVZs+YOvtr8=",
+        "lastModified": 1785768032,
+        "narHash": "sha256-qsM+KwJ5AgS0wXFlgl0mQclATZ9QGHHL5sThVJfNbt8=",
         "owner": "naxce",
         "repo": "FaTest",
-        "rev": "6716fe3c9c6e8884568a2552476badf82e2a11a4",
+        "rev": "fafe8a48e8d18de3a002a8a1bb9f133f7b2bde3d",
         "type": "github"
       },
       "original": {
