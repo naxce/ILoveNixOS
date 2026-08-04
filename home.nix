@@ -71,14 +71,6 @@
         "$@"
     '')
 
-    (pkgs.writeShellScriptBin "yazi-noir" ''
-      exec ${pkgs.kitty}/bin/kitty \
-        --class yazi-fm \
-        --name yazi-fm \
-        --title "Yazi Noir" \
-        ${pkgs.yazi}/bin/yazi "$@"
-    '')
-
     (pkgs.writeShellScriptBin "hotkeys" ''
       export PATH="${pkgs.fzf}/bin:${pkgs.util-linux}/bin:$PATH"
       exec "$HOME/NixOS/Scripts/hotkeys.sh"
@@ -101,13 +93,6 @@
         target="$HOME/Downloads"
         cwd="$target"
       fi
-
-      exec ${pkgs.kitty}/bin/kitty \
-        --class yazi-fm \
-        --name yazi-fm \
-        --title "Yazi Noir" \
-        --directory "''$cwd" \
-        ${pkgs.yazi}/bin/yazi "''$target"
     '')
   ];
 
@@ -148,41 +133,6 @@
   home.file.".config/hyprswitch".source = ./Config/hyprswitch;
   home.file."Pictures/wallpapers".source = ./Pictures/wallpapers;
   home.file."Pictures/Screenshots/.keep".text = "";
-
-  xdg.desktopEntries.yazi-noir = {
-    name = "Yazi Noir";
-    genericName = "File Manager";
-    comment = "Terminal file manager for Hyprland noir setup";
-    exec = "yazi-open %U";
-    icon = "system-file-manager";
-    terminal = false;
-    categories = [
-      "System"
-      "FileManager"
-    ];
-    mimeType = [
-      "inode/directory"
-      "application/zip"
-      "application/x-zip"
-      "application/x-zip-compressed"
-      "application/x-7z-compressed"
-      "application/vnd.rar"
-      "application/x-rar"
-      "application/x-rar-compressed"
-      "application/x-tar"
-      "application/gzip"
-      "application/x-gzip"
-      "application/x-bzip"
-      "application/x-bzip2"
-      "application/x-xz"
-      "application/zstd"
-      "application/x-zstd"
-      "application/x-compressed-tar"
-      "application/x-bzip-compressed-tar"
-      "application/x-xz-compressed-tar"
-      "application/x-zstd-compressed-tar"
-    ];
-  };
 
   xdg.configFile."mimeapps.list".force = true;
   xdg.dataFile."applications/mimeapps.list".force = true;
