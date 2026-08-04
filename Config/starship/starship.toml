@@ -17,6 +17,18 @@ fg       = "#e8e8e8"
 white    = "#ffffff"
 error    = "#ffffff"
 
+# Not active yet -- switch `palette = "noir"` above to `palette =
+# "dachshund"` (and reload the shell) once the theme switcher is wired up.
+[palettes.dachshund]
+bg       = "#1c120c"
+bg_alt   = "#3d2418"
+border   = "#6b4526"
+muted    = "#8a6650"
+subtle   = "#c48a5c"
+fg       = "#e8b98c"
+white    = "#f5dcb8"
+error    = "#e0733a"
+
 [username]
 show_always = true
 style_user = "fg:white bold"
