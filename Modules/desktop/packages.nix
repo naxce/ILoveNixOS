@@ -57,7 +57,6 @@ in
     adw-gtk3
     file-roller
     nemo-with-extensions
-    yazi
     xdg-utils
     desktop-file-utils
     shared-mime-info
