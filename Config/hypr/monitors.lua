@@ -48,11 +48,3 @@ for i = 6, 10 do
         default   = i == 6,
     })
 end
-
-
-hl.window_rule({
-    match = {
-        class = "steam_app_239140",
-    },
-    workspace = "1",
-})
