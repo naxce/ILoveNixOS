@@ -3,6 +3,7 @@ hl.monitor({
     disabled = true,
 })
 
+
 hl.monitor({
     output   = "DP-6",
     mode     = "2560x1440@200",
@@ -11,6 +12,7 @@ hl.monitor({
     vrr      = 0,
 })
 
+
 hl.monitor({
     output   = "DP-5",
     mode     = "1920x1080@180",
@@ -18,6 +20,7 @@ hl.monitor({
     scale    = 1,
     vrr      = 0,
 })
+
 
 hl.monitor({
     output   = "HDMI-A-2",
@@ -28,6 +31,7 @@ hl.monitor({
     mirror   = "DP-5",
 })
 
+
 for i = 1, 5 do
     hl.workspace_rule({
         workspace = tostring(i),
@@ -36,6 +40,7 @@ for i = 1, 5 do
     })
 end
 
+
 for i = 6, 10 do
     hl.workspace_rule({
         workspace = tostring(i),
@@ -43,3 +48,11 @@ for i = 6, 10 do
         default   = i == 6,
     })
 end
+
+
+hl.window_rule({
+    match = {
+        class = "steam_app_239140",
+    },
+    workspace = "1",
+})
