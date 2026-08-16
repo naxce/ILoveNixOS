@@ -27,8 +27,25 @@
     ];
   */
 
+  environment.systemPackages = [
+    (pkgs.writeShellScriptBin "start-steam-bigpicture" ''
+      # Refuse to nest sessions or run outside a real TTY.
+      if [ -n "$WAYLAND_DISPLAY" ] || [ -n "$DISPLAY" ]; then
+        echo "start-steam-bigpicture: a graphical session is already running" >&2
+        exit 1
+      fi
+
+      exec ${pkgs.gamescope}/bin/gamescope \
+        --steam \
+        -e \
+        -f \
+        -- ${pkgs.steam}/bin/steam -tenfoot -pipewire-dmabuf
+    '')
+  ];
+
   programs.zsh.shellAliases = {
     hl = "start-hyprland";
+    sbp = "start-steam-bigpicture";
   };
 
   environment.sessionVariables = {
