@@ -30,12 +30,8 @@ seat seat0 xcursor_theme Bibata-Modern-Classic 20
 
 # --- Autostart ---
 exec swaybg -i ~/Pictures/wallpapers/noir.png -m fill
-exec waybar
 exec swaync
 exec systemctl --user start hyprpolkitagent >/dev/null 2>&1
-exec_always {
-    gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
-}
 
 # --- Core binds (mirrors the Hyprland set) ---
 bindsym $mod+Return exec $terminal
@@ -111,7 +107,7 @@ for_window [class="^steam_app_.*"] fullscreen enable
 for_window [app_id="gamescope"] fullscreen enable
 
 bar {
-    swaybar_command waybar
+    swaybar_command waybar --config ~/.config/waybar/config-sway.jsonc --style ~/.config/waybar/style.css
 }
 
 # NixOS-provided integration (dbus activation env, sway-session.target).

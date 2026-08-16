@@ -22,6 +22,15 @@
     swaybg
     xorg.xrandr
 
+    # sway-unwrapped ships bin/sway itself too, which would collide with our
+    # own "sway" wrapper below — so pull out just the companion CLI tools.
+    (pkgs.runCommand "sway-companion-tools" { } ''
+      mkdir -p $out/bin
+      ln -s ${pkgs.sway-unwrapped}/bin/swaymsg $out/bin/swaymsg
+      ln -s ${pkgs.sway-unwrapped}/bin/swaynag $out/bin/swaynag
+      ln -s ${pkgs.sway-unwrapped}/bin/swaybar $out/bin/swaybar
+    '')
+
     (pkgs.writeShellScriptBin "sway" ''
       # Refuse to nest sessions or run outside a real TTY.
       if [ -n "$WAYLAND_DISPLAY" ] || [ -n "$DISPLAY" ]; then
