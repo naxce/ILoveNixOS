@@ -64,6 +64,12 @@ hl.window_rule({
     suppress_event = "maximize",
 })
 
+hl.window_rule({
+    name    = "gamescope-monitor",
+    match   = { class = "gamescope" },
+    monitor = "DP-6",
+})
+
 hl.layer_rule({
     name      = "control_center_popover",
     match     = { namespace = "control-center" },
