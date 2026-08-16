@@ -132,24 +132,6 @@
 
   home.file.".config/hyprswitch".source = ./Config/hyprswitch;
 
-  # wymuszenie ciemnego motywu w KDE Plasma - bez tego Plasma startuje
-  # na domyslnym jasnym Breeze
-  xdg.configFile."kdeglobals" = {
-    force = true;
-    text = ''
-      [General]
-      ColorScheme=BreezeDark
-      Name=Breeze Dark
-      widgetStyle=Breeze
-
-      [KDE]
-      LookAndFeelPackage=org.kde.breezedark.desktop
-
-      [Icons]
-      Theme=Papirus-Dark
-    '';
-  };
-
   home.file."Pictures/wallpapers".source = ./Pictures/wallpapers;
   home.file."Pictures/Screenshots/.keep".text = "";
 
