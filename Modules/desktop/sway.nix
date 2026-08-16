@@ -47,7 +47,7 @@
     pkgs.xdg-desktop-portal-gtk
   ];
 
-  xdg.portal.config.sway.default = "wlr";
+  xdg.portal.config.sway.default = lib.mkForce "wlr";
 
   security.pam.services.swaylock = { };
 
