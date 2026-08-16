@@ -1,0 +1,118 @@
+# Sway config — lean gaming session, sits alongside Hyprland.
+# Launch with plain `sway` from a tty (same pattern as `Hyprland`/`hl`).
+
+set $mod Mod4
+set $terminal kitty
+set $fileManager nemo
+set $menu rofi -show drun
+
+# --- Appearance: kept intentionally plain for max compositor headroom ---
+default_border none
+default_floating_border none
+smart_gaps off
+smart_borders off
+gaps inner 0
+gaps outer 0
+font pango:Inter 10
+
+output * bg ~/Pictures/wallpapers/noir.png fill
+output * max_render_time off
+
+# --- Input ---
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+}
+input type:pointer {
+    accel_profile flat
+}
+seat seat0 xcursor_theme Bibata-Modern-Classic 20
+
+# --- Autostart ---
+exec swaybg -i ~/Pictures/wallpapers/noir.png -m fill
+exec waybar
+exec swaync
+exec systemctl --user start hyprpolkitagent >/dev/null 2>&1
+exec_always {
+    gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
+}
+
+# --- Core binds (mirrors the Hyprland set) ---
+bindsym $mod+Return exec $terminal
+bindsym $mod+q kill
+bindsym $mod+shift+q exit
+bindsym $mod+space exec $menu
+bindsym $mod+Tab exec rofi -show window
+bindsym $mod+e exec $fileManager
+bindsym $mod+b exec firefox
+bindsym $mod+n exec ferdium
+bindsym $mod+l exec swaylock
+bindsym $mod+shift+l exec wlogout
+bindsym $mod+F1 exec kitty --class hotkeys-menu --name hotkeys-menu --title "Hotkeys" -e hotkeys
+
+bindsym $mod+F2 floating toggle
+bindsym $mod+f fullscreen toggle
+bindsym $mod+shift+f fullscreen toggle global
+bindsym $mod+p sticky toggle
+bindsym $mod+j layout toggle split
+
+bindsym $mod+Left focus left
+bindsym $mod+Right focus right
+bindsym $mod+Up focus up
+bindsym $mod+Down focus down
+bindsym $mod+shift+Left move left
+bindsym $mod+shift+Right move right
+bindsym $mod+shift+Up move up
+bindsym $mod+shift+Down move down
+
+bindsym $mod+ctrl+Left resize shrink width 60px
+bindsym $mod+ctrl+Right resize grow width 60px
+bindsym $mod+ctrl+Up resize shrink height 60px
+bindsym $mod+ctrl+Down resize grow height 60px
+
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+bindsym $mod+shift+1 move container to workspace 1
+bindsym $mod+shift+2 move container to workspace 2
+bindsym $mod+shift+3 move container to workspace 3
+bindsym $mod+shift+4 move container to workspace 4
+bindsym $mod+shift+5 move container to workspace 5
+bindsym $mod+shift+6 move container to workspace 6
+bindsym $mod+shift+7 move container to workspace 7
+bindsym $mod+shift+8 move container to workspace 8
+bindsym $mod+shift+9 move container to workspace 9
+bindsym $mod+shift+0 move container to workspace 10
+
+bindsym $mod+button4 workspace next
+bindsym $mod+button5 workspace prev
+
+floating_modifier $mod normal
+
+bindsym Print exec grim -g "$(slurp)" - | swappy -f -
+bindsym shift+Print exec grim - | swappy -f -
+
+bindsym XF86AudioRaiseVolume exec pamixer -i 5
+bindsym XF86AudioLowerVolume exec pamixer -d 5
+bindsym XF86AudioMute exec pamixer -t
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+
+# --- Gaming: fullscreen games get zero compositor overhead ---
+for_window [app_id="^steam_app_.*"] fullscreen enable
+for_window [class="^steam_app_.*"] fullscreen enable
+for_window [app_id="gamescope"] fullscreen enable
+
+bar {
+    swaybar_command waybar
+}
+
+# NixOS-provided integration (dbus activation env, sway-session.target).
+include /etc/sway/config.d/*

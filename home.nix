@@ -53,9 +53,15 @@
   fonts.fontconfig = {
     enable = true;
 
-    defaultFonts.emoji = [
-      "Twemoji Color Emoji"
-    ];
+    defaultFonts = {
+      sansSerif = [ "Inter" ];
+      serif = [ "Inter" ];
+      monospace = [
+        "JetBrainsMono Nerd Font"
+        "JetBrains Mono"
+      ];
+      emoji = [ "Twemoji Color Emoji" ];
+    };
   };
 
   xdg.configFile."fontconfig/conf.d/10-emoji.conf".text = ''
@@ -153,6 +159,7 @@
   home.file.".config/yazi".source = ./Config/yazi;
 
   home.file.".config/hyprswitch".source = ./Config/hyprswitch;
+  home.file.".config/sway".source = ./Config/sway;
 
   home.file."Pictures/wallpapers".source = ./Pictures/wallpapers;
   home.file."Pictures/Screenshots/.keep".text = "";

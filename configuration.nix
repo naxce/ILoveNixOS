@@ -5,7 +5,7 @@
     ./hardware-configuration.nix
 
     ./Modules/desktop/hyprland.nix
-    ./Modules/desktop/plasma.nix
+    ./Modules/desktop/sway.nix
     ./Modules/desktop/gaming.nix
     ./Modules/desktop/packages.nix
     ./Modules/desktop/control-center.nix
