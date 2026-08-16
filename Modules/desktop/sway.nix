@@ -34,9 +34,6 @@
       export LIBVA_DRIVER_NAME=nvidia
       export __GLX_VENDOR_LIBRARY_NAME=nvidia
       export WLR_NO_HARDWARE_CURSORS=1
-      # sway/wlroots on NVIDIA needs the proprietary EGL/GBM path explicitly.
-      export WLR_RENDERER=gles2
-      export WLR_DRM_NO_ATOMIC=1
 
       exec ${pkgs.sway-unwrapped}/bin/sway "$@"
     '')
