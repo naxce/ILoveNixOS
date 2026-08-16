@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-fonts, ... }:
 
 let
   hyprswitch = pkgs.callPackage ./hyprswitch.nix { };
@@ -202,14 +202,19 @@ in
     "pnpm-10.29.2"
   ];
 
-  fonts.packages = with pkgs; [
-    inter
-    noto-fonts
-    twemoji-color-font
-    jetbrains-mono
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.symbols-only
-  ];
+  fonts.packages =
+    (with pkgs; [
+      inter
+      noto-fonts
+      twemoji-color-font
+      nerd-fonts.symbols-only
+    ])
+    ++ (with pkgs-fonts; [
+      # Pinned: nixos-unstable currently has a broken fixed-output hash for
+      # this package's build deps (nanoemoji/gftools). See flake.nix.
+      jetbrains-mono
+      nerd-fonts.jetbrains-mono
+    ]);
 
   services.flatpak.enable = true;
 }
