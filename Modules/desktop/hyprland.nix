@@ -5,7 +5,6 @@
   ...
 }:
 {
-  services.displayManager.sddm.enable = false;
   services.greetd.enable = false;
   services.xserver.enable = false;
 
@@ -58,7 +57,10 @@
       pkgs.xdg-desktop-portal-gtk
     ];
 
-    config.common.default = "hyprland";
+    config = {
+      hyprland.default = "hyprland";
+      plasma.default = "kde";
+    };
   };
 
   environment.variables.BALOO_ENABLED = "0";
