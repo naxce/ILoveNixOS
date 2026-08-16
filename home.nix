@@ -22,11 +22,33 @@
 
   gtk = {
     enable = true;
+    theme = {
+      name = "adw-gtk3-dark";
+      package = pkgs.adw-gtk3;
+    };
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
   };
+
+  # Tell GTK apps (Firefox included, since it uses GTK for window
+  # chrome/theming on Linux) to prefer the dark variant globally.
+  home.sessionVariables = {
+    GTK_THEME = "adw-gtk3-dark";
+  };
+
+  # Firefox itself also needs to be told to follow the dark color
+  # scheme (this affects its native widgets and "auto" websites),
+  # independent of the GTK theme above.
+  xdg.configFile."gtk-3.0/settings.ini".text = ''
+    [Settings]
+    gtk-application-prefer-dark-theme=1
+  '';
+  xdg.configFile."gtk-4.0/settings.ini".text = ''
+    [Settings]
+    gtk-application-prefer-dark-theme=1
+  '';
 
   fonts.fontconfig = {
     enable = true;
