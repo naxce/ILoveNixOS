@@ -1,0 +1,94 @@
+:root {
+    --border-color: rgba(168, 92, 50, 0.18);
+    --border-color-active: rgba(201, 112, 47, 0.9);
+    --bg-color: rgba(28, 18, 12, 0.85);
+    --bg-color-hover: rgba(168, 92, 50, 0.1);
+    --index-border-color: rgba(201, 112, 47, 0.5);
+    --border-radius: 14px;
+    --border-size: 2px;
+}
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "Inter", sans-serif;
+    transition-duration: 150ms;
+    transition-property: background-color, border-color, opacity;
+}
+
+.monitor {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 10px;
+}
+
+.workspace {
+    background-color: rgba(168, 92, 50, 0.05);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #8a6650;
+    padding: 4px;
+    margin: 4px;
+}
+
+.workspace_active {
+    background-color: rgba(168, 92, 50, 0.08);
+    border: 1px solid var(--border-color);
+}
+
+.workspace_active label {
+    color: #e8b98c;
+}
+
+.workspace_special {
+    border: 1px dashed rgba(201, 112, 47, 0.3);
+}
+
+.client {
+    background: rgba(168, 92, 50, 0.05);
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    color: #c48a5c;
+    padding: 8px;
+    margin: 4px;
+}
+
+.client label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #c48a5c;
+    margin-top: 6px;
+}
+
+.client:hover {
+    background: var(--bg-color-hover);
+}
+
+.client:hover label {
+    color: #e8b98c;
+}
+
+.client_active {
+    background: rgba(168, 92, 50, 0.12);
+    border: var(--border-size) solid var(--border-color-active);
+}
+
+.client_active label {
+    color: #f5dcb8;
+    font-weight: 600;
+}
+
+.client-image {
+    margin: 6px;
+    border-radius: 8px;
+}
+
+.index {
+    background: rgba(10, 6, 3, 0.6);
+    border: 1px solid var(--index-border-color);
+    border-radius: 8px;
+    color: #e8b98c;
+    font-size: 11px;
+    font-weight: 600;
+}

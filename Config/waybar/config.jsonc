@@ -1,0 +1,96 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 34,
+    "margin-top": 6,
+    "margin-left": 10,
+    "margin-right": 10,
+    "spacing": 0,
+
+    "modules-left": ["hyprland/workspaces", "custom/minimized", "hyprland/window"],
+    "modules-center": ["clock"],
+    "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "custom/notification", "custom/power"],
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "all-outputs": false,
+        "active-only": false,
+        "ignore-workspaces": ["special:minimized"],
+        "format-icons": {
+            "active": "●",
+            "default": "○",
+            "empty": "○"
+        },
+        "persistent-workspaces": {
+            "DP-6": [1, 2, 3, 4, 5],
+            "DP-5": [6, 7, 8, 9, 10]
+        }
+    },
+
+    "custom/minimized": {
+        "exec": "$HOME/NixOS/Scripts/minimized-status.sh",
+        "return-type": "json",
+        "interval": 2,
+        "on-click": "hyprctl dispatch togglespecialworkspace minimized"
+    },
+
+    "hyprland/window": {
+        "format": "{title}",
+        "max-length": 40,
+        "separate-outputs": true,
+        "rewrite": {
+            "": "Desktop"
+        }
+    },
+
+    "clock": {
+        "format": "{:%H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "on-click": "control-center"
+    },
+
+    "tray": {
+        "icon-size": 15,
+        "spacing": 12
+    },
+
+    "network": {
+        "format-wifi": "{essid} ",
+        "format-ethernet": "Ethernet ",
+        "format-disconnected": "Offline ",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+        "on-click": "nm-connection-editor"
+    },
+
+    "bluetooth": {
+        "format": " {status}",
+        "format-connected": " {device_alias}",
+        "format-disabled": "",
+        "tooltip-format": "{controller_alias}",
+        "on-click": "blueman-manager"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": " muted",
+        "format-icons": {
+            "default": ["", "", ""]
+        },
+        "on-click": "pamixer -t",
+        "on-scroll-up": "pamixer -i 5",
+        "on-scroll-down": "pamixer -d 5"
+    },
+
+    "custom/notification": {
+        "tooltip": false,
+        "format": "",
+        "on-click": "swaync-client -t -sw"
+    },
+
+    "custom/power": {
+        "tooltip": false,
+        "format": "⏻",
+        "on-click": "wlogout"
+    }
+}

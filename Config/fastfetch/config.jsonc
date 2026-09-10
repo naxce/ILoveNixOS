@@ -1,0 +1,36 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "auto",
+    "source": "~/NixOS/Pictures/logos/NixOSNoir.png",
+    "width": 25,
+    "height": 13,
+
+  },
+  "display": {
+    "separator": " ➜ ",
+    "color": { "keys": "white" },
+  },
+  "modules": [
+    {
+      "type": "title",
+      "format": "{user-name}@{host-name}",
+      "color": "white",
+    },
+    "separator",
+    { "type": "os", "key": "󱄅", "format": "{2} {8}" },
+    { "type": "kernel", "key": "󰌽", "format": "{2}" },
+    { "type": "uptime", "key": "󱎫" },
+    { "type": "shell", "key": "󱆃" },
+    { "type": "cpu", "key": "󰻠", "format": "{1}" },
+    { "type": "gpu", "key": "󰢮", "hideType": "integrated", "format": "{2}" },
+    {
+      "type": "display",
+      "key": "󰍹",
+      "compactType": "original-with-refresh",
+      "format": "{1}x{2} @ {3}Hz",
+    },
+    { "type": "memory", "key": "󰑭" },
+    { "type": "localip", "key": "󰩟", "showIpv6": false },
+  ],
+}
