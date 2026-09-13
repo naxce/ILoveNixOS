@@ -31,7 +31,7 @@
       nixpkgs-fonts,
       home-manager,
       fatest,
-      gdoc,
+      #gdoc,
       zen-browser,
       ...
     }@inputs:
