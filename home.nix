@@ -377,6 +377,13 @@
         start-hyprland
       '';
 
+      waydroid = ''
+        wipe
+        sudo systemctl restart waydroid-container
+        waydroid session start
+        waydroid show-full-ui
+      ''
+
       sw = ''
         wipe
         sway
