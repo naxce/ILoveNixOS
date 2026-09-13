@@ -29,4 +29,22 @@
   # (np. żeby przerzucić .apk albo zapisy z gier).
   systemd.packages = [ pkgs.waydroid-helper ];
   systemd.services.waydroid-mount.wantedBy = [ "multi-user.target" ];
+
+  # Mamy kartę Nvidia (zamknięty sterownik) - Waydroid nie umie z niej
+  # korzystać przez GBM, więc wymuszamy renderowanie programowe (swiftshader).
+  # Domyślny prop (i skrypty typu waydroid-script instalujące libndk/GApps)
+  # ciągle nadpisują to z powrotem na wartości pod AMD (gbm/mesa/radeon),
+  # więc łatamy plik za każdym razem TUŻ PRZED startem kontenera, żeby
+  # poprawka zawsze obowiązywała, niezależnie co zrobił wcześniej init/upgrade.
+  systemd.services.waydroid-container.preStart = ''
+    prop=/var/lib/waydroid/waydroid_base.prop
+    if [ -f "$prop" ]; then
+      ${pkgs.gnused}/bin/sed -i \
+        -e 's/^ro\.hardware\.gralloc=.*/ro.hardware.gralloc=default/' \
+        -e 's/^ro\.hardware\.egl=.*/ro.hardware.egl=swiftshader/' \
+        -e '/^ro\.hardware\.vulkan=/d' \
+        -e '/^gralloc\.gbm\.device=/d' \
+        "$prop"
+    fi
+  '';
 }

@@ -381,6 +381,10 @@
         wipe
         sudo systemctl restart waydroid-container
         waydroid session start
+      '';
+
+      wdrui = ''
+        wipe
         waydroid show-full-ui
       '';
 
