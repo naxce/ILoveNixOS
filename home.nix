@@ -377,7 +377,7 @@
         start-hyprland
       '';
 
-      waydroid = ''
+      wdr = ''
         wipe
         sudo systemctl restart waydroid-container
         waydroid session start
