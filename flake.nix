@@ -12,10 +12,12 @@
       url = "github:naxce/FaTest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    gdoc = {
-      url = "github:naxce/GDoc";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    /*
+      gdoc = {
+        url = "github:naxce/GDoc";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+    */
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";

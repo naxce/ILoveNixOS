@@ -104,7 +104,7 @@
 
   home.packages = [
     inputs.fatest.packages.${pkgs.system}.default
-    inputs.gdoc.packages.${pkgs.system}.default
+    # inputs.gdoc.packages.${pkgs.system}.default
     inputs.zen-browser.packages.${pkgs.system}.default
 
     (pkgs.writeShellScriptBin "kwork" ''
