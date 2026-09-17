@@ -67,7 +67,7 @@ hl.window_rule({
 hl.window_rule({
     name    = "gamescope-monitor",
     match   = { class = "gamescope" },
-    monitor = "DP-3",
+    monitor = "DP-6",
 })
 
 hl.layer_rule({
