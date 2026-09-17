@@ -83,29 +83,9 @@
     </fontconfig>
   '';
 
-  xdg.desktopEntries."zen-beta" = {
-    name = "Zen Browser";
-    genericName = "Web Browser";
-    exec = "zen-beta %U";
-    icon = "/home/naxce/NixOS/Pictures/logos/Zen.png";
-    terminal = false;
-    categories = [
-      "Network"
-      "WebBrowser"
-    ];
-    mimeType = [
-      "text/html"
-      "text/xml"
-      "application/xhtml+xml"
-      "x-scheme-handler/http"
-      "x-scheme-handler/https"
-    ];
-  };
-
   home.packages = [
     inputs.fatest.packages.${pkgs.system}.default
     #inputs.gdoc.packages.${pkgs.system}.default
-    inputs.zen-browser.packages.${pkgs.system}.default
 
     (pkgs.writeShellScriptBin "kwork" ''
       exec ${pkgs.kitty}/bin/kitty \

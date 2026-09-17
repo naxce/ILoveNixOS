@@ -65,7 +65,7 @@ bindsym $mod+shift+q exit
 bindsym $mod+space exec $menu
 bindsym $mod+Tab exec rofi -show window
 bindsym $mod+e exec $fileManager
-bindsym $mod+b exec zen-beta
+bindsym $mod+b exec firefox
 bindsym $mod+n exec ferdium
 bindsym $mod+l exec swaylock
 bindsym $mod+shift+l exec wlogout

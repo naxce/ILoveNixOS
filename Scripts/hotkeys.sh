@@ -19,7 +19,7 @@ Super + Return	Open terminal (kitty)
 Super + Space	App launcher (rofi drun)
 Super + Tab	Window switcher (rofi window list)
 Super + E	Open file manager (Yazi)
-Super + B	Open Zen Browser
+Super + B	Open Firefox
 Super + F1	Open this keybindings menu
 Super + L	Lock screen
 Super + Shift + L	Power menu (wlogout)
