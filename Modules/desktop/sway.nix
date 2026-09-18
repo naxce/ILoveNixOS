@@ -52,7 +52,11 @@
     pkgs.xdg-desktop-portal-gtk
   ];
 
-  xdg.portal.config.sway.default = lib.mkForce "wlr";
+  xdg.portal.config.sway = {
+    default = "gtk";
+    "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+    "org.freedesktop.impl.portal.Screenshot" = "wlr";
+  };
 
   security.pam.services.swaylock = { };
 }
