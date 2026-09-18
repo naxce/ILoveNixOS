@@ -352,6 +352,11 @@
         home-manager switch --flake ~/NixOS
       '';
 
+      ap = ''
+        wipe
+        bluetoothctl connect 74:3F:8E:90:8E:4B
+      '';
+
       hl = ''
         wipe
         start-hyprland
