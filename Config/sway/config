@@ -66,7 +66,7 @@ bindsym $mod+space exec $menu
 bindsym $mod+Tab exec rofi -show window
 bindsym $mod+e exec $fileManager
 bindsym $mod+b exec firefox
-bindsym $mod+k exec ap
+bindsym $mod+k exec kitty --class airpods --name airpods -e zsh -ic 'ap'
 bindsym $mod+n exec ferdium
 bindsym $mod+l exec swaylock
 bindsym $mod+shift+l exec wlogout
