@@ -142,8 +142,6 @@ in
 
     rustup
 
-    nodejs_latest
-
     stylua
     shfmt
 

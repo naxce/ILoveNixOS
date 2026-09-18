@@ -209,7 +209,6 @@
       unzip
       gnutar
       gcc
-      nodejs_latest
       tree-sitter
       nil
     ];
