@@ -127,6 +127,7 @@
   home.file.".config/nvim".source = ./Config/nvim;
   home.file.".config/hypr/autostart.lua".source = ./Config/hypr/autostart.lua;
   home.file.".config/hypr/binds.lua".source = ./Config/hypr/binds.lua;
+  home.file.".config/hypr/canvas.lua".source = ./Config/hypr/canvas.lua;
   home.file.".config/hypr/hyprland.lua".source = ./Config/hypr/hyprland.lua;
   home.file.".config/hypr/input.lua".source = ./Config/hypr/input.lua;
   home.file.".config/hypr/looknfeel.lua".source = ./Config/hypr/looknfeel.lua;

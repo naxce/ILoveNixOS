@@ -45,6 +45,10 @@ Super + 1..0	Go to workspace 1-10
 Super + Shift + 1..0	Move active window to workspace 1-10
 Super + Ctrl + Left/Right	Go to previous/next workspace
 Super + Mouse wheel	Scroll through workspaces
+── Infinite canvas ──	
+Super + Alt + Arrows	Pan across the infinite 2D canvas
+Super + Alt + Shift + Arrows	Pan the canvas, bringing the active window with you
+Super + Alt + C	Jump straight back to canvas home (0, 0)
 ── Screenshots & tools ──	
 Print	Screenshot a selected region, opens in Swappy to edit
 Shift + Print	Screenshot the full screen, opens in Swappy to edit
@@ -77,6 +81,7 @@ waybar_binds() {
 ── Workspaces & window ──	
 Click workspace	Jump to that workspace
 Click minimized indicator	Show/hide the minimized workspace
+Click canvas indicator	Jump straight back to canvas home (0, 0)
 Click clock/window module	Display only, no action
 ── System tray ──	
 Click network icon	Open nm-connection-editor

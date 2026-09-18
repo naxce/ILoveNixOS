@@ -2,6 +2,7 @@ require("monitors")
 require("input")
 require("looknfeel")
 require("binds")
+require("canvas")
 require("windowrules")
 require("autostart")
 

@@ -7,7 +7,7 @@
     "margin-right": 10,
     "spacing": 0,
 
-    "modules-left": ["hyprland/workspaces", "custom/minimized", "hyprland/window"],
+    "modules-left": ["hyprland/workspaces", "custom/minimized", "custom/canvas", "hyprland/window"],
     "modules-center": ["clock"],
     "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "custom/notification", "custom/power"],
 
@@ -16,7 +16,7 @@
         "on-click": "activate",
         "all-outputs": false,
         "active-only": false,
-        "ignore-workspaces": ["special:minimized"],
+        "ignore-workspaces": ["special:minimized", "^canvas_"],
         "format-icons": {
             "active": "●",
             "default": "○",
@@ -33,6 +33,13 @@
         "return-type": "json",
         "interval": 2,
         "on-click": "hyprctl dispatch togglespecialworkspace minimized"
+    },
+
+    "custom/canvas": {
+        "exec": "$HOME/NixOS/Scripts/canvas-status.sh",
+        "return-type": "json",
+        "interval": 1,
+        "on-click": "hyprctl dispatch \"hl.dsp.focus({ workspace = 'canvas_0_0' })\""
     },
 
     "hyprland/window": {

@@ -59,6 +59,23 @@ window#waybar {
     border-radius: 8px;
 }
 
+#custom-canvas {
+    color: #c48a5c;
+    padding: 0 10px;
+    margin-left: 2px;
+}
+
+#custom-canvas.empty {
+    padding: 0;
+    margin: 0;
+}
+
+#custom-canvas.on-canvas:hover {
+    color: #f0dcc0;
+    background: rgba(168, 92, 50, 0.16);
+    border-radius: 8px;
+}
+
 #clock,
 #tray,
 #network,
