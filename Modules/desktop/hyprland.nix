@@ -34,7 +34,10 @@
     ];
 
     config = {
-      hyprland.default = "hyprland";
+      hyprland.default = [
+        "hyprland"
+        "gtk"
+      ];
     };
   };
 

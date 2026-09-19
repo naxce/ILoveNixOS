@@ -56,6 +56,11 @@ workspace 10 output DP-5
 
 focus output DP-6
 
+# Required for screen sharing/recording (xdg-desktop-portal-wlr, OBS PipeWire
+# capture) to work: without this, the portal can't find the Sway socket or
+# Wayland display because D-Bus/systemd --user don't see them otherwise.
+exec dbus-update-activation-environment --systemd --all
+
 exec swaync
 exec systemctl --user start hyprpolkitagent >/dev/null 2>&1
 
