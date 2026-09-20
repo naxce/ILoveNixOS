@@ -145,7 +145,6 @@ in
     stylua
     shfmt
 
-    obs-studio
     gimp
     yt-dlp
     ffmpeg
@@ -175,6 +174,18 @@ in
   xdg.mime.enable = true;
   xdg.menus.enable = true;
   xdg.icons.enable = true;
+
+  # Plain `obs-studio` only has the portal/PipeWire capture path, which needs
+  # xdg-desktop-portal-hyprland/-wlr to be working perfectly. wlrobs captures
+  # directly via the wlr-screencopy/export-dmabuf protocol instead, so it
+  # shows up and works even when the portal source doesn't.
+  programs.obs-studio = {
+    enable = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs
+      obs-pipewire-audio-capture
+    ];
+  };
 
   programs.vscode = {
     enable = true;
