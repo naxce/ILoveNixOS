@@ -227,4 +227,5 @@ in
     ]);
 
   services.flatpak.enable = true;
+  programs.nix-ld.enable = true;
 }

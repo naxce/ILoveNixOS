@@ -168,7 +168,8 @@
     $DRY_RUN_CMD ${pkgs.bash}/bin/bash "$HOME/NixOS/Scripts/apply-theme.sh" || true
   '';
 
-  home.file."Pictures/wallpapers".source = ./Pictures/wallpapers;
+  home.file."Pictures/wallpapers".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/Pictures/wallpapers";
   home.file."Pictures/Screenshots/.keep".text = "";
 
   xdg.configFile."mimeapps.list".force = true;

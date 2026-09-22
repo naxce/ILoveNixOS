@@ -202,7 +202,7 @@ binds {
     Mod+Ctrl+C { center-column; }
 
     Mod+F       { fullscreen-window; }
-    Mod+Shift+F { maximize-window-to-edges; }
+    Mod+Shift+F { maximize-column; }
     Mod+F2      { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+J       { toggle-column-tabbed-display; }
