@@ -131,6 +131,7 @@ in
     llama-cpp
     lazygit
     claude-code
+    claude-monitor
 
     python3
     ruff
