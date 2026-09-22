@@ -116,6 +116,7 @@ in
     zoxide
     eza
     bat
+    uv
     jq
     ffmpegthumbnailer
     poppler-utils
