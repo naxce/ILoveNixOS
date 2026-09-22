@@ -180,6 +180,8 @@ in
     python3
     ruff
 
+    nodejs
+
     jdk21
 
     gcc
