@@ -363,10 +363,61 @@ show_category() {
       >/dev/null
 }
 
+niri_binds() {
+  cat <<'EOF'
+── How scrollable tiling works ──	
+	Windows live in COLUMNS on one endless row. New windows open as a
+	new column to the right. Nothing is ever resized to fit - the row
+	just gets longer and you scroll along it.
+	A column can hold several windows stacked vertically.
+	
+── Moving around ──	
+Super + Left / Right	Scroll to the previous / next column
+Super + Up / Down	Move between windows inside the current column
+Super + Home / End	Jump to the first / last column
+Super + O	Overview: zoomed-out view of every workspace
+Super + Scroll	Scroll through workspaces
+Super + Shift + Scroll	Scroll through columns
+── Rearranging ──	
+Super + Shift + Left/Right	Move this column along the row
+Super + Shift + Up/Down	Move this window within its column
+Super + [ / Super + ]	Pull the neighbour into this column, or push it out
+Super + ,	Consume the next window into this column
+Super + .	Expel the bottom window out of this column
+── Sizing ──	
+Super + Ctrl + Left/Right	Narrow / widen the column by 10%
+Super + Ctrl + Up/Down	Shorten / grow the window by 10%
+Super + P	Cycle preset column widths (1/3, 1/2, 2/3)
+Super + Ctrl + F	Expand the column into the free space
+Super + Ctrl + C	Centre the column on screen
+Super + F	Fullscreen
+Super + Shift + F	Maximise the column
+Super + J	Tabbed column: stack windows as tabs instead
+── Windows & workspaces ──	
+Super + Q	Close window
+Super + F2	Toggle floating
+Super + 1..0	Go to workspace 1-10
+Super + Shift + 1..0	Move the column to workspace 1-10
+Super + ` or Super + Shift + M	The "minimized" workspace (scratchpad stand-in)
+── Same as Hyprland ──	
+Super + Return	Terminal
+Super + Space	App launcher
+Super + Tab / Alt + Tab	Window switcher (rofi)
+Super + E / B / N / K	Files / browser / Ferdium / AirPods
+Super + L	Lock
+Super + Shift + L	Power menu
+Super + M / V / C	Notifications / clipboard / colour picker
+Print / Shift+Print	Screenshot region / full screen
+Super + F1	This cheat-sheet
+Super + Shift + Q	Quit niri (asks first)
+EOF
+}
+
 main_menu() {
   local choice
   choice=$(printf '%s\n' \
     "Hyprland" \
+    "niri (scrollable tiling)" \
     "Hyprswitch" \
     "Waybar" \
     "Neovim" \
@@ -382,6 +433,7 @@ main_menu() {
 
   case "$choice" in
     "Hyprland") show_category "Hyprland" "$(hyprland_binds)" ;;
+    "niri (scrollable tiling)") show_category "niri" "$(niri_binds)" ;;
     "Hyprswitch") show_category "Hyprswitch" "$(hyprswitch_binds)" ;;
     "Waybar") show_category "Waybar" "$(waybar_binds)" ;;
     "Neovim") show_category "Neovim" "$(neovim_binds)" ;;

@@ -48,6 +48,7 @@ link "fastfetch/work-$THEME.jsonc" "fastfetch/work.jsonc"
 link "hypr/hyprlock-$THEME.conf" "hypr/hyprlock.conf"
 link "hypr/hyprpaper-$THEME.conf" "hypr/hyprpaper.conf"
 link "hypr/looknfeel-$THEME.lua" "hypr/looknfeel.lua"
+link "niri/looknfeel-$THEME.kdl" "niri/looknfeel.kdl"
 
 # wlogout's CSS points at its icons with paths relative to the stylesheet, and
 # GTK resolves those against the path wlogout was handed, not the symlink target.
@@ -85,6 +86,12 @@ if pgrep hyprpaper >/dev/null 2>&1; then
         [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ] && rm -f "$sock"
         setsid hyprpaper >/dev/null 2>&1 </dev/null &
     fi
+fi
+
+# niri reloads its own config on change, but the wallpaper is swaybg's job and
+# has to be pointed at the new image.
+if pgrep -x niri >/dev/null 2>&1; then
+    setsid "$HOME/NixOS/Scripts/niri-wallpaper.sh" >/dev/null 2>&1 </dev/null &
 fi
 
 if pgrep hyprswitch >/dev/null 2>&1; then

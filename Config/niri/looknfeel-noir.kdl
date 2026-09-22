@@ -1,0 +1,53 @@
+// Noir look and feel for niri: monochrome, matching looknfeel-noir.lua.
+// Scripts/apply-theme.sh links this in as looknfeel.kdl.
+//
+// The whole layout block lives here rather than in config.kdl because niri
+// rejects a duplicated node across an include, and gaps and colours are set
+// in the same block. That mirrors looknfeel-*.lua, which carries gaps and
+// colours together too.
+
+layout {
+    // Hyprland used gaps_in 5 / gaps_out 10; niri has a single gap value.
+    gaps 10
+
+    center-focused-column "never"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    default-column-width { proportion 0.5; }
+
+    // The equivalent of Hyprland's 2px window border.
+    focus-ring {
+        width 2
+        active-color "#ffffff"
+        inactive-color "#1a1a1a"
+    }
+
+    border {
+        off
+    }
+
+    shadow {
+        on
+        softness 18
+        spread 3
+        offset x=0 y=4
+        color "#00000090"
+    }
+
+    background-color "#000000"
+}
+
+overview {
+    // How far out the overview pulls back. Lower shows more workspaces.
+    zoom 0.5
+    backdrop-color "#000000"
+}
+
+animations {
+    slowdown 0.8
+}

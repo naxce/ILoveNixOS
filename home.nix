@@ -152,6 +152,11 @@
   '';
 
   home.file.".config/waybar/config-sway.jsonc".source = ./Config/waybar/config-sway.jsonc;
+  home.file.".config/waybar/config-niri.jsonc".source = ./Config/waybar/config-niri.jsonc;
+
+  # niri: config.kdl is theme-neutral and includes looknfeel.kdl, which
+  # apply-theme.sh points at the noir or dachshund variant.
+  home.file.".config/niri/config.kdl".source = ./Config/niri/config.kdl;
   home.file.".config/rofi/config.rasi".source = ./Config/rofi/config.rasi;
   home.file.".config/swaync/config.json".source = ./Config/swaync/config.json;
   home.file.".config/wlogout/layout".source = ./Config/wlogout/layout;
@@ -394,6 +399,11 @@
         sway
       '';
 
+      nr = ''
+        wipe
+        niri
+      '';
+
       nixhypr = ''
         wipe
         nixhome
@@ -405,6 +415,12 @@
         wipe
         nixhome
         swaymsg reload
+      '';
+
+      nixniri = ''
+        wipe
+        nixhome
+        niri-cli validate
       '';
 
       nixclean = ''
@@ -421,6 +437,16 @@
       y = "yazi";
       yz = "yazi-noir";
       fm = "yazi-noir";
+
+      niritest = ''
+        wipe
+        niri-cli validate -c ~/NixOS/Config/niri/config.kdl
+      '';
+
+      niriout = "niri-cli msg outputs";
+      niriws = "niri-cli msg workspaces";
+      niriwin = "niri-cli msg windows";
+      nirikeys = "niri-cli msg keyboard-layouts";
 
       gaming = "~/NixOS/Scripts/gaming.sh";
       ungaming = "~/NixOS/Scripts/rice-restore.sh";

@@ -1,0 +1,323 @@
+// niri - scrollable tiling, alongside Hyprland and Sway.
+//
+// Everything theme-neutral lives here: inputs, outputs, workspaces, keybinds,
+// window rules and autostart. Colours, gaps and animations live in
+// looknfeel.kdl, which Scripts/apply-theme.sh points at the noir or dachshund
+// variant - the same split as looknfeel.lua on the Hyprland side.
+//
+// The binds deliberately match the Hyprland ones key for key wherever the two
+// compositors have the same concept. Where niri has no equivalent (special
+// workspaces) or something better (the overview), that is called out inline.
+
+include "looknfeel.kdl"
+
+//---------------------------------------------------------------- input ----
+
+input {
+    keyboard {
+        xkb {
+            layout "pl"
+        }
+        numlock
+    }
+
+    touchpad {
+        tap
+        dwt
+        natural-scroll
+        accel-profile "adaptive"
+    }
+
+    mouse {
+        // Hyprland's sensitivity -0.5 is libinput accel-speed, same scale.
+        accel-speed -0.5
+    }
+
+    // Hyprland ran with follow_mouse 1 and mouse_refocus.
+    focus-follows-mouse
+
+    // Middle of a newly focused window, so the pointer keeps up when you
+    // scroll the columns with the keyboard.
+    warp-mouse-to-focus
+}
+
+//-------------------------------------------------------------- outputs ----
+
+output "DP-6" {
+    mode "2560x1440@200"
+    position x=1920 y=0
+    scale 1
+}
+
+output "DP-5" {
+    mode "1920x1080@180"
+    position x=0 y=500
+    scale 1
+}
+
+output "HDMI-A-2" {
+    off
+}
+
+output "eDP-1" {
+    off
+}
+
+//----------------------------------------------------------- workspaces ----
+
+// niri workspaces are dynamic and per-monitor, but naming them and pinning
+// each to an output reproduces the Hyprland layout: 1-5 on DP-6, 6-10 on
+// DP-5, reachable with the same Mod+number keys.
+workspace "1" { open-on-output "DP-6"; }
+workspace "2" { open-on-output "DP-6"; }
+workspace "3" { open-on-output "DP-6"; }
+workspace "4" { open-on-output "DP-6"; }
+workspace "5" { open-on-output "DP-6"; }
+workspace "6" { open-on-output "DP-5"; }
+workspace "7" { open-on-output "DP-5"; }
+workspace "8" { open-on-output "DP-5"; }
+workspace "9" { open-on-output "DP-5"; }
+workspace "10" { open-on-output "DP-5"; }
+
+// niri has no special/scratchpad workspace, so the Hyprland "minimized"
+// scratchpad becomes an ordinary named workspace you throw windows at.
+workspace "minimized" { open-on-output "DP-6"; }
+
+//--------------------------------------------------------------- cursor ----
+
+cursor {
+    xcursor-theme "Bibata-Modern-Classic"
+    xcursor-size 20
+}
+
+environment {
+    GTK_THEME "adw-gtk3-dark"
+    QT_QPA_PLATFORMTHEME "qt6ct"
+    NIXOS_OZONE_WL "1"
+    MOZ_ENABLE_WAYLAND "1"
+    DISPLAY null
+}
+
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+// The startup hotkey cheatsheet is redundant when Super+F1 already opens the
+// full one this config ships with.
+hotkey-overlay {
+    skip-at-startup
+}
+
+prefer-no-csd
+
+//------------------------------------------------------------- autostart ---
+
+// Mirrors autostart.lua. hyprpaper and hyprswitch are Hyprland-only and are
+// replaced by swaybg and the overview respectively.
+spawn-at-startup "niri-waybar"
+spawn-at-startup "swaync"
+spawn-at-startup "hypridle"
+spawn-at-startup "nm-applet" "--indicator"
+spawn-at-startup "blueman-applet"
+spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
+spawn-sh-at-startup "systemctl --user start hyprpolkitagent"
+spawn-sh-at-startup "wl-paste --watch cliphist store"
+// Wallpaper: apply-theme.sh writes the path for the active palette here.
+spawn-sh-at-startup "\"$HOME\"/NixOS/Scripts/niri-wallpaper.sh"
+
+//---------------------------------------------------------- window rules ---
+
+// Rounded corners for everything, matching Hyprland's rounding 10.
+window-rule {
+    geometry-corner-radius 10
+    clip-to-geometry true
+}
+
+// Utility windows that floated under Hyprland float here too.
+window-rule {
+    match app-id=r#"^pavucontrol$"#
+    match app-id=r#"^nm-connection-editor$"#
+    match app-id=r#"^blueman-manager$"#
+    match app-id=r#"^org\.gnome\.Calculator$"#
+    match app-id=r#"^xdg-desktop-portal-gtk$"#
+    match app-id=r#"^zenity$"#
+    match app-id=r#"^swappy$"#
+    open-floating true
+}
+
+window-rule {
+    match app-id=r#"^hotkeys-menu$"#
+    open-floating true
+    default-column-width { proportion 0.55; }
+    default-window-height { proportion 0.70; }
+    opacity 0.96
+}
+
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+window-rule {
+    match app-id=r#"^kitty$"#
+    opacity 0.94
+}
+
+window-rule {
+    match app-id=r#"^yazi-fm$"#
+    opacity 0.94
+}
+
+window-rule {
+    match app-id=r#"^firefox$"#
+    opacity 0.97
+}
+
+window-rule {
+    match app-id=r#"^gamescope$"#
+    open-on-output "DP-6"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_239140$"#
+    open-on-workspace "2"
+}
+
+//----------------------------------------------------------- layer rules ---
+
+// The control center paints its own rounded panel, so niri must not blur or
+// shadow the layer behind it.
+layer-rule {
+    match namespace="^control-center$"
+    place-within-backdrop false
+}
+
+//---------------------------------------------------------------- binds ----
+
+binds {
+    Mod+F1 hotkey-overlay-title="Hotkey cheatsheet" {
+        spawn "kitty" "--class" "hotkeys-menu" "--name" "hotkeys-menu" "--title" "Hotkeys" "-e" "hotkeys"
+    }
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    // --- applications, same keys as Hyprland ---
+    Mod+Return hotkey-overlay-title="Terminal" { spawn "kitty"; }
+    Mod+Space  hotkey-overlay-title="App launcher" { spawn-sh "rofi -show drun"; }
+    Mod+Tab    hotkey-overlay-title="Window switcher" { spawn-sh "rofi -show window"; }
+    Alt+Tab    hotkey-overlay-title="Window switcher" { spawn-sh "rofi -show window"; }
+    Mod+E      hotkey-overlay-title="File manager" { spawn "nemo"; }
+    Mod+B      hotkey-overlay-title="Browser" { spawn "firefox"; }
+    Mod+N      { spawn "ferdium"; }
+    Mod+K      { spawn "kitty" "--class" "airpods" "--name" "airpods" "-e" "zsh" "-ic" "ap"; }
+    Mod+M      { spawn "swaync-client" "-t" "-sw"; }
+    Mod+V      { spawn-sh "cliphist list | rofi -dmenu | cliphist decode | wl-copy"; }
+    Mod+C      { spawn "hyprpicker" "-a"; }
+    Mod+L      hotkey-overlay-title="Lock" { spawn "hyprlock"; }
+    Mod+Shift+L { spawn "wlogout"; }
+
+    Mod+Q repeat=false { close-window; }
+    Mod+Shift+Q { quit; }
+
+    // --- scrolling through columns: the reason you are here ---
+    // Left/Right walk the endless row of columns, Up/Down move within a
+    // column when it holds more than one window.
+    Mod+Left  { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Up    { focus-window-up; }
+    Mod+Down  { focus-window-down; }
+
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+Up    { move-window-up; }
+    Mod+Shift+Down  { move-window-down; }
+
+    Mod+Home { focus-column-first; }
+    Mod+End  { focus-column-last; }
+
+    // Pull the neighbouring window into this column, or push it back out.
+    // This is how you tile windows together in a scrolling layout.
+    Mod+bracketleft  { consume-or-expel-window-left; }
+    Mod+bracketright { consume-or-expel-window-right; }
+    Mod+comma        { consume-window-into-column; }
+    Mod+period       { expel-window-from-column; }
+
+    // --- the overview: a real zoomed-out view of every workspace ---
+    Mod+O repeat=false { toggle-overview; }
+
+    // --- sizing, mapped onto the Hyprland resize keys ---
+    Mod+Ctrl+Left  { set-column-width "-10%"; }
+    Mod+Ctrl+Right { set-column-width "+10%"; }
+    Mod+Ctrl+Up    { set-window-height "-10%"; }
+    Mod+Ctrl+Down  { set-window-height "+10%"; }
+
+    Mod+P { switch-preset-column-width; }
+    Mod+Shift+P { switch-preset-column-width-back; }
+    Mod+Ctrl+F { expand-column-to-available-width; }
+    Mod+Ctrl+C { center-column; }
+
+    Mod+F       { fullscreen-window; }
+    Mod+Shift+F { maximize-column; }
+    Mod+F2      { toggle-window-floating; }
+    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    Mod+J       { toggle-column-tabbed-display; }
+
+    // --- workspaces, same numbers as Hyprland ---
+    Mod+1 { focus-workspace "1"; }
+    Mod+2 { focus-workspace "2"; }
+    Mod+3 { focus-workspace "3"; }
+    Mod+4 { focus-workspace "4"; }
+    Mod+5 { focus-workspace "5"; }
+    Mod+6 { focus-workspace "6"; }
+    Mod+7 { focus-workspace "7"; }
+    Mod+8 { focus-workspace "8"; }
+    Mod+9 { focus-workspace "9"; }
+    Mod+0 { focus-workspace "10"; }
+
+    Mod+Shift+1 { move-column-to-workspace "1"; }
+    Mod+Shift+2 { move-column-to-workspace "2"; }
+    Mod+Shift+3 { move-column-to-workspace "3"; }
+    Mod+Shift+4 { move-column-to-workspace "4"; }
+    Mod+Shift+5 { move-column-to-workspace "5"; }
+    Mod+Shift+6 { move-column-to-workspace "6"; }
+    Mod+Shift+7 { move-column-to-workspace "7"; }
+    Mod+Shift+8 { move-column-to-workspace "8"; }
+    Mod+Shift+9 { move-column-to-workspace "9"; }
+    Mod+Shift+0 { move-column-to-workspace "10"; }
+
+    // The scratchpad stand-in.
+    Mod+grave       { focus-workspace "minimized"; }
+    Mod+Shift+grave { move-column-to-workspace "minimized"; }
+    Mod+Shift+M     { move-column-to-workspace "minimized"; }
+
+    // Monitors.
+    Mod+Ctrl+Shift+Left  { focus-monitor-left; }
+    Mod+Ctrl+Shift+Right { focus-monitor-right; }
+    Mod+Alt+Shift+Left   { move-column-to-monitor-left; }
+    Mod+Alt+Shift+Right  { move-column-to-monitor-right; }
+
+    // --- mouse wheel, matching Hyprland's Super+wheel ---
+    Mod+WheelScrollDown  cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp    cooldown-ms=150 { focus-workspace-up; }
+    Mod+WheelScrollRight { focus-column-right; }
+    Mod+WheelScrollLeft  { focus-column-left; }
+    Mod+Shift+WheelScrollDown { focus-column-right; }
+    Mod+Shift+WheelScrollUp   { focus-column-left; }
+
+    // --- screenshots, identical commands to Hyprland ---
+    Print       { spawn-sh "grim -g \"$(slurp)\" - | swappy -f -"; }
+    Shift+Print { spawn-sh "grim - | swappy -f -"; }
+    Mod+Print   { spawn-sh "grim -g \"$(slurp)\" - | wl-copy"; }
+
+    // --- media and brightness, identical commands to Hyprland ---
+    XF86AudioRaiseVolume  allow-when-locked=true { spawn "pamixer" "-i" "5"; }
+    XF86AudioLowerVolume  allow-when-locked=true { spawn "pamixer" "-d" "5"; }
+    XF86AudioMute         allow-when-locked=true { spawn "pamixer" "-t"; }
+    XF86AudioPlay         allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioNext         allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPrev         allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "set" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "5%-"; }
+
+    // Escape hatch so a misbehaving app can't hold the keyboard hostage.
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    Ctrl+Alt+Delete { quit; }
+    Mod+Shift+End { power-off-monitors; }
+}
