@@ -7,52 +7,8 @@
 
 let
   hyprswitch = pkgs.callPackage ./hyprswitch.nix { };
-
-  claude-code-pin-overlay = final: prev: {
-    claude-code = prev.claude-code.override {
-      manifest = {
-        version = "2.1.280";
-        platforms = {
-          "linux-x64" = {
-            binary = "claude.zst";
-            checksum = final.lib.fakeHash;
-          };
-        };
-      };
-    };
-
-    vscode-extensions = prev.vscode-extensions // {
-      anthropic = (prev.vscode-extensions.anthropic or { }) // {
-        claude-code = final.vscode-utils.buildVscodeMarketplaceExtension {
-          mktplcRef = {
-            name = "claude-code";
-            publisher = "anthropic";
-            version = "2.1.280";
-            arch = "linux-x64";
-            hash = final.lib.fakeHash;
-          };
-          nativeBuildInputs = final.lib.optionals final.stdenv.hostPlatform.isLinux [
-            final.autoPatchelfHook
-          ];
-          buildInputs = final.lib.optionals final.stdenv.hostPlatform.isLinux [
-            (final.lib.getLib final.stdenv.cc.cc)
-            final.alsa-lib
-          ];
-          meta = with final.lib; {
-            description = "Harness the power of Claude Code without leaving your IDE";
-            homepage = "https://docs.anthropic.com/s/claude-code";
-            downloadPage = "https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code";
-            license = licenses.unfree;
-            platforms = [ "x86_64-linux" ];
-          };
-        };
-      };
-    };
-  };
 in
 {
-  nixpkgs.overlays = [ claude-code-pin-overlay ];
-
   environment.systemPackages = with pkgs; [
     hyprswitch
 
