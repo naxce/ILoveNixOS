@@ -1,54 +1,57 @@
 #!/usr/bin/env bash
-# Overview of the infinite canvas: every occupied cell, what's on it, and a
-# jump to whichever you pick.
+# Pick a window on the infinite canvas and bring the view to it.
 #
-# This exists because Hyprland's cursor zoom only magnifies -- a factor below
-# 1.0 is accepted by the config but clamped away by the renderer -- so there
-# is no "zoom out until you see everything". A picker covers that instead.
+# On a canvas that is zoomed out, or panned a long way from where you left
+# something, hunting for a window by eye stops working. This lists what is on
+# the canvas and centres the view on whichever you pick.
 set -euo pipefail
 
-jump() { # jump <workspace name>
-    # hyprctl dispatch is intercepted by the Lua config layer and only accepts
-    # hl.dsp.* objects, so go through eval.
-    # "name:" matters: a bare name is read as an id, so an empty cell is
-    # rejected instead of being created.
-    hyprctl eval "hl.dispatch(hl.dsp.focus({ workspace = 'name:$1' }))" >/dev/null
-}
+CANVAS_WS="canvas"
 
-current="$(hyprctl activeworkspace -j | jq -r '.name')"
-
-# One row per occupied cell: coordinates, window count, and the app names, so
-# you can recognise a cell without having to remember its number.
-rows="$(hyprctl clients -j | jq -r --arg current "$current" '
-    [ .[] | select(.workspace.name | test("^canvas_-?[0-9]+_-?[0-9]+$")) ]
-    | group_by(.workspace.name)
-    | map({
-        name: .[0].workspace.name,
-        x:    (.[0].workspace.name | capture("^canvas_(?<x>-?[0-9]+)_(?<y>-?[0-9]+)$") | .x | tonumber),
-        y:    (.[0].workspace.name | capture("^canvas_(?<x>-?[0-9]+)_(?<y>-?[0-9]+)$") | .y | tonumber),
-        count: length,
-        apps: ([ .[] | .class | select(. != "") ] | unique | join(", "))
-      })
-    | sort_by(.y, .x)
+rows="$(hyprctl clients -j | jq -r --arg ws "$CANVAS_WS" '
+    [ .[] | select(.workspace.name == $ws) ]
+    | sort_by(.at[1], .at[0])
     | .[]
-    | "\(if .name == $current then "●" else "○" end)  \(.x), \(.y)\t\(.count) window\(if .count == 1 then "" else "s" end)  ·  \(.apps)\t\(.name)"
+    | "\(.class)\t\(.title[0:60])\t\(.address)"
 ')"
 
-# The home cell is always worth offering even when nothing is on it yet.
-if ! grep -qP '\tcanvas_0_0$' <<<"${rows:-}"; then
-    home_mark="$([ "$current" = "canvas_0_0" ] && printf '●' || printf '○')"
-    rows="$(printf '%s  0, 0\tempty\tcanvas_0_0\n%s' "$home_mark" "${rows:+$rows}")"
+if [ -z "${rows//[[:space:]]/}" ]; then
+    hyprctl notify 1 2500 0 "Canvas is empty" >/dev/null 2>&1 || true
+    exit 0
 fi
 
 choice="$(printf '%s\n' "$rows" \
     | column -t -s $'\t' -o '   ' \
-    | rofi -dmenu -i -p "Canvas" -mesg "Pick a cell to jump to" -format 's' \
+    | rofi -dmenu -i -p "Canvas" -mesg "Jump to a window" \
     || true)"
 
 [ -n "${choice:-}" ] || exit 0
 
-# Recover the workspace name from the trailing column the picker displayed.
-target="$(grep -oE 'canvas_-?[0-9]+_-?[0-9]+' <<<"$choice" | tail -1)"
-[ -n "$target" ] || exit 0
+address="$(grep -oE '0x[0-9a-f]+' <<<"$choice" | tail -1)"
+[ -n "$address" ] || exit 0
 
-jump "$target"
+# Focus it, then slide the whole canvas so it lands in the middle of the
+# monitor. Panning moves every window together, which is what keeps their
+# relative positions on the plane intact.
+# hyprctl dispatch is intercepted by the Lua config layer and only accepts
+# hl.dsp.* objects, so go through eval.
+hyprctl eval "
+    hl.dispatch(hl.dsp.focus({ workspace = 'name:${CANVAS_WS}' }))
+    local win = hl.get_window('address:${address}')
+    local mon = hl.get_active_monitor()
+    if win and mon and win.floating then
+        local dx = (mon.x + (mon.width  - win.size.x) / 2) - win.at.x
+        local dy = (mon.y + (mon.height - win.size.y) / 2) - win.at.y
+        for _, w in ipairs(hl.get_windows({ workspace = '${CANVAS_WS}' })) do
+            if w.floating then
+                hl.dispatch(hl.dsp.window.move({
+                    x = math.floor(w.at.x + dx),
+                    y = math.floor(w.at.y + dy),
+                    exact = true,
+                    window = 'address:' .. tostring(w.address),
+                }))
+            end
+        end
+    end
+    hl.dispatch(hl.dsp.focus({ window = 'address:${address}' }))
+" >/dev/null

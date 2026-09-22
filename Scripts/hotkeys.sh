@@ -46,20 +46,22 @@ Super + Shift + 1..0	Move active window to workspace 1-10
 Super + Ctrl + Left/Right	Go to previous/next workspace
 Super + Mouse wheel	Scroll through workspaces
 ── Infinite canvas ──	
-Super + Alt + C	Enter canvas mode: single keys drive the canvas, Esc leaves
-Super + Alt + Arrows	Pan across the infinite 2D canvas
-Super + Alt + Shift + Arrows	Pan the canvas, bringing the active window with you
-Super + Alt + Ctrl + Arrows	Send the window to the next cell without following it
-Super + Alt + Home	Jump straight back to canvas home (0, 0)
-Super + Alt + O	Overview: pick any occupied cell and jump to it
-Super + Alt + = / -	Zoom in / out (zoom out bottoms out at fit)
-Super + Alt + 0	Reset zoom to fit
-Super + Alt + G	Attach/detach the window into a tiled group
+Super + Alt + C	Open the canvas and enter canvas mode
+Super + Alt + Home	Open the canvas
+Super + Alt + Arrows	Pan across the canvas (it has no edges)
+Super + Alt + Shift + Arrows	Move the focused window across the canvas
+Super + Alt + = / -	Zoom in / out
+Super + Alt + Scroll	Zoom in / out around the pointer
+Super + Alt + 0	Zoom to fit every window on one screen
+Super + Alt + T	Tile every window on the canvas into a grid
+Super + Alt + O	Jump to a window on the canvas
+Super + Alt + G	Attach/detach the focused window into a tiled group
 Super + drag onto a window	Drop one window on another to tile them together
 	
-In canvas mode	arrows or hjkl pan · Shift carries the window · Ctrl sends it
-	+ / - zoom · 0 fit · g attach · f float/tile · Tab cycles a group
-	o overview · c home · Return terminal · ? keys · Esc or q leaves
+In canvas mode	arrows or hjkl pan · Shift moves the window
+	+ / - or scroll zoom · 0 fit · t tile · c centre
+	g attach · f float/tile · Tab cycles a group · o jump
+	Return terminal · ? keys · Esc or q leaves
 ── Screenshots & tools ──	
 Print	Screenshot a selected region, opens in Swappy to edit
 Shift + Print	Screenshot the full screen, opens in Swappy to edit

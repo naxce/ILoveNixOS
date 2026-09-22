@@ -1,52 +1,57 @@
--- Infinite 2D workspace canvas.
+-- Infinite floating canvas.
 --
--- Workspaces named "canvas_<x>_<y>" form a boundless grid you can pan across
--- in any of the 4 directions, forever. Stepping onto a cell that doesn't
--- exist yet creates it on the fly, exactly like any other named Hyprland
--- workspace; stepping away from an empty one lets Hyprland clean it back up
--- automatically. Nothing here reads or writes any state file - the current
--- cell is always derived live from whichever workspace is actually focused,
--- so it can never drift out of sync.
+-- One workspace, "canvas", holding floating windows on a plane that has no
+-- edges. Panning and zooming are affine transforms applied to the windows
+-- themselves - every window on the canvas is moved and resized together -
+-- rather than anything the compositor does to the screen.
 --
--- Windows opened on a cell start out floating, so a cell behaves like a
--- free-form board rather than a tiling workspace. Attaching windows to each
--- other (SUPER+ALT+G, or `g` in canvas mode) drops them into a Hyprland
--- group, which is what actually tiles them together.
+-- That indirection is the whole trick, and it is what makes this work at all:
 --
--- Everything is reachable two ways: a direct chord from anywhere, or canvas
--- mode (SUPER+ALT+C), which is a submap where single keys drive the canvas
--- and a live HUD shows where you are. Press ? in the mode for the key list.
+--   * Hyprland's own zoom (cursor:zoom_factor) only ever magnifies. Factors
+--     below 1.0 are accepted by the config and then clamped away by the
+--     renderer - 0.5 produces a pixel-identical frame to 1.0 - so it can
+--     never show you more than one screen. Scaling the windows can.
+--   * Hyprland does not clamp floating windows to the monitor. They can sit
+--     at negative coordinates or thousands of pixels off to the side and
+--     stay there, which is what gives the plane its unbounded extent.
 --
--- This is entirely additive: it lives alongside the normal 1-10 workspaces
--- in monitors.lua/binds.lua and never touches them.
+-- The trade-off is that this is a layout zoom, not a render zoom: shrinking a
+-- window makes the application reflow into a smaller window rather than
+-- drawing its content smaller, so a terminal ends up with fewer columns. That
+-- is the honest limit of doing this without a compositor plugin.
+--
+-- Nothing here stores window positions. Every transform reads the windows'
+-- real geometry and writes back new geometry, so dragging a window by hand,
+-- or resizing it, is picked up automatically on the next pan or zoom.
+--
+-- This is additive: it lives alongside the normal 1-10 workspaces and never
+-- touches them.
 
 local mainMod   = "SUPER"
 local canvasMod = mainMod .. " + ALT"
 
-local CANVAS_PREFIX = "canvas_"
-local TERMINAL      = "kitty"
+local CANVAS_WS   = "canvas"
+local CANVAS_SEL  = "name:" .. CANVAS_WS -- dispatchers need the name: selector
+local TERMINAL    = "kitty"
 
--- Hyprland's cursor zoom only ever magnifies. Factors below 1.0 are accepted
--- by the config but clamped away by the renderer (0.5 renders identically to
--- 1.0), so zooming out bottoms out at "fit" and the overview picker is what
--- covers seeing the whole canvas at once.
-local ZOOM_MIN  = 1.0
-local ZOOM_MAX  = 4.0
-local ZOOM_STEP = 0.25
+local PAN_STEP  = 260  -- screen pixels per pan press
+local ZOOM_STEP = 1.2  -- multiplier per zoom press
+local SCALE_MIN = 0.12 -- far enough out to hold a lot of windows
+local SCALE_MAX = 3.0
+local FIT_PAD   = 70   -- breathing room around a fit-to-screen
+local MIN_PX    = 60   -- never shrink a window below this, it stops being usable
+local CASCADE_STEP = 46 -- how far each new window is offset from the last
+local CASCADE_WRAP = 7  -- restart the cascade after this many
 
-local HUD_MODE_TIMEOUT = 60000 -- canvas mode: HUD stays up while you work
-local HUD_FLASH_TIMEOUT = 1100 -- direct chords: brief toast
+local HUD_MODE_TIMEOUT  = 60000 -- canvas mode: HUD stays up while you work
+local HUD_FLASH_TIMEOUT = 1200  -- direct chords: brief toast
 
--- Hyprland tweens zoomFactor natively, so stepping the target value is all we
--- have to do - no timer loop needed to make it smooth.
-hl.curve("canvasZoom", { type = "bezier", points = { { 0.16, 1 }, { 0.3, 1 } } })
-hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "canvasZoom" })
+-- How far out we currently are. Only used for clamping and the readout, so a
+-- pixel of rounding drift over many steps does not matter.
+local scale = 1.0
 
--- Attaching is Hyprland's own group mechanic rather than anything scripted
--- here, because the compositor does it properly: drag_into_group lets you
--- drop one window onto another to tile them together (SUPER + left-drag),
--- and auto_group makes the next window opened onto a cell join the group
--- you are focused on instead of landing beside it.
+-- Attaching is Hyprland's own group mechanic: drag_into_group lets you drop
+-- one window onto another (SUPER + left-drag) to tile them into one stack.
 hl.config({
     group = {
         drag_into_group = true,
@@ -62,7 +67,7 @@ hl.config({
 -- the canvas matches the rest of the desktop instead of hardcoding one look.
 local ACCENTS = {
     noir      = "rgb(ffffff)",
-    dachshund = "rgb(a85c32)",
+    dachshund = "rgb(c9702f)",
 }
 
 local function accent()
@@ -79,75 +84,73 @@ local function accent()
 end
 
 --------------------------------------------------------------------------
--- Where am I
+-- The canvas
 --------------------------------------------------------------------------
-
--- Reads the currently focused workspace and returns its (x, y) canvas
--- coordinate. Falls back to the origin (0, 0) when the active workspace
--- isn't a canvas cell at all - e.g. you're on workspace "1" - so every
--- canvas bind is always safe to press from anywhere.
-local function current_coords()
-    local ws = hl.get_active_workspace()
-    if ws and ws.name then
-        local x, y = ws.name:match("^" .. CANVAS_PREFIX .. "(%-?%d+)_(%-?%d+)$")
-        if x then
-            return tonumber(x), tonumber(y)
-        end
-    end
-    return 0, 0
-end
 
 local function on_canvas()
     local ws = hl.get_active_workspace()
-    return ws ~= nil
-        and ws.name ~= nil
-        and ws.name:match("^" .. CANVAS_PREFIX .. "%-?%d+_%-?%d+$") ~= nil
+    return ws ~= nil and ws.name == CANVAS_WS
 end
 
-local function cell_name(x, y)
-    return CANVAS_PREFIX .. x .. "_" .. y
-end
-
--- Dispatchers need the "name:" selector, not the bare workspace name. A bare
--- name is read as a workspace id and a cell that doesn't exist yet is simply
--- rejected ("Bad workspace"), which is what silently stopped panning from
--- ever opening a new cell. With the prefix, stepping onto an empty cell
--- creates it, which is the whole point of the grid being boundless.
-local function cell_selector(x, y)
-    return "name:" .. cell_name(x, y)
-end
-
---------------------------------------------------------------------------
--- Zoom
---------------------------------------------------------------------------
-
--- Read the live value rather than tracking our own copy, for the same reason
--- the coordinates are derived live: a cached number can drift, this can't.
-local function get_zoom()
-    local ok, value = pcall(hl.get_config, "cursor.zoom_factor")
-    if ok and type(value) == "number" and value > 0 then
-        return value
+-- Only floating windows take part. A window that has been attached into a
+-- group is tiled, and the compositor owns its geometry from then on.
+local function canvas_windows()
+    local ok, all = pcall(hl.get_windows, { workspace = CANVAS_WS })
+    if not ok or type(all) ~= "table" then
+        return {}
     end
-    return ZOOM_MIN
+    local out = {}
+    for _, w in ipairs(all) do
+        if w.floating then
+            out[#out + 1] = w
+        end
+    end
+    return out
 end
 
-local function set_zoom(z)
-    if z < ZOOM_MIN then
-        z = ZOOM_MIN
-    elseif z > ZOOM_MAX then
-        z = ZOOM_MAX
+local function viewport()
+    local mon = hl.get_active_monitor()
+    if not mon then
+        return 0, 0, 1920, 1080
     end
-    z = math.floor(z * 100 + 0.5) / 100
-    pcall(hl.config, { cursor = { zoom_factor = z } })
-    return z
+    return mon.x, mon.y, mon.width, mon.height
+end
+
+-- Apply one affine transform to every window on the canvas. `fn` takes the
+-- window's current rect and returns the new one; nil width/height means leave
+-- the size alone, which is what panning wants.
+local function transform(fn)
+    local windows = canvas_windows()
+    for _, w in ipairs(windows) do
+        local at, size = w.at, w.size
+        local ok, nx, ny, nw, nh = pcall(fn, at.x, at.y, size.x, size.y)
+        if ok and nx then
+            local addr = "address:" .. tostring(w.address)
+            if nw and nh then
+                pcall(hl.dispatch, hl.dsp.window.resize({
+                    x = math.max(MIN_PX, math.floor(nw + 0.5)),
+                    y = math.max(MIN_PX, math.floor(nh + 0.5)),
+                    exact = true,
+                    window = addr,
+                }))
+            end
+            pcall(hl.dispatch, hl.dsp.window.move({
+                x = math.floor(nx + 0.5),
+                y = math.floor(ny + 0.5),
+                exact = true,
+                window = addr,
+            }))
+        end
+    end
+    return #windows
 end
 
 --------------------------------------------------------------------------
 -- HUD
 --------------------------------------------------------------------------
 
--- One long-lived notification we keep re-texting, so panning around in canvas
--- mode updates a single readout instead of stacking up a pile of toasts.
+-- One long-lived notification we keep re-texting, so panning around updates a
+-- single readout instead of stacking up a pile of toasts.
 local hud = nil
 
 local function hud_alive()
@@ -186,34 +189,6 @@ local function hud_hide()
     hud = nil
 end
 
-local function zoom_label(z)
-    if z <= ZOOM_MIN then
-        return "fit"
-    end
-    return string.format("%.2gx", z)
-end
-
--- The one readout everything funnels through: where you are, how far in you
--- are zoomed, and how much is on this cell.
-local function status(prefix, timeout)
-    local x, y = current_coords()
-    local windows = 0
-    local ok, list = pcall(hl.get_workspace_windows, cell_selector(x, y))
-    if ok and type(list) == "table" then
-        windows = #list
-    end
-
-    local text = string.format(
-        "%s   cell %d, %d    zoom %s    %d window%s",
-        prefix, x, y, zoom_label(get_zoom()), windows, windows == 1 and "" or "s"
-    )
-    hud_show(text, timeout or HUD_FLASH_TIMEOUT)
-end
-
---------------------------------------------------------------------------
--- Actions
---------------------------------------------------------------------------
-
 local function in_mode()
     return hl.get_current_submap() == "canvas"
 end
@@ -222,73 +197,206 @@ local function hud_timeout()
     return in_mode() and HUD_MODE_TIMEOUT or HUD_FLASH_TIMEOUT
 end
 
--- mode: "pan" moves focus only, "carry" drags the active window along,
--- "throw" sends the window over without following it.
-local function step(dx, dy, mode)
-    return function()
-        local x, y = current_coords()
-        local target = cell_selector(x + dx, y + dy)
+local function status(prefix)
+    local n = #canvas_windows()
+    hud_show(string.format(
+        "%s   zoom %d%%    %d window%s on the canvas",
+        prefix, math.floor(scale * 100 + 0.5), n, n == 1 and "" or "s"
+    ), hud_timeout())
+end
 
-        if mode == "carry" then
-            hl.dispatch(hl.dsp.window.move({ workspace = target, follow = true }))
-        elseif mode == "throw" then
-            hl.dispatch(hl.dsp.window.move({ workspace = target, follow = false }))
-        else
-            hl.dispatch(hl.dsp.focus({ workspace = target }))
+--------------------------------------------------------------------------
+-- Pan and zoom
+--------------------------------------------------------------------------
+
+-- Moving every window the other way is what moves the camera.
+local function do_pan(dx, dy)
+    transform(function(x, y)
+        return x - dx, y - dy
+    end)
+end
+
+local function pan(dx, dy)
+    return function()
+        do_pan(dx, dy)
+        status("Canvas")
+    end
+end
+
+-- Zoom about a fixed point, so whatever is under the cursor stays put.
+local function zoom_about(factor, px, py)
+    local target = scale * factor
+    if target < SCALE_MIN or target > SCALE_MAX then
+        status("Canvas   limit")
+        return
+    end
+    transform(function(x, y, w, h)
+        return px + (x - px) * factor,
+            py + (y - py) * factor,
+            w * factor,
+            h * factor
+    end)
+    scale = target
+end
+
+local function do_zoom(factor)
+    local p = hl.get_cursor_pos()
+    local mx, my, mw, mh = viewport()
+    zoom_about(factor, (p and p.x) or (mx + mw / 2), (p and p.y) or (my + mh / 2))
+end
+
+local function zoom(factor)
+    return function()
+        do_zoom(factor)
+        status("Canvas")
+    end
+end
+
+-- Zoom to fit: the real "show me everything". Measures the bounding box of
+-- every window on the canvas and scales it down to sit on one screen.
+local function fit()
+    local windows = canvas_windows()
+    if #windows == 0 then
+        status("Canvas   empty")
+        return
+    end
+
+    local minx, miny = math.huge, math.huge
+    local maxx, maxy = -math.huge, -math.huge
+    for _, w in ipairs(windows) do
+        local a, s = w.at, w.size
+        minx = math.min(minx, a.x)
+        miny = math.min(miny, a.y)
+        maxx = math.max(maxx, a.x + s.x)
+        maxy = math.max(maxy, a.y + s.y)
+    end
+
+    local mx, my, mw, mh = viewport()
+    local availW = mw - FIT_PAD * 2
+    local availH = mh - FIT_PAD * 2
+    local spanW = math.max(1, maxx - minx)
+    local spanH = math.max(1, maxy - miny)
+
+    local factor = math.min(availW / spanW, availH / spanH)
+    factor = math.max(SCALE_MIN / scale, math.min(factor, SCALE_MAX / scale))
+
+    -- Scale about the bounding box's top-left, then slide the whole thing to
+    -- the middle of the monitor.
+    transform(function(x, y, w, h)
+        return minx + (x - minx) * factor,
+            miny + (y - miny) * factor,
+            w * factor,
+            h * factor
+    end)
+
+    local newW, newH = spanW * factor, spanH * factor
+    local offX = mx + (mw - newW) / 2 - minx
+    local offY = my + (mh - newH) / 2 - miny
+    transform(function(x, y)
+        return x + offX, y + offY
+    end)
+
+    scale = scale * factor
+    status("Fit")
+end
+
+-- Put the focused window in the middle without changing the zoom.
+local function center_on_focused()
+    local win = hl.get_active_window()
+    if not win or not win.floating then
+        status("Canvas")
+        return
+    end
+    local mx, my, mw, mh = viewport()
+    local a, s = win.at, win.size
+    local dx = (mx + (mw - s.x) / 2) - a.x
+    local dy = (my + (mh - s.y) / 2) - a.y
+    transform(function(x, y)
+        return x + dx, y + dy
+    end)
+    status("Centred")
+end
+
+-- Lay every window out in a neat grid filling the screen. This is the "just
+-- tidy it up" escape hatch, and it also resets the zoom to 100%.
+local function tile_all()
+    local windows = canvas_windows()
+    if #windows == 0 then
+        status("Canvas   empty")
+        return
+    end
+
+    local mx, my, mw, mh = viewport()
+    local cols = math.ceil(math.sqrt(#windows))
+    local rows = math.ceil(#windows / cols)
+    local gap = 14
+    local cellW = (mw - gap * (cols + 1)) / cols
+    local cellH = (mh - gap * (rows + 1)) / rows
+
+    for i, w in ipairs(windows) do
+        local col = (i - 1) % cols
+        local row = math.floor((i - 1) / cols)
+        local addr = "address:" .. tostring(w.address)
+        pcall(hl.dispatch, hl.dsp.window.resize({
+            x = math.max(MIN_PX, math.floor(cellW)),
+            y = math.max(MIN_PX, math.floor(cellH)),
+            exact = true,
+            window = addr,
+        }))
+        pcall(hl.dispatch, hl.dsp.window.move({
+            x = math.floor(mx + gap + col * (cellW + gap)),
+            y = math.floor(my + gap + row * (cellH + gap)),
+            exact = true,
+            window = addr,
+        }))
+    end
+
+    scale = 1.0
+    status("Tiled")
+end
+
+--------------------------------------------------------------------------
+-- Windows
+--------------------------------------------------------------------------
+
+local function open_canvas()
+    hl.dispatch(hl.dsp.focus({ workspace = CANVAS_SEL }))
+end
+
+-- Move the focused window across the plane, leaving the rest of the canvas
+-- where it is.
+local function shove(dx, dy)
+    return function()
+        local win = hl.get_active_window()
+        if not win or not win.floating then
+            return
         end
-
-        status(mode == "throw" and "Sent" or "Canvas", hud_timeout())
+        local a = win.at
+        pcall(hl.dispatch, hl.dsp.window.move({
+            x = math.floor(a.x + dx),
+            y = math.floor(a.y + dy),
+            exact = true,
+            window = "address:" .. tostring(win.address),
+        }))
+        status("Moved")
     end
 end
 
-local function go_home()
-    hl.dispatch(hl.dsp.focus({ workspace = cell_selector(0, 0) }))
-    status("Home", hud_timeout())
-end
-
-local function zoom_by(delta)
-    return function()
-        set_zoom(get_zoom() + delta)
-        status("Canvas", hud_timeout())
-    end
-end
-
-local function zoom_reset()
-    set_zoom(ZOOM_MIN)
-    status("Canvas", hud_timeout())
-end
-
--- Attaching: a Hyprland group is what turns loose floating windows into a
--- tiled/tabbed stack, so "attach" and "group" are the same gesture here. A
--- floating window has to be tiled first or it just floats on top of the group.
 local function toggle_attach()
     local win = hl.get_active_window()
     if win and win.floating then
         pcall(hl.dispatch, hl.dsp.window.float({ action = "off" }))
     end
     pcall(hl.dispatch, hl.dsp.group.toggle())
-
-    local grouped = false
-    local ok, current = pcall(hl.get_active_window)
-    if ok and current and current.group then
-        grouped = true
-    end
-    status(grouped and "Attached" or "Detached", hud_timeout())
+    local now = hl.get_active_window()
+    status((now and now.group) and "Attached" or "Detached")
 end
 
 local function toggle_float()
     pcall(hl.dispatch, hl.dsp.window.float({ action = "toggle" }))
     local win = hl.get_active_window()
-    status((win and win.floating) and "Floating" or "Tiled", hud_timeout())
+    status((win and win.floating) and "Floating" or "Tiled")
 end
-
-local function overview()
-    hl.dispatch(hl.dsp.exec_cmd(os.getenv("HOME") .. "/NixOS/Scripts/canvas-overview.sh"))
-end
-
---------------------------------------------------------------------------
--- A cell is a floating board
---------------------------------------------------------------------------
 
 -- Keybinds and submaps are rebuilt from scratch on a config reload, but event
 -- subscriptions are not, so drop the previous load's before subscribing again
@@ -302,30 +410,58 @@ if _G.__canvas_subscriptions then
 end
 _G.__canvas_subscriptions = {}
 
--- Windows that open on a canvas cell start floating, which is what makes it a
--- canvas rather than just another tiling workspace. Grouped windows are left
--- alone: being in a group is the whole point of having attached them.
---
--- This checks the workspace the new window actually landed on, not the one
--- you happen to be looking at, so a window opened onto a cell in the
--- background (`silent` window rules, a cell you threw something to) still
--- floats the way it would have if you were standing there.
+-- A window opening on the canvas floats, and is scaled to match how far out
+-- the view currently is - otherwise a new terminal lands at full size on a
+-- canvas zoomed out to 20% and swamps everything already there.
 table.insert(_G.__canvas_subscriptions, hl.on("window.open", function(opened)
     pcall(function()
-        -- The event hands us the window as userdata, not a table, so take it
-        -- as-is rather than type-checking it into the fallback path.
+        -- The event hands the window over as userdata, not a table, so take
+        -- it as-is rather than type-checking it into a fallback.
         local win = opened or hl.get_active_window()
-        if not win or win.floating or win.group then
+        if not win or win.group then
             return
         end
         local ws = win.workspace
-        if not (ws and ws.name and ws.name:match("^" .. CANVAS_PREFIX .. "%-?%d+_%-?%d+$")) then
+        if not (ws and ws.name == CANVAS_WS) then
             return
         end
-        hl.dispatch(hl.dsp.window.float({
-            action = "on",
-            window = "address:" .. tostring(win.address),
-        }))
+
+        local addr = "address:" .. tostring(win.address)
+        local existing = #canvas_windows()
+        if not win.floating then
+            hl.dispatch(hl.dsp.window.float({ action = "on", window = addr }))
+        end
+
+        local fresh = hl.get_window(addr)
+        if not fresh then
+            return
+        end
+
+        if math.abs(scale - 1.0) > 0.01 then
+            hl.dispatch(hl.dsp.window.resize({
+                x = math.max(MIN_PX, math.floor(fresh.size.x * scale)),
+                y = math.max(MIN_PX, math.floor(fresh.size.y * scale)),
+                exact = true,
+                window = addr,
+            }))
+            fresh = hl.get_window(addr) or fresh
+        end
+
+        -- Hyprland centres every floating window, so on a canvas they all
+        -- land in one stack and you cannot tell there is more than one.
+        -- Cascade them instead, wrapping so a long session doesn't march
+        -- everything off the edge.
+        if existing > 0 then
+            -- Offset from where it was centred, so the stack fans out from
+            -- the middle of the screen rather than from a corner.
+            local offset = CASCADE_STEP * ((existing - 1) % CASCADE_WRAP + 1)
+            hl.dispatch(hl.dsp.window.move({
+                x = math.floor(fresh.at.x + offset),
+                y = math.floor(fresh.at.y + offset),
+                exact = true,
+                window = addr,
+            }))
+        end
     end)
 end))
 
@@ -334,27 +470,48 @@ end))
 --------------------------------------------------------------------------
 
 local directions = {
-    { key = "left",  dx = -1, dy = 0, },
-    { key = "right", dx = 1,  dy = 0, },
-    { key = "up",    dx = 0,  dy = -1, },
-    { key = "down",  dx = 0,  dy = 1, },
+    { key = "left",  dx = -1, dy = 0 },
+    { key = "right", dx = 1,  dy = 0 },
+    { key = "up",    dx = 0,  dy = -1 },
+    { key = "down",  dx = 0,  dy = 1 },
 }
 
 for _, d in ipairs(directions) do
-    hl.bind(canvasMod .. " + " .. d.key, step(d.dx, d.dy, "pan"),
-        { description = "Canvas: pan " .. d.key })
-    hl.bind(canvasMod .. " + SHIFT + " .. d.key, step(d.dx, d.dy, "carry"),
-        { description = "Canvas: pan " .. d.key .. " with the window" })
-    hl.bind(canvasMod .. " + CTRL + " .. d.key, step(d.dx, d.dy, "throw"),
-        { description = "Canvas: send the window " .. d.key .. ", stay here" })
+    hl.bind(canvasMod .. " + " .. d.key, pan(d.dx * PAN_STEP, d.dy * PAN_STEP),
+        { description = "Canvas: pan " .. d.key, repeating = true })
+    hl.bind(canvasMod .. " + SHIFT + " .. d.key, shove(d.dx * PAN_STEP, d.dy * PAN_STEP),
+        { description = "Canvas: move the window " .. d.key, repeating = true })
 end
 
-hl.bind(canvasMod .. " + Home", go_home, { description = "Canvas: home cell" })
+hl.bind(canvasMod .. " + C", function()
+    open_canvas()
+    hl.dispatch(hl.dsp.submap("canvas"))
+    status("Canvas mode   ? for keys")
+end, { description = "Canvas: open the canvas and enter canvas mode" })
+
+hl.bind(canvasMod .. " + Home", open_canvas, { description = "Canvas: open the canvas" })
+hl.bind(canvasMod .. " + 0", fit, { description = "Canvas: zoom to fit everything" })
+hl.bind(canvasMod .. " + T", tile_all, { description = "Canvas: tile every window in a grid" })
 hl.bind(canvasMod .. " + G", toggle_attach, { description = "Canvas: attach/detach window" })
-hl.bind(canvasMod .. " + O", overview, { description = "Canvas: overview" })
-hl.bind(canvasMod .. " + equal", zoom_by(ZOOM_STEP), { description = "Canvas: zoom in", repeating = true })
-hl.bind(canvasMod .. " + minus", zoom_by(-ZOOM_STEP), { description = "Canvas: zoom out", repeating = true })
-hl.bind(canvasMod .. " + 0", zoom_reset, { description = "Canvas: reset zoom" })
+
+-- Both the bare key and its shifted form, so it fires whether you reach for
+-- "=" or "+".
+for _, k in ipairs({ "equal", "plus" }) do
+    hl.bind(canvasMod .. " + " .. k, zoom(ZOOM_STEP),
+        { description = "Canvas: zoom in", repeating = true })
+    hl.bind(canvasMod .. " + SHIFT + " .. k, zoom(ZOOM_STEP),
+        { description = "Canvas: zoom in", repeating = true })
+end
+for _, k in ipairs({ "minus", "underscore" }) do
+    hl.bind(canvasMod .. " + " .. k, zoom(1 / ZOOM_STEP),
+        { description = "Canvas: zoom out", repeating = true })
+    hl.bind(canvasMod .. " + SHIFT + " .. k, zoom(1 / ZOOM_STEP),
+        { description = "Canvas: zoom out", repeating = true })
+end
+
+-- Scroll to zoom, the way every other canvas does it.
+hl.bind(canvasMod .. " + mouse_up", zoom(ZOOM_STEP), { description = "Canvas: zoom in" })
+hl.bind(canvasMod .. " + mouse_down", zoom(1 / ZOOM_STEP), { description = "Canvas: zoom out" })
 
 --------------------------------------------------------------------------
 -- Canvas mode - single-key control
@@ -363,25 +520,22 @@ hl.bind(canvasMod .. " + 0", zoom_reset, { description = "Canvas: reset zoom" })
 local HELP = table.concat({
     "Canvas mode",
     "",
-    "arrows / hjkl      pan",
-    "SHIFT + move       pan, carrying the window",
-    "CTRL + move        send the window over, stay",
+    "arrows / hjkl      pan across the canvas",
+    "SHIFT + move       move the focused window instead",
     "",
-    "+ / -              zoom in / out        0   fit",
-    "g                  attach / detach      f   float / tile",
-    "TAB / SHIFT+TAB    cycle in the group",
+    "+ / -  or scroll   zoom in / out",
+    "0                  zoom to fit everything",
+    "t                  tile every window in a grid",
+    "c                  centre on the focused window",
+    "",
+    "g   attach / detach      f   float / tile",
+    "TAB cycle in a group     o   jump to a window",
     "",
     "drag a window onto another with SUPER",
     "to attach them into one tiled stack",
     "",
-    "o overview     c home     RETURN terminal",
-    "?  this help   ESC or q   leave canvas mode",
+    "RETURN terminal    ? this help    ESC / q  leave",
 }, "\n")
-
-local function enter_mode()
-    hl.dispatch(hl.dsp.submap("canvas"))
-    status("Canvas mode   ? for keys", HUD_MODE_TIMEOUT)
-end
 
 local function leave_mode()
     hl.dispatch(hl.dsp.submap("reset"))
@@ -390,36 +544,42 @@ end
 
 hl.define_submap("canvas", function()
     local keys = {
-        { keys = { "left", "H" },  dx = -1, dy = 0, },
-        { keys = { "right", "L" }, dx = 1,  dy = 0, },
-        { keys = { "up", "K" },    dx = 0,  dy = -1, },
-        { keys = { "down", "J" },  dx = 0,  dy = 1, },
+        { keys = { "left", "H" },  dx = -1, dy = 0 },
+        { keys = { "right", "L" }, dx = 1,  dy = 0 },
+        { keys = { "up", "K" },    dx = 0,  dy = -1 },
+        { keys = { "down", "J" },  dx = 0,  dy = 1 },
     }
-
     for _, d in ipairs(keys) do
         for _, key in ipairs(d.keys) do
-            hl.bind(key, step(d.dx, d.dy, "pan"), { repeating = true })
-            hl.bind("SHIFT + " .. key, step(d.dx, d.dy, "carry"), { repeating = true })
-            hl.bind("CTRL + " .. key, step(d.dx, d.dy, "throw"))
+            hl.bind(key, pan(d.dx * PAN_STEP, d.dy * PAN_STEP), { repeating = true })
+            hl.bind("SHIFT + " .. key, shove(d.dx * PAN_STEP, d.dy * PAN_STEP), { repeating = true })
         end
     end
 
-    hl.bind("equal", zoom_by(ZOOM_STEP), { repeating = true })
-    hl.bind("plus", zoom_by(ZOOM_STEP), { repeating = true })
-    hl.bind("minus", zoom_by(-ZOOM_STEP), { repeating = true })
-    hl.bind("0", zoom_reset)
+    for _, k in ipairs({ "equal", "plus" }) do
+        hl.bind(k, zoom(ZOOM_STEP), { repeating = true })
+        hl.bind("SHIFT + " .. k, zoom(ZOOM_STEP), { repeating = true })
+    end
+    for _, k in ipairs({ "minus", "underscore" }) do
+        hl.bind(k, zoom(1 / ZOOM_STEP), { repeating = true })
+        hl.bind("SHIFT + " .. k, zoom(1 / ZOOM_STEP), { repeating = true })
+    end
+    hl.bind("mouse_up", zoom(ZOOM_STEP))
+    hl.bind("mouse_down", zoom(1 / ZOOM_STEP))
 
+    hl.bind("0", fit)
+    hl.bind("T", tile_all)
+    hl.bind("C", center_on_focused)
     hl.bind("G", toggle_attach)
     hl.bind("F", toggle_float)
     hl.bind("Tab", hl.dsp.group.next())
     hl.bind("SHIFT + Tab", hl.dsp.group.prev())
-
-    hl.bind("C", go_home)
     hl.bind("O", function()
-        overview()
+        hl.dispatch(hl.dsp.exec_cmd(os.getenv("HOME") .. "/NixOS/Scripts/canvas-overview.sh"))
         leave_mode()
     end)
     hl.bind("Return", hl.dsp.exec_cmd(TERMINAL))
+
     hl.bind("question", function()
         hud_show(HELP, HUD_MODE_TIMEOUT)
     end)
@@ -431,20 +591,34 @@ hl.define_submap("canvas", function()
     hl.bind("Q", leave_mode)
 end)
 
-hl.bind(canvasMod .. " + C", enter_mode, { description = "Canvas: enter canvas mode" })
+hl.bind(canvasMod .. " + O", function()
+    hl.dispatch(hl.dsp.exec_cmd(os.getenv("HOME") .. "/NixOS/Scripts/canvas-overview.sh"))
+end, { description = "Canvas: jump to a window" })
 
--- Leaving the canvas entirely shouldn't strand you in a mode whose keys no
--- longer do anything useful, and shouldn't leave the screen magnified either.
+-- Leaving the canvas shouldn't strand you in a mode whose keys no longer do
+-- anything useful.
 table.insert(_G.__canvas_subscriptions, hl.on("workspace.active", function()
     pcall(function()
-        if on_canvas() then
-            return
-        end
-        if in_mode() then
+        if not on_canvas() and in_mode() then
             leave_mode()
-        end
-        if get_zoom() > ZOOM_MIN then
-            set_zoom(ZOOM_MIN)
         end
     end)
 end))
+
+--------------------------------------------------------------------------
+-- Scripting surface
+--------------------------------------------------------------------------
+
+-- Exposed so the canvas can be driven from `hyprctl eval` and from
+-- Scripts/canvas-overview.sh, which centres the view using the same pan the
+-- keybinds use rather than reimplementing the arithmetic.
+_G.canvas = {
+    pan       = do_pan,
+    zoom      = do_zoom,
+    fit       = fit,
+    tile      = tile_all,
+    center    = center_on_focused,
+    open      = open_canvas,
+    scale     = function() return scale end,
+    windows   = canvas_windows,
+}
