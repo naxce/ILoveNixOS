@@ -1,57 +1,25 @@
--- Infinite floating canvas.
---
--- One workspace, "canvas", holding floating windows on a plane that has no
--- edges. Panning and zooming are affine transforms applied to the windows
--- themselves - every window on the canvas is moved and resized together -
--- rather than anything the compositor does to the screen.
---
--- That indirection is the whole trick, and it is what makes this work at all:
---
---   * Hyprland's own zoom (cursor:zoom_factor) only ever magnifies. Factors
---     below 1.0 are accepted by the config and then clamped away by the
---     renderer - 0.5 produces a pixel-identical frame to 1.0 - so it can
---     never show you more than one screen. Scaling the windows can.
---   * Hyprland does not clamp floating windows to the monitor. They can sit
---     at negative coordinates or thousands of pixels off to the side and
---     stay there, which is what gives the plane its unbounded extent.
---
--- The trade-off is that this is a layout zoom, not a render zoom: shrinking a
--- window makes the application reflow into a smaller window rather than
--- drawing its content smaller, so a terminal ends up with fewer columns. That
--- is the honest limit of doing this without a compositor plugin.
---
--- Nothing here stores window positions. Every transform reads the windows'
--- real geometry and writes back new geometry, so dragging a window by hand,
--- or resizing it, is picked up automatically on the next pan or zoom.
---
--- This is additive: it lives alongside the normal 1-10 workspaces and never
--- touches them.
 
 local mainMod   = "SUPER"
 local canvasMod = mainMod .. " + ALT"
 
 local CANVAS_WS   = "canvas"
-local CANVAS_SEL  = "name:" .. CANVAS_WS -- dispatchers need the name: selector
+local CANVAS_SEL  = "name:" .. CANVAS_WS
 local TERMINAL    = "kitty"
 
-local PAN_STEP  = 260  -- screen pixels per pan press
-local ZOOM_STEP = 1.2  -- multiplier per zoom press
-local SCALE_MIN = 0.12 -- far enough out to hold a lot of windows
+local PAN_STEP  = 260
+local ZOOM_STEP = 1.2
+local SCALE_MIN = 0.12
 local SCALE_MAX = 3.0
-local FIT_PAD   = 70   -- breathing room around a fit-to-screen
-local MIN_PX    = 60   -- never shrink a window below this, it stops being usable
-local CASCADE_STEP = 46 -- how far each new window is offset from the last
-local CASCADE_WRAP = 7  -- restart the cascade after this many
+local FIT_PAD   = 70
+local MIN_PX    = 60
+local CASCADE_STEP = 46
+local CASCADE_WRAP = 7
 
-local HUD_MODE_TIMEOUT  = 60000 -- canvas mode: HUD stays up while you work
-local HUD_FLASH_TIMEOUT = 1200  -- direct chords: brief toast
+local HUD_MODE_TIMEOUT  = 60000
+local HUD_FLASH_TIMEOUT = 1200
 
--- How far out we currently are. Only used for clamping and the readout, so a
--- pixel of rounding drift over many steps does not matter.
 local scale = 1.0
 
--- Attaching is Hyprland's own group mechanic: drag_into_group lets you drop
--- one window onto another (SUPER + left-drag) to tile them into one stack.
 hl.config({
     group = {
         drag_into_group = true,
@@ -59,12 +27,6 @@ hl.config({
     },
 })
 
---------------------------------------------------------------------------
--- Theme
---------------------------------------------------------------------------
-
--- Tint the HUD with the palette the control center currently has active, so
--- the canvas matches the rest of the desktop instead of hardcoding one look.
 local ACCENTS = {
     noir      = "rgb(ffffff)",
     dachshund = "rgb(c9702f)",
@@ -83,17 +45,11 @@ local function accent()
     return (ok and colour) or ACCENTS.noir
 end
 
---------------------------------------------------------------------------
--- The canvas
---------------------------------------------------------------------------
-
 local function on_canvas()
     local ws = hl.get_active_workspace()
     return ws ~= nil and ws.name == CANVAS_WS
 end
 
--- Only floating windows take part. A window that has been attached into a
--- group is tiled, and the compositor owns its geometry from then on.
 local function canvas_windows()
     local ok, all = pcall(hl.get_windows, { workspace = CANVAS_WS })
     if not ok or type(all) ~= "table" then
@@ -116,9 +72,6 @@ local function viewport()
     return mon.x, mon.y, mon.width, mon.height
 end
 
--- Apply one affine transform to every window on the canvas. `fn` takes the
--- window's current rect and returns the new one; nil width/height means leave
--- the size alone, which is what panning wants.
 local function transform(fn)
     local windows = canvas_windows()
     for _, w in ipairs(windows) do
@@ -145,12 +98,6 @@ local function transform(fn)
     return #windows
 end
 
---------------------------------------------------------------------------
--- HUD
---------------------------------------------------------------------------
-
--- One long-lived notification we keep re-texting, so panning around updates a
--- single readout instead of stacking up a pile of toasts.
 local hud = nil
 
 local function hud_alive()
@@ -205,11 +152,6 @@ local function status(prefix)
     ), hud_timeout())
 end
 
---------------------------------------------------------------------------
--- Pan and zoom
---------------------------------------------------------------------------
-
--- Moving every window the other way is what moves the camera.
 local function do_pan(dx, dy)
     transform(function(x, y)
         return x - dx, y - dy
@@ -223,7 +165,6 @@ local function pan(dx, dy)
     end
 end
 
--- Zoom about a fixed point, so whatever is under the cursor stays put.
 local function zoom_about(factor, px, py)
     local target = scale * factor
     if target < SCALE_MIN or target > SCALE_MAX then
@@ -252,8 +193,6 @@ local function zoom(factor)
     end
 end
 
--- Zoom to fit: the real "show me everything". Measures the bounding box of
--- every window on the canvas and scales it down to sit on one screen.
 local function fit()
     local windows = canvas_windows()
     if #windows == 0 then
@@ -280,8 +219,6 @@ local function fit()
     local factor = math.min(availW / spanW, availH / spanH)
     factor = math.max(SCALE_MIN / scale, math.min(factor, SCALE_MAX / scale))
 
-    -- Scale about the bounding box's top-left, then slide the whole thing to
-    -- the middle of the monitor.
     transform(function(x, y, w, h)
         return minx + (x - minx) * factor,
             miny + (y - miny) * factor,
@@ -300,7 +237,6 @@ local function fit()
     status("Fit")
 end
 
--- Put the focused window in the middle without changing the zoom.
 local function center_on_focused()
     local win = hl.get_active_window()
     if not win or not win.floating then
@@ -317,8 +253,6 @@ local function center_on_focused()
     status("Centred")
 end
 
--- Lay every window out in a neat grid filling the screen. This is the "just
--- tidy it up" escape hatch, and it also resets the zoom to 100%.
 local function tile_all()
     local windows = canvas_windows()
     if #windows == 0 then
@@ -355,16 +289,10 @@ local function tile_all()
     status("Tiled")
 end
 
---------------------------------------------------------------------------
--- Windows
---------------------------------------------------------------------------
-
 local function open_canvas()
     hl.dispatch(hl.dsp.focus({ workspace = CANVAS_SEL }))
 end
 
--- Move the focused window across the plane, leaving the rest of the canvas
--- where it is.
 local function shove(dx, dy)
     return function()
         local win = hl.get_active_window()
@@ -398,9 +326,6 @@ local function toggle_float()
     status((win and win.floating) and "Floating" or "Tiled")
 end
 
--- Keybinds and submaps are rebuilt from scratch on a config reload, but event
--- subscriptions are not, so drop the previous load's before subscribing again
--- or every `hyprctl reload` would stack another copy of these handlers.
 if _G.__canvas_subscriptions then
     for _, sub in ipairs(_G.__canvas_subscriptions) do
         pcall(function()
@@ -410,13 +335,8 @@ if _G.__canvas_subscriptions then
 end
 _G.__canvas_subscriptions = {}
 
--- A window opening on the canvas floats, and is scaled to match how far out
--- the view currently is - otherwise a new terminal lands at full size on a
--- canvas zoomed out to 20% and swamps everything already there.
 table.insert(_G.__canvas_subscriptions, hl.on("window.open", function(opened)
     pcall(function()
-        -- The event hands the window over as userdata, not a table, so take
-        -- it as-is rather than type-checking it into a fallback.
         local win = opened or hl.get_active_window()
         if not win or win.group then
             return
@@ -447,13 +367,7 @@ table.insert(_G.__canvas_subscriptions, hl.on("window.open", function(opened)
             fresh = hl.get_window(addr) or fresh
         end
 
-        -- Hyprland centres every floating window, so on a canvas they all
-        -- land in one stack and you cannot tell there is more than one.
-        -- Cascade them instead, wrapping so a long session doesn't march
-        -- everything off the edge.
         if existing > 0 then
-            -- Offset from where it was centred, so the stack fans out from
-            -- the middle of the screen rather than from a corner.
             local offset = CASCADE_STEP * ((existing - 1) % CASCADE_WRAP + 1)
             hl.dispatch(hl.dsp.window.move({
                 x = math.floor(fresh.at.x + offset),
@@ -464,10 +378,6 @@ table.insert(_G.__canvas_subscriptions, hl.on("window.open", function(opened)
         end
     end)
 end))
-
---------------------------------------------------------------------------
--- Direct chords - work from anywhere, no mode needed
---------------------------------------------------------------------------
 
 local directions = {
     { key = "left",  dx = -1, dy = 0 },
@@ -494,8 +404,6 @@ hl.bind(canvasMod .. " + 0", fit, { description = "Canvas: zoom to fit everythin
 hl.bind(canvasMod .. " + T", tile_all, { description = "Canvas: tile every window in a grid" })
 hl.bind(canvasMod .. " + G", toggle_attach, { description = "Canvas: attach/detach window" })
 
--- Both the bare key and its shifted form, so it fires whether you reach for
--- "=" or "+".
 for _, k in ipairs({ "equal", "plus" }) do
     hl.bind(canvasMod .. " + " .. k, zoom(ZOOM_STEP),
         { description = "Canvas: zoom in", repeating = true })
@@ -509,13 +417,8 @@ for _, k in ipairs({ "minus", "underscore" }) do
         { description = "Canvas: zoom out", repeating = true })
 end
 
--- Scroll to zoom, the way every other canvas does it.
 hl.bind(canvasMod .. " + mouse_up", zoom(ZOOM_STEP), { description = "Canvas: zoom in" })
 hl.bind(canvasMod .. " + mouse_down", zoom(1 / ZOOM_STEP), { description = "Canvas: zoom out" })
-
---------------------------------------------------------------------------
--- Canvas mode - single-key control
---------------------------------------------------------------------------
 
 local HELP = table.concat({
     "Canvas mode",
@@ -595,8 +498,6 @@ hl.bind(canvasMod .. " + O", function()
     hl.dispatch(hl.dsp.exec_cmd(os.getenv("HOME") .. "/NixOS/Scripts/canvas-overview.sh"))
 end, { description = "Canvas: jump to a window" })
 
--- Leaving the canvas shouldn't strand you in a mode whose keys no longer do
--- anything useful.
 table.insert(_G.__canvas_subscriptions, hl.on("workspace.active", function()
     pcall(function()
         if not on_canvas() and in_mode() then
@@ -605,13 +506,6 @@ table.insert(_G.__canvas_subscriptions, hl.on("workspace.active", function()
     end)
 end))
 
---------------------------------------------------------------------------
--- Scripting surface
---------------------------------------------------------------------------
-
--- Exposed so the canvas can be driven from `hyprctl eval` and from
--- Scripts/canvas-overview.sh, which centres the view using the same pan the
--- keybinds use rather than reimplementing the arithmetic.
 _G.canvas = {
     pan       = do_pan,
     zoom      = do_zoom,

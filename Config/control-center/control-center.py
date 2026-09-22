@@ -31,7 +31,6 @@ import traceback
 
 LOG_PATH = "/tmp/control-center.log"
 
-
 def _log(msg):
     try:
         with open(LOG_PATH, "a") as f:
@@ -39,11 +38,9 @@ def _log(msg):
     except OSError:
         pass
 
-
 def _excepthook(exc_type, exc_value, exc_tb):
     _log("".join(traceback.format_exception(exc_type, exc_value, exc_tb)))
     sys.__excepthook__(exc_type, exc_value, exc_tb)
-
 
 sys.excepthook = _excepthook
 
@@ -77,7 +74,6 @@ THEME_STATE = os.path.expanduser("~/.cache/control-center/theme")
 
 TARGET_MONITOR_FILE = os.path.expanduser("~/.cache/control-center/target-monitor")
 
-
 def get_target_monitor():
     try:
         with open(TARGET_MONITOR_FILE) as f:
@@ -86,7 +82,6 @@ def get_target_monitor():
     except OSError:
         return None
 
-
 def run(cmd, timeout=4):
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
@@ -94,23 +89,19 @@ def run(cmd, timeout=4):
     except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
         return 1, "", str(exc)
 
-
 def run_bg(cmd):
     try:
         subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except FileNotFoundError:
         _log(f"missing binary for: {cmd}")
 
-
 def has(binary):
     return shutil.which(binary) is not None
-
 
 def ensure_state_dir():
     os.makedirs(os.path.dirname(NIGHTLIGHT_STATE), exist_ok=True)
     os.makedirs(os.path.dirname(PERF_STATE), exist_ok=True)
     os.makedirs(os.path.dirname(THEME_STATE), exist_ok=True)
-
 
 def run_off_thread(work, on_done):
     """Run `work()` (a blocking call, e.g. bluetoothctl) on a background
@@ -127,7 +118,6 @@ def run_off_thread(work, on_done):
         GLib.idle_add(on_done, result)
 
     threading.Thread(target=_worker, daemon=True).start()
-
 
 class WifiBackend:
     available = has("nmcli")
@@ -210,7 +200,6 @@ class WifiBackend:
             dev, typ = (line.split(":") + [""])[:2]
             if typ == "wifi":
                 run(["nmcli", "dev", "disconnect", dev])
-
 
 class HotspotBackend:
     available = has("nmcli")
@@ -336,7 +325,6 @@ class HotspotBackend:
             return run(["nmcli", "con", "up", cls.CON_NAME], timeout=15)
         return run(["nmcli", "con", "down", cls.CON_NAME], timeout=10)
 
-
 class BluetoothBackend:
     available = has("bluetoothctl")
 
@@ -394,7 +382,6 @@ class BluetoothBackend:
     def stop_scan():
         run(["bluetoothctl", "scan", "off"])
 
-
 class VolumeBackend:
     available = has("pamixer")
 
@@ -433,7 +420,6 @@ class VolumeBackend:
     @staticmethod
     def set_default_sink(sink_id):
         run(["pactl", "set-default-sink", sink_id])
-
 
 class MediaBackend:
     available = has("playerctl")
@@ -512,7 +498,6 @@ class MediaBackend:
         player = cls._active_player()
         if player:
             run(["playerctl", "--player=" + player, "previous"])
-
 
 class DisplayBackend:
     available = has("hyprctl")
@@ -615,7 +600,6 @@ class DisplayBackend:
         )
         run(["hyprctl", "eval", f"hl.monitor({spec})"])
 
-
 class NightLightBackend:
     available = has("hyprsunset")
 
@@ -633,7 +617,6 @@ class NightLightBackend:
             open(NIGHTLIGHT_STATE, "w").close()
         elif os.path.exists(NIGHTLIGHT_STATE):
             os.remove(NIGHTLIGHT_STATE)
-
 
 class PerformanceBackend:
     gaming_script = os.path.expanduser("~/NixOS/Scripts/gaming.sh")
@@ -654,7 +637,6 @@ class PerformanceBackend:
             open(PERF_STATE, "w").close()
         elif os.path.exists(PERF_STATE):
             os.remove(PERF_STATE)
-
 
 class ThemeBackend:
     """Rice/palette switcher for the quick-settings 'Theme' panel.
@@ -736,7 +718,6 @@ class ThemeBackend:
         except OSError:
             _log(traceback.format_exc())
 
-
 class DndBackend:
     available = has("swaync-client")
 
@@ -748,7 +729,6 @@ class DndBackend:
     @staticmethod
     def set_enabled(enabled):
         run(["swaync-client", "-dn" if enabled else "-df"])
-
 
 def make_row_button(icon, title, subtitle_getter, on_click):
     """A quick-settings row: icon, title, dynamic subtitle, chevron.
@@ -789,7 +769,6 @@ def make_row_button(icon, title, subtitle_getter, on_click):
     btn.set_child(box)
     return btn, sub_lbl
 
-
 def make_toggle_row(icon, title, subtitle, active, on_toggle):
     box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
     box.add_css_class("qs-row")
@@ -823,7 +802,6 @@ def make_toggle_row(icon, title, subtitle, active, on_toggle):
 
     return box, switch
 
-
 def set_switch_active_silently(switch, active):
     """Programmatically correct a switch's state (e.g. after a failed
     backend call) without re-triggering its own 'state-set' handler,
@@ -835,7 +813,6 @@ def set_switch_active_silently(switch, active):
     switch.set_state(active)
     if handler_id is not None:
         switch.handler_unblock(handler_id)
-
 
 def section_header(back_cb, title):
     header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
@@ -853,7 +830,6 @@ def section_header(back_cb, title):
     header.append(lbl)
 
     return header
-
 
 class WifiPanel(Gtk.Box):
     def __init__(self, go_back):
@@ -1000,7 +976,6 @@ class WifiPanel(Gtk.Box):
         dialog.set_child(box)
         dialog.present()
         entry.grab_focus()
-
 
 class HotspotPanel(Gtk.Box):
     def __init__(self, go_back):
@@ -1196,7 +1171,6 @@ class HotspotPanel(Gtk.Box):
         run_off_thread(work, done)
         return False
 
-
 class BluetoothPanel(Gtk.Box):
     def __init__(self, go_back):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
@@ -1295,7 +1269,6 @@ class BluetoothPanel(Gtk.Box):
         )
         run_off_thread(lambda: action(dev["mac"]), lambda _res: self._populate())
 
-
 class VolumePanel(Gtk.Box):
     def __init__(self, go_back):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
@@ -1372,7 +1345,6 @@ class VolumePanel(Gtk.Box):
         value = int(scale.get_value())
         VolumeBackend.set_volume(value)
         self.pct_lbl.set_label(f"{value}%")
-
 
 class DisplaysPanel(Gtk.Box):
     def __init__(self, go_back):
@@ -1540,7 +1512,6 @@ class DisplaysPanel(Gtk.Box):
 
         return card
 
-
 class ThemePanel(Gtk.Box):
     def __init__(self, go_back):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
@@ -1620,7 +1591,6 @@ class ThemePanel(Gtk.Box):
         ThemeBackend.set_theme(theme["id"])
         self._populate()
 
-
 class MiniCalendar(Gtk.Box):
     def __init__(self):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=8)
@@ -1698,7 +1668,6 @@ class MiniCalendar(Gtk.Box):
                 self.grid.attach(lbl, col, row, 1, 1)
             row += 1
 
-
 class NowPlaying(Gtk.Box):
     def __init__(self):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
@@ -1774,7 +1743,6 @@ class NowPlaying(Gtk.Box):
         self.title_lbl.set_label(status["title"])
         self.artist_lbl.set_label(status["artist"])
         self.play_btn.set_label("\uf04c" if status["playing"] else "\uf04b")
-
 
 class QuickSettings(Gtk.Box):
     def __init__(self):
@@ -1955,7 +1923,6 @@ class QuickSettings(Gtk.Box):
         if BluetoothBackend.available and BluetoothBackend.powered():
             self._bt_subtitle_async(self.bt_sub)
 
-
 class ClickOutsideCatcher(Gtk.Window):
     """A separate, fullscreen, fully transparent layer-shell surface that
     sits just below the popup panel, only to catch clicks that land outside
@@ -2020,7 +1987,6 @@ class ClickOutsideCatcher(Gtk.Window):
     def _arm(self):
         self._armed = True
         return False
-
 
 class ControlCenterWindow(Gtk.ApplicationWindow):
     def __init__(self, app):
@@ -2199,9 +2165,7 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         self.present()
         self._catcher.arm_and_show()
 
-
 _css_provider = None
-
 
 def css_path():
     """The themed stylesheet apply-theme.sh links into place, falling back to
@@ -2210,7 +2174,6 @@ def css_path():
     if os.path.exists(themed):
         return themed
     return os.path.join(os.path.dirname(__file__), "control-center.css")
-
 
 def load_css():
     global _css_provider
@@ -2222,17 +2185,14 @@ def load_css():
         Gtk.STYLE_PROVIDER_PRIORITY_USER,
     )
 
-
 def reload_css():
     if _css_provider is not None:
         _css_provider.load_from_path(css_path())
-
 
 def force_dark_theme():
     settings = Gtk.Settings.get_default()
     if settings is not None:
         settings.set_property("gtk-application-prefer-dark-theme", True)
-
 
 def on_activate(app):
     try:
@@ -2257,14 +2217,12 @@ def on_activate(app):
         _log(traceback.format_exc())
         raise
 
-
 def main():
     _log("main() entered")
     app = Gtk.Application(application_id=APP_ID)
     app.connect("activate", on_activate)
     exit_code = app.run(None)
     _log(f"app.run() returned {exit_code}")
-
 
 if __name__ == "__main__":
     main()

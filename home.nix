@@ -85,7 +85,6 @@
 
   home.packages = [
     inputs.fatest.packages.${pkgs.system}.default
-    #inputs.gdoc.packages.${pkgs.system}.default
 
     (pkgs.writeShellScriptBin "kwork" ''
       exec ${pkgs.kitty}/bin/kitty \
@@ -120,9 +119,6 @@
     '')
   ];
 
-  # Theme-neutral files only. Anything with a -noir/-dachshund pair is linked
-  # into place by Scripts/apply-theme.sh, which needs those paths writable --
-  # a whole-directory source would make them read-only store symlinks.
   home.file.".config/cava/shaders".source = ./Config/cava/shaders;
   home.file.".config/cava/themes".source = ./Config/cava/themes;
   home.file.".config/kitty/kitty.conf".source = ./Config/kitty/kitty.conf;
@@ -154,8 +150,6 @@
   home.file.".config/waybar/config-sway.jsonc".source = ./Config/waybar/config-sway.jsonc;
   home.file.".config/waybar/config-niri.jsonc".source = ./Config/waybar/config-niri.jsonc;
 
-  # niri: config.kdl is theme-neutral and includes looknfeel.kdl, which
-  # apply-theme.sh points at the noir or dachshund variant.
   home.file.".config/niri/config.kdl".source = ./Config/niri/config.kdl;
   home.file.".config/rofi/config.rasi".source = ./Config/rofi/config.rasi;
   home.file.".config/swaync/config.json".source = ./Config/swaync/config.json;

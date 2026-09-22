@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Waybar indicator for the infinite canvas: how many windows are on it and
-# whether canvas mode has the keyboard.
 
 name=$(hyprctl activeworkspace -j | jq -r '.name')
 
@@ -11,7 +9,6 @@ fi
 
 count=$(hyprctl clients -j | jq '[.[] | select(.workspace.name == "canvas")] | length')
 
-# hyprctl getoption can't read a Lua-parsed config, so ask the config layer.
 probe=$(mktemp -t canvas-status.XXXXXX)
 trap 'rm -f "$probe"' EXIT
 hyprctl eval "local f = io.open('$probe', 'w') f:write(tostring(hl.get_current_submap())) f:close()" >/dev/null 2>&1 || true

@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-# Repoint every themed config at the chosen palette, then reload what's running.
-#
-# Configs live in ~/NixOS/Config as <name>-<theme>.<ext> pairs. Home-manager
-# only links the theme-neutral files, so the themed paths below stay writable
-# and this script owns them as symlinks back into the repo.
 set -euo pipefail
 
 STATE="$HOME/.cache/control-center/theme"
@@ -22,7 +17,7 @@ esac
 mkdir -p "$(dirname "$STATE")"
 printf '%s' "$THEME" >"$STATE"
 
-link() { # link <src under Config/> <dst under ~/.config/>
+link() {
     local src="$CFG/$1" dst="$DST/$2"
     if [ ! -e "$src" ]; then
         echo "apply-theme: missing $src, leaving $dst alone" >&2
@@ -50,27 +45,16 @@ link "hypr/hyprpaper-$THEME.conf" "hypr/hyprpaper.conf"
 link "hypr/looknfeel-$THEME.lua" "hypr/looknfeel.lua"
 link "niri/looknfeel-$THEME.kdl" "niri/looknfeel.kdl"
 
-# wlogout's CSS points at its icons with paths relative to the stylesheet, and
-# GTK resolves those against the path wlogout was handed, not the symlink target.
 link "wlogout/icons" "wlogout/icons"
 link "wlogout/icons-dachshund" "wlogout/icons-dachshund"
 
-# --- reload whatever is running -------------------------------------------
-# Everything else (rofi, yazi, cava, sptlrx, fastfetch, hyprlock, nvim) reads
-# its config at launch, so it picks the new palette up on its own.
-
 reload() { command -v "$1" >/dev/null 2>&1 || return 0; "$@" >/dev/null 2>&1 || true; }
 
-# No -x here: nixpkgs wraps these, so the process name is ".waybar-wrapped".
-pkill -USR2 waybar || true                         # waybar: reload config + css
-pkill -USR1 kitty || true                          # kitty: reload kitty.conf
+pkill -USR2 waybar || true
+pkill -USR1 kitty || true
 reload swaync-client --reload-css
-reload hyprctl reload                              # hyprland: looknfeel
+reload hyprctl reload
 
-# hyprpaper has to be restarted to pick up a new conf: this build has no
-# working "preload" IPC request, and "wallpaper" silently does nothing for an
-# image that was never preloaded. Kill it, wait for the socket to be released,
-# clear a socket left behind by any stray instance, then start exactly one.
 if pgrep hyprpaper >/dev/null 2>&1; then
     wallpaper="$(sed -n 's/^ *path *= *//p' "$CFG/hypr/hyprpaper-$THEME.conf" | head -1)"
     wallpaper="${wallpaper/#\~/$HOME}"
@@ -88,8 +72,6 @@ if pgrep hyprpaper >/dev/null 2>&1; then
     fi
 fi
 
-# niri reloads its own config on change, but the wallpaper is swaybg's job and
-# has to be pointed at the new image.
 if pgrep -x niri >/dev/null 2>&1; then
     setsid "$HOME/NixOS/Scripts/niri-wallpaper.sh" >/dev/null 2>&1 </dev/null &
 fi

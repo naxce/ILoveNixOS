@@ -6,7 +6,7 @@ hl.monitor({
 
 hl.monitor({
     output   = "DP-6",
-    mode     = "2560x1440@200",
+    mode     = "2560x1440@200.013",
     position = "1920x0",
     scale    = 1,
     vrr      = 0,
@@ -15,7 +15,7 @@ hl.monitor({
 
 hl.monitor({
     output   = "DP-5",
-    mode     = "1920x1080@180",
+    mode     = "1920x1080@179.964",
     position = "0x500",
     scale    = 1,
     vrr      = 0,

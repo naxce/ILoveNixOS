@@ -14,14 +14,12 @@
     "custom/niri-workspaces": {
         "exec": "$HOME/NixOS/Scripts/niri-workspaces.sh",
         "return-type": "json",
-        "interval": 1,
         "tooltip": true
     },
 
     "custom/niri-window": {
         "exec": "$HOME/NixOS/Scripts/niri-window.sh",
         "return-type": "json",
-        "interval": 1,
         "tooltip": true
     },
 

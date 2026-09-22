@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-# Pick a window on the infinite canvas and bring the view to it.
-#
-# On a canvas that is zoomed out, or panned a long way from where you left
-# something, hunting for a window by eye stops working. This lists what is on
-# the canvas and centres the view on whichever you pick.
 set -euo pipefail
 
 CANVAS_WS="canvas"
@@ -30,11 +25,6 @@ choice="$(printf '%s\n' "$rows" \
 address="$(grep -oE '0x[0-9a-f]+' <<<"$choice" | tail -1)"
 [ -n "$address" ] || exit 0
 
-# Focus it, then slide the whole canvas so it lands in the middle of the
-# monitor. Panning moves every window together, which is what keeps their
-# relative positions on the plane intact.
-# hyprctl dispatch is intercepted by the Lua config layer and only accepts
-# hl.dsp.* objects, so go through eval.
 hyprctl eval "
     hl.dispatch(hl.dsp.focus({ workspace = 'name:${CANVAS_WS}' }))
     local win = hl.get_window('address:${address}')

@@ -1,17 +1,5 @@
-// niri - scrollable tiling, alongside Hyprland and Sway.
-//
-// Everything theme-neutral lives here: inputs, outputs, workspaces, keybinds,
-// window rules and autostart. Colours, gaps and animations live in
-// looknfeel.kdl, which Scripts/apply-theme.sh points at the noir or dachshund
-// variant - the same split as looknfeel.lua on the Hyprland side.
-//
-// The binds deliberately match the Hyprland ones key for key wherever the two
-// compositors have the same concept. Where niri has no equivalent (special
-// workspaces) or something better (the overview), that is called out inline.
 
 include "looknfeel.kdl"
-
-//---------------------------------------------------------------- input ----
 
 input {
     keyboard {
@@ -29,28 +17,22 @@ input {
     }
 
     mouse {
-        // Hyprland's sensitivity -0.5 is libinput accel-speed, same scale.
         accel-speed -0.5
     }
 
-    // Hyprland ran with follow_mouse 1 and mouse_refocus.
     focus-follows-mouse
 
-    // Middle of a newly focused window, so the pointer keeps up when you
-    // scroll the columns with the keyboard.
     warp-mouse-to-focus
 }
 
-//-------------------------------------------------------------- outputs ----
-
 output "DP-6" {
-    mode "2560x1440@200"
+    mode "2560x1440@200.013"
     position x=1920 y=0
     scale 1
 }
 
 output "DP-5" {
-    mode "1920x1080@180"
+    mode "1920x1080@179.964"
     position x=0 y=500
     scale 1
 }
@@ -63,11 +45,6 @@ output "eDP-1" {
     off
 }
 
-//----------------------------------------------------------- workspaces ----
-
-// niri workspaces are dynamic and per-monitor, but naming them and pinning
-// each to an output reproduces the Hyprland layout: 1-5 on DP-6, 6-10 on
-// DP-5, reachable with the same Mod+number keys.
 workspace "1" { open-on-output "DP-6"; }
 workspace "2" { open-on-output "DP-6"; }
 workspace "3" { open-on-output "DP-6"; }
@@ -79,11 +56,7 @@ workspace "8" { open-on-output "DP-5"; }
 workspace "9" { open-on-output "DP-5"; }
 workspace "10" { open-on-output "DP-5"; }
 
-// niri has no special/scratchpad workspace, so the Hyprland "minimized"
-// scratchpad becomes an ordinary named workspace you throw windows at.
 workspace "minimized" { open-on-output "DP-6"; }
-
-//--------------------------------------------------------------- cursor ----
 
 cursor {
     xcursor-theme "Bibata-Modern-Classic"
@@ -100,18 +73,12 @@ environment {
 
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
-// The startup hotkey cheatsheet is redundant when Super+F1 already opens the
-// full one this config ships with.
 hotkey-overlay {
     skip-at-startup
 }
 
 prefer-no-csd
 
-//------------------------------------------------------------- autostart ---
-
-// Mirrors autostart.lua. hyprpaper and hyprswitch are Hyprland-only and are
-// replaced by swaybg and the overview respectively.
 spawn-at-startup "niri-waybar"
 spawn-at-startup "swaync"
 spawn-at-startup "hypridle"
@@ -120,18 +87,13 @@ spawn-at-startup "blueman-applet"
 spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
 spawn-sh-at-startup "systemctl --user start hyprpolkitagent"
 spawn-sh-at-startup "wl-paste --watch cliphist store"
-// Wallpaper: apply-theme.sh writes the path for the active palette here.
 spawn-sh-at-startup "\"$HOME\"/NixOS/Scripts/niri-wallpaper.sh"
 
-//---------------------------------------------------------- window rules ---
-
-// Rounded corners for everything, matching Hyprland's rounding 10.
 window-rule {
     geometry-corner-radius 10
     clip-to-geometry true
 }
 
-// Utility windows that floated under Hyprland float here too.
 window-rule {
     match app-id=r#"^pavucontrol$"#
     match app-id=r#"^nm-connection-editor$"#
@@ -181,16 +143,10 @@ window-rule {
     open-on-workspace "2"
 }
 
-//----------------------------------------------------------- layer rules ---
-
-// The control center paints its own rounded panel, so niri must not blur or
-// shadow the layer behind it.
 layer-rule {
     match namespace="^control-center$"
     place-within-backdrop false
 }
-
-//---------------------------------------------------------------- binds ----
 
 binds {
     Mod+F1 hotkey-overlay-title="Hotkey cheatsheet" {
@@ -198,7 +154,6 @@ binds {
     }
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    // --- applications, same keys as Hyprland ---
     Mod+Return hotkey-overlay-title="Terminal" { spawn "kitty"; }
     Mod+Space  hotkey-overlay-title="App launcher" { spawn-sh "rofi -show drun"; }
     Mod+Tab    hotkey-overlay-title="Window switcher" { spawn-sh "rofi -show window"; }
@@ -216,9 +171,6 @@ binds {
     Mod+Q repeat=false { close-window; }
     Mod+Shift+Q { quit; }
 
-    // --- scrolling through columns: the reason you are here ---
-    // Left/Right walk the endless row of columns, Up/Down move within a
-    // column when it holds more than one window.
     Mod+Left  { focus-column-left; }
     Mod+Right { focus-column-right; }
     Mod+Up    { focus-window-up; }
@@ -232,17 +184,13 @@ binds {
     Mod+Home { focus-column-first; }
     Mod+End  { focus-column-last; }
 
-    // Pull the neighbouring window into this column, or push it back out.
-    // This is how you tile windows together in a scrolling layout.
     Mod+bracketleft  { consume-or-expel-window-left; }
     Mod+bracketright { consume-or-expel-window-right; }
     Mod+comma        { consume-window-into-column; }
     Mod+period       { expel-window-from-column; }
 
-    // --- the overview: a real zoomed-out view of every workspace ---
     Mod+O repeat=false { toggle-overview; }
 
-    // --- sizing, mapped onto the Hyprland resize keys ---
     Mod+Ctrl+Left  { set-column-width "-10%"; }
     Mod+Ctrl+Right { set-column-width "+10%"; }
     Mod+Ctrl+Up    { set-window-height "-10%"; }
@@ -254,12 +202,11 @@ binds {
     Mod+Ctrl+C { center-column; }
 
     Mod+F       { fullscreen-window; }
-    Mod+Shift+F { maximize-column; }
+    Mod+Shift+F { maximize-window-to-edges; }
     Mod+F2      { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+J       { toggle-column-tabbed-display; }
 
-    // --- workspaces, same numbers as Hyprland ---
     Mod+1 { focus-workspace "1"; }
     Mod+2 { focus-workspace "2"; }
     Mod+3 { focus-workspace "3"; }
@@ -282,18 +229,15 @@ binds {
     Mod+Shift+9 { move-column-to-workspace "9"; }
     Mod+Shift+0 { move-column-to-workspace "10"; }
 
-    // The scratchpad stand-in.
     Mod+grave       { focus-workspace "minimized"; }
     Mod+Shift+grave { move-column-to-workspace "minimized"; }
     Mod+Shift+M     { move-column-to-workspace "minimized"; }
 
-    // Monitors.
     Mod+Ctrl+Shift+Left  { focus-monitor-left; }
     Mod+Ctrl+Shift+Right { focus-monitor-right; }
     Mod+Alt+Shift+Left   { move-column-to-monitor-left; }
     Mod+Alt+Shift+Right  { move-column-to-monitor-right; }
 
-    // --- mouse wheel, matching Hyprland's Super+wheel ---
     Mod+WheelScrollDown  cooldown-ms=150 { focus-workspace-down; }
     Mod+WheelScrollUp    cooldown-ms=150 { focus-workspace-up; }
     Mod+WheelScrollRight { focus-column-right; }
@@ -301,12 +245,10 @@ binds {
     Mod+Shift+WheelScrollDown { focus-column-right; }
     Mod+Shift+WheelScrollUp   { focus-column-left; }
 
-    // --- screenshots, identical commands to Hyprland ---
     Print       { spawn-sh "grim -g \"$(slurp)\" - | swappy -f -"; }
     Shift+Print { spawn-sh "grim - | swappy -f -"; }
     Mod+Print   { spawn-sh "grim -g \"$(slurp)\" - | wl-copy"; }
 
-    // --- media and brightness, identical commands to Hyprland ---
     XF86AudioRaiseVolume  allow-when-locked=true { spawn "pamixer" "-i" "5"; }
     XF86AudioLowerVolume  allow-when-locked=true { spawn "pamixer" "-d" "5"; }
     XF86AudioMute         allow-when-locked=true { spawn "pamixer" "-t"; }
@@ -316,7 +258,6 @@ binds {
     XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "set" "5%+"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "5%-"; }
 
-    // Escape hatch so a misbehaving app can't hold the keyboard hostage.
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Ctrl+Alt+Delete { quit; }
     Mod+Shift+End { power-off-monitors; }

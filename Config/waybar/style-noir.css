@@ -83,8 +83,6 @@ window#waybar {
     font-weight: 700;
 }
 
-/* niri: this Waybar has no niri/workspaces module, so the bar is fed by
-   Scripts/niri-*.sh custom modules. Styled to match the Hyprland bar. */
 #custom-niri-workspaces {
     color: #b0b0b0;
     background: transparent;

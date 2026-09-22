@@ -24,7 +24,7 @@ window#waybar {
     padding: 0 5px;
     border: none;
     border-radius: 8px;
-    /* paw glyph carries more detail than the noir dot, so it needs the room */
+    
     font-size: 13px;
 }
 
@@ -88,8 +88,6 @@ window#waybar {
     font-weight: 700;
 }
 
-/* niri: this Waybar has no niri/workspaces module, so the bar is fed by
-   Scripts/niri-*.sh custom modules. Styled to match the Hyprland bar. */
 #custom-niri-workspaces {
     color: #9b8373;
     background: transparent;
