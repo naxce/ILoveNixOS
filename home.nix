@@ -91,7 +91,7 @@
       exec ${pkgs.kitty}/bin/kitty \
         --class kitty-work \
         --name kitty-work \
-        --config "$HOME/NixOS/Config/kitty/work.conf" \
+        --config "$HOME/.config/kitty/work.conf" \
         "$@"
     '')
 
@@ -120,23 +120,26 @@
     '')
   ];
 
-  home.file.".config/cava".source = ./Config/cava;
-  home.file.".config/fastfetch".source = ./Config/fastfetch;
-  home.file.".config/kitty".source = ./Config/kitty;
-  home.file.".config/sptlrx".source = ./Config/sptlrx;
+  # Theme-neutral files only. Anything with a -noir/-dachshund pair is linked
+  # into place by Scripts/apply-theme.sh, which needs those paths writable --
+  # a whole-directory source would make them read-only store symlinks.
+  home.file.".config/cava/shaders".source = ./Config/cava/shaders;
+  home.file.".config/cava/themes".source = ./Config/cava/themes;
+  home.file.".config/kitty/kitty.conf".source = ./Config/kitty/kitty.conf;
+  home.file.".config/kitty/work.conf".source = ./Config/kitty/work.conf;
+  home.file.".config/kitty/sys_info.sh".source = ./Config/kitty/sys_info.sh;
+  home.file.".config/kitty/weather.sh".source = ./Config/kitty/weather.sh;
+  home.file.".config/kitty/themes".source = ./Config/kitty/themes;
   home.file.".config/nvim".source = ./Config/nvim;
   home.file.".config/hypr/autostart.lua".source = ./Config/hypr/autostart.lua;
   home.file.".config/hypr/binds.lua".source = ./Config/hypr/binds.lua;
   home.file.".config/hypr/canvas.lua".source = ./Config/hypr/canvas.lua;
   home.file.".config/hypr/hyprland.lua".source = ./Config/hypr/hyprland.lua;
   home.file.".config/hypr/input.lua".source = ./Config/hypr/input.lua;
-  home.file.".config/hypr/looknfeel.lua".source = ./Config/hypr/looknfeel.lua;
   home.file.".config/hypr/monitors.lua".source = ./Config/hypr/monitors.lua;
   home.file.".config/hypr/windowrules.lua".source = ./Config/hypr/windowrules.lua;
 
   home.file.".config/hypr/hypridle.conf".source = ./Config/hypr/hypridle.conf;
-  home.file.".config/hypr/hyprlock.conf".source = ./Config/hypr/hyprlock.conf;
-  home.file.".config/hypr/hyprpaper.conf".source = ./Config/hypr/hyprpaper.conf;
 
   home.activation.hyprLocalOverrides = config.lib.dag.entryAfter [ "writeBoundary" ] ''
     localDir="$HOME/.config/hypr/local"
@@ -148,19 +151,24 @@
     done
   '';
 
-  home.file.".config/waybar".source = ./Config/waybar;
-  home.file.".config/rofi".source = ./Config/rofi;
-  home.file.".config/swaync".source = ./Config/swaync;
-  home.file.".config/wlogout".source = ./Config/wlogout;
+  home.file.".config/waybar/config.jsonc".source = ./Config/waybar/config.jsonc;
+  home.file.".config/waybar/config-sway.jsonc".source = ./Config/waybar/config-sway.jsonc;
+  home.file.".config/rofi/config.rasi".source = ./Config/rofi/config.rasi;
+  home.file.".config/swaync/config.json".source = ./Config/swaync/config.json;
+  home.file.".config/wlogout/layout".source = ./Config/wlogout/layout;
   home.file.".config/swappy".source = ./Config/swappy;
-  home.file.".config/yazi".source = ./Config/yazi;
+  home.file.".config/yazi/yazi.toml".source = ./Config/yazi/yazi.toml;
+  home.file.".config/yazi/keymap.toml".source = ./Config/yazi/keymap.toml;
 
   home.file.".config/GIMP".source = ./Config/gimp;
 
-  home.file.".config/hyprswitch".source = ./Config/hyprswitch;
   home.file.".config/sway".source = ./Config/sway;
 
   home.file.".config/MangoHud".source = ./Config/mangohud;
+
+  home.activation.applyTheme = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    $DRY_RUN_CMD ${pkgs.bash}/bin/bash "$HOME/NixOS/Scripts/apply-theme.sh" || true
+  '';
 
   home.file."Pictures/wallpapers".source = ./Pictures/wallpapers;
   home.file."Pictures/Screenshots/.keep".text = "";
@@ -262,7 +270,7 @@
       zstyle ':fzf-tab:*' fzf-flags '--color=fg:#e8e8e8,bg:#000000,hl:#ffffff' '--color=fg+:#ffffff,bg+:#1a1a1a,hl+:#ffffff' '--color=border:#4d4d4d,prompt:#ffffff,pointer:#ffffff'
 
       clear
-      fastfetch --config "$HOME/NixOS/Config/fastfetch/work.jsonc" 2>/dev/null
+      fastfetch --config "$HOME/.config/fastfetch/work.jsonc" 2>/dev/null
 
       yy() {
         local tmp
@@ -290,7 +298,7 @@
       komasz = "sudo systemctl poweroff";
       israel = "sudo sh -c 'echo 1 > /proc/sys/kernel/sysrq' && echo c | sudo tee /proc/sysrq-trigger";
 
-      wipe = ''reset && fastfetch --config "$HOME/NixOS/Config/fastfetch/work.jsonc"'';
+      wipe = ''reset && fastfetch --config "$HOME/.config/fastfetch/work.jsonc"'';
 
       cmatrix = "cmatrix -C white";
 

@@ -10,7 +10,7 @@ let
   pythonEnv = pkgs.python3.withPackages (ps: [ ps.pygobject3 ]);
 
   controlCenterPy = ../../Config/control-center/control-center.py;
-  controlCenterCss = ../../Config/control-center/control-center.css;
+  controlCenterCss = ../../Config/control-center/control-center-noir.css;
 
   controlCenterPkg = pkgs.stdenv.mkDerivation {
     pname = "control-center";

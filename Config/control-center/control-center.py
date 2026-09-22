@@ -659,12 +659,11 @@ class PerformanceBackend:
 class ThemeBackend:
     """Rice/palette switcher for the quick-settings 'Theme' panel.
 
-    This currently only tracks and persists which palette is selected so
-    the picker UI has something real to point at and highlight. Actually
-    re-ricing the desktop (waybar/hypr/kitty/etc. colors) is wired up
-    separately in a follow-up step: if ~/NixOS/Scripts/apply-theme.sh
-    exists, set_theme() will call it with the chosen theme id; until then
-    it's a no-op beyond remembering the choice.
+    The chosen id is persisted to THEME_STATE and handed to
+    ~/NixOS/Scripts/apply-theme.sh, which repoints every themed config
+    (waybar/hypr/kitty/rofi/...) and reloads whatever is running. It runs
+    off the main thread so the panel stays responsive, then we restyle
+    ourselves from the stylesheet it just linked into place.
     """
 
     THEMES = [
@@ -711,7 +710,10 @@ class ThemeBackend:
         with open(THEME_STATE, "w") as f:
             f.write(theme_id)
         if os.path.exists(cls.apply_script):
-            run_bg(["bash", cls.apply_script, theme_id])
+            run_off_thread(
+                lambda: run(["bash", cls.apply_script, theme_id], timeout=30),
+                lambda _result: reload_css(),
+            )
 
 
 class DndBackend:
@@ -2177,15 +2179,32 @@ class ControlCenterWindow(Gtk.ApplicationWindow):
         self._catcher.arm_and_show()
 
 
+_css_provider = None
+
+
+def css_path():
+    """The themed stylesheet apply-theme.sh links into place, falling back to
+    the one bundled in the store so a fresh install still has a look."""
+    themed = os.path.expanduser("~/.config/control-center/style.css")
+    if os.path.exists(themed):
+        return themed
+    return os.path.join(os.path.dirname(__file__), "control-center.css")
+
+
 def load_css():
-    css_path = os.path.join(os.path.dirname(__file__), "control-center.css")
-    provider = Gtk.CssProvider()
-    provider.load_from_path(css_path)
+    global _css_provider
+    _css_provider = Gtk.CssProvider()
+    _css_provider.load_from_path(css_path())
     Gtk.StyleContext.add_provider_for_display(
         Gdk.Display.get_default(),
-        provider,
+        _css_provider,
         Gtk.STYLE_PROVIDER_PRIORITY_USER,
     )
+
+
+def reload_css():
+    if _css_provider is not None:
+        _css_provider.load_from_path(css_path())
 
 
 def force_dark_theme():

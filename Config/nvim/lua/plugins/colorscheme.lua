@@ -6,6 +6,16 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
+      -- The control center writes the active palette here; every palette
+      -- other than noir ships as a standalone colorscheme under colors/.
+      local ok, lines = pcall(vim.fn.readfile, vim.fn.expand("~/.cache/control-center/theme"))
+      local active = ok and lines[1] or "noir"
+      if active ~= "" and active ~= "noir" then
+        if pcall(vim.cmd.colorscheme, active) then
+          return
+        end
+      end
+
       local p = {
         bg = "#000000",
         bg_alt = "#0a0a0a",

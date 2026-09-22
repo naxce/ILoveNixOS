@@ -17,4 +17,4 @@ configuration {
     click-to-exit: true;
 }
 
-@theme "noir"
+@theme "theme"
