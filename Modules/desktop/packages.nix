@@ -29,7 +29,7 @@ let
             publisher = "anthropic";
             version = "2.1.280";
             arch = "linux-x64";
-            hash = final.lib.fakeHash;
+            hash = "sha256-iq0u498LpvJU3l5gQzp4sqgcj/JvDki79WftHFfWp3o=";
           };
           nativeBuildInputs = final.lib.optionals final.stdenv.hostPlatform.isLinux [
             final.autoPatchelfHook
