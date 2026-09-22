@@ -312,6 +312,15 @@
         swaymsg reload
       '';
 
+      nixtest = ''
+        wipe
+        cd ~/NixOS || exit
+        nix flake check
+        nixos-rebuild test --flake .
+        home-manager build --flake ~/NixOS
+        hyprctl configerrors
+      '';
+
       nixos = ''
         wipe
         cd ~/NixOS || exit
