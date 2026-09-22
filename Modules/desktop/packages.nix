@@ -15,7 +15,7 @@ let
         platforms = {
           "linux-x64" = {
             binary = "claude.zst";
-            checksum = final.lib.fakeHash;
+            checksum = sha256-J5EOKucE2PLoAkiX2P3x53EIB7r09pgsDjeXwFgxU4Q=;
           };
         };
       };
