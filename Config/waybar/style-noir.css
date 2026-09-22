@@ -76,6 +76,13 @@ window#waybar {
     border-radius: 8px;
 }
 
+#custom-canvas.canvas-mode {
+    color: #000000;
+    background: #ffffff;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
 #clock,
 #tray,
 #network,

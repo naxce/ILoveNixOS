@@ -661,23 +661,25 @@ class ThemeBackend:
 
     The chosen id is persisted to THEME_STATE and handed to
     ~/NixOS/Scripts/apply-theme.sh, which repoints every themed config
-    (waybar/hypr/kitty/rofi/...) and reloads whatever is running. It runs
-    off the main thread so the panel stays responsive, then we restyle
-    ourselves from the stylesheet it just linked into place.
+    (waybar/hypr/kitty/rofi/...) and reloads whatever is running.
+
+    We relink and reload our own stylesheet up front instead of waiting for
+    that script to finish, so the panel recolours under the cursor on the
+    same click rather than a second later.
     """
 
     THEMES = [
         {
             "id": "noir",
             "name": "Noir",
-            "desc": "Monochrome black & white (current default)",
+            "desc": "Monochrome black & white",
             "swatch": ["#050505", "#1a1a1a", "#e8e8e8", "#ffffff"],
         },
         {
             "id": "dachshund",
             "name": "Dachshund",
             "desc": "Warm browns & tan",
-            "swatch": ["#1c120c", "#3d2418", "#a85c32", "#e8b98c"],
+            "swatch": ["#181310", "#473228", "#a85c32", "#d3b9a1"],
         },
     ]
 
@@ -709,11 +711,30 @@ class ThemeBackend:
         ensure_state_dir()
         with open(THEME_STATE, "w") as f:
             f.write(theme_id)
+        cls._relink_own_css(theme_id)
+        reload_css()
         if os.path.exists(cls.apply_script):
-            run_off_thread(
-                lambda: run(["bash", cls.apply_script, theme_id], timeout=30),
-                lambda _result: reload_css(),
-            )
+            run_bg(["bash", cls.apply_script, theme_id])
+
+    @staticmethod
+    def _relink_own_css(theme_id):
+        """The same symlink apply-theme.sh makes; doing it here too keeps the
+        panel from waiting on the rest of the desktop before it recolours."""
+        target = os.path.expanduser(
+            f"~/NixOS/Config/control-center/control-center-{theme_id}.css"
+        )
+        if not os.path.exists(target):
+            return
+        link = os.path.expanduser("~/.config/control-center/style.css")
+        try:
+            os.makedirs(os.path.dirname(link), exist_ok=True)
+            tmp = link + ".new"
+            if os.path.lexists(tmp):
+                os.unlink(tmp)
+            os.symlink(target, tmp)
+            os.replace(tmp, link)
+        except OSError:
+            _log(traceback.format_exc())
 
 
 class DndBackend:

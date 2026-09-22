@@ -32,6 +32,7 @@ link() { # link <src under Config/> <dst under ~/.config/>
     ln -sfn "$src" "$dst"
 }
 
+link "waybar/config-$THEME.jsonc" "waybar/config.jsonc"
 link "waybar/style-$THEME.css" "waybar/style.css"
 link "swaync/style-$THEME.css" "swaync/style.css"
 link "wlogout/style-$THEME.css" "wlogout/style.css"
@@ -65,14 +66,24 @@ pkill -USR1 kitty || true                          # kitty: reload kitty.conf
 reload swaync-client --reload-css
 reload hyprctl reload                              # hyprland: looknfeel
 
+# hyprpaper has to be restarted to pick up a new conf: this build has no
+# working "preload" IPC request, and "wallpaper" silently does nothing for an
+# image that was never preloaded. Kill it, wait for the socket to be released,
+# clear a socket left behind by any stray instance, then start exactly one.
 if pgrep hyprpaper >/dev/null 2>&1; then
     wallpaper="$(sed -n 's/^ *path *= *//p' "$CFG/hypr/hyprpaper-$THEME.conf" | head -1)"
     wallpaper="${wallpaper/#\~/$HOME}"
-    if [ -n "$wallpaper" ] && [ ! -e "$wallpaper" ]; then
-        echo "apply-theme: $wallpaper is missing, keeping the current wallpaper" >&2
+    if [ -z "$wallpaper" ] || [ ! -e "$wallpaper" ]; then
+        echo "apply-theme: ${wallpaper:-wallpaper} is missing, keeping the current one" >&2
     else
-        pkill hyprpaper || true
-        setsid hyprpaper >/dev/null 2>&1 &
+        pkill -x hyprpaper || true
+        for _ in $(seq 20); do
+            pgrep -x hyprpaper >/dev/null 2>&1 || break
+            sleep 0.05
+        done
+        sock="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr/${HYPRLAND_INSTANCE_SIGNATURE:-}/.hyprpaper.sock"
+        [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ] && rm -f "$sock"
+        setsid hyprpaper >/dev/null 2>&1 </dev/null &
     fi
 fi
 

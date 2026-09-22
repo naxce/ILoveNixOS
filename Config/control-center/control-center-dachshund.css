@@ -14,7 +14,7 @@ decoration {
 }
 
 .cc-panel {
-  background: rgba(28, 18, 12, 0.88);
+  background: rgba(24, 19, 16, 0.88);
   border: 1px solid rgba(168, 92, 50, 0.16);
   border-radius: 20px;
   padding: 0;
@@ -35,20 +35,20 @@ decoration {
 .cc-time-label {
   font-size: 58px;
   font-weight: 600;
-  color: rgba(245, 220, 184, 0.96);
+  color: rgba(231, 218, 198, 0.96);
   font-family: "JetBrainsMono Nerd Font", "Inter", sans-serif;
 }
 
 .cc-date-label {
   font-size: 15px;
-  color: rgba(196, 138, 92, 0.85);
+  color: rgba(192, 163, 140, 0.85);
   margin-top: 2px;
 }
 
 .cc-brand-label {
   font-size: 10px;
   letter-spacing: 3px;
-  color: rgba(138, 102, 80, 0.75);
+  color: rgba(155, 131, 115, 0.75);
   font-weight: 600;
 }
 
@@ -56,7 +56,7 @@ decoration {
   background: rgba(168, 92, 50, 0.1);
   border: 1px solid rgba(168, 92, 50, 0.16);
   border-radius: 10px;
-  color: rgba(232, 185, 140, 0.85);
+  color: rgba(211, 185, 161, 0.85);
   min-width: 38px;
   min-height: 38px;
   font-family: "JetBrainsMono Nerd Font", sans-serif;
@@ -86,7 +86,7 @@ decoration {
   border: none;
   box-shadow: none;
   background-image: none;
-  color: rgba(196, 138, 92, 0.8);
+  color: rgba(192, 163, 140, 0.8);
   min-width: 22px;
   min-height: 22px;
   font-size: 13px;
@@ -100,25 +100,25 @@ decoration {
 .calendar-month-label {
   font-size: 12px;
   font-weight: 600;
-  color: rgba(232, 185, 140, 0.9);
+  color: rgba(211, 185, 161, 0.9);
 }
 
 .calendar-weekday {
   font-size: 10px;
-  color: rgba(138, 102, 80, 0.8);
+  color: rgba(155, 131, 115, 0.8);
   padding: 4px 0;
 }
 
 .calendar-day {
   font-size: 11px;
-  color: rgba(217, 168, 118, 0.85);
+  color: rgba(195, 168, 140, 0.85);
   padding: 5px 0;
   border-radius: 6px;
 }
 
 .calendar-day-today {
-  background: rgba(232, 185, 140, 0.92);
-  color: #1c120c;
+  background: rgba(211, 185, 161, 0.92);
+  color: #181310;
   font-weight: 700;
 }
 
@@ -132,25 +132,25 @@ decoration {
 .nowplaying-icon {
   font-family: "JetBrainsMono Nerd Font", sans-serif;
   font-size: 11px;
-  color: rgba(196, 138, 92, 0.8);
+  color: rgba(192, 163, 140, 0.8);
 }
 
 .nowplaying-tag {
   font-size: 10px;
   letter-spacing: 2px;
-  color: rgba(138, 102, 80, 0.75);
+  color: rgba(155, 131, 115, 0.75);
   font-weight: 700;
 }
 
 .nowplaying-title {
   font-size: 13px;
   font-weight: 600;
-  color: rgba(232, 185, 140, 0.95);
+  color: rgba(211, 185, 161, 0.95);
 }
 
 .nowplaying-artist {
   font-size: 11px;
-  color: rgba(180, 130, 90, 0.8);
+  color: rgba(160, 132, 110, 0.8);
 }
 
 .nowplaying-ctrl,
@@ -160,7 +160,7 @@ decoration {
   box-shadow: none;
   background-image: none;
   border-radius: 8px;
-  color: rgba(200, 150, 100, 0.85);
+  color: rgba(178, 150, 123, 0.85);
   font-family: "JetBrainsMono Nerd Font", sans-serif;
   font-size: 11px;
   min-width: 30px;
@@ -201,23 +201,23 @@ button.qs-row:hover {
 .qs-row-icon {
   font-family: "JetBrainsMono Nerd Font", sans-serif;
   font-size: 15px;
-  color: rgba(200, 150, 100, 0.85);
+  color: rgba(178, 150, 123, 0.85);
   min-width: 20px;
 }
 
 .qs-row-title {
   font-size: 13px;
   font-weight: 600;
-  color: rgba(232, 185, 140, 0.95);
+  color: rgba(211, 185, 161, 0.95);
 }
 
 .qs-row-subtitle {
   font-size: 11px;
-  color: rgba(180, 130, 90, 0.85);
+  color: rgba(160, 132, 110, 0.85);
 }
 
 .qs-row-chevron {
-  color: rgba(138, 102, 80, 0.6);
+  color: rgba(155, 131, 115, 0.6);
   font-size: 15px;
 }
 
@@ -241,7 +241,7 @@ switch:checked {
 }
 
 switch slider {
-  background: #e8b98c;
+  background: #d3b9a1;
   border-radius: 50%;
   min-width: 18px;
   min-height: 18px;
@@ -249,7 +249,7 @@ switch slider {
 }
 
 switch:checked slider {
-  background: #1c120c;
+  background: #181310;
 }
 
 .detail-back {
@@ -258,7 +258,7 @@ switch:checked slider {
   box-shadow: none;
   background-image: none;
   border-radius: 8px;
-  color: rgba(200, 150, 100, 0.85);
+  color: rgba(178, 150, 123, 0.85);
   min-width: 26px;
   min-height: 26px;
   font-size: 15px;
@@ -273,13 +273,13 @@ switch:checked slider {
 .detail-title {
   font-size: 14px;
   font-weight: 700;
-  color: rgba(245, 220, 184, 0.95);
+  color: rgba(231, 218, 198, 0.95);
 }
 
 .detail-subheading {
   font-size: 11px;
   letter-spacing: 1px;
-  color: rgba(138, 102, 80, 0.85);
+  color: rgba(155, 131, 115, 0.85);
   font-weight: 600;
 }
 
@@ -298,7 +298,7 @@ switch:checked slider {
   border-radius: 8px;
   background: transparent;
   background-image: none;
-  color: rgba(232, 185, 140, 0.9);
+  color: rgba(211, 185, 161, 0.9);
 }
 
 .detail-list-row:hover {
@@ -308,7 +308,7 @@ switch:checked slider {
 .detail-list-icon {
   font-family: "JetBrainsMono Nerd Font", sans-serif;
   font-size: 12px;
-  color: rgba(180, 130, 90, 0.85);
+  color: rgba(160, 132, 110, 0.85);
 }
 
 .detail-list-active {
@@ -318,7 +318,7 @@ switch:checked slider {
 
 .detail-list-tag {
   font-size: 10px;
-  color: rgba(10, 6, 3, 0.85);
+  color: rgba(8, 6, 5, 0.85);
   background: rgba(201, 112, 47, 0.85);
   border-radius: 6px;
   padding: 1px 7px;
@@ -330,7 +330,7 @@ switch:checked slider {
   box-shadow: none;
   background-image: none;
   border-radius: 8px;
-  color: rgba(232, 185, 140, 0.9);
+  color: rgba(211, 185, 161, 0.9);
   font-size: 12px;
   padding: 7px 12px;
 }
@@ -341,12 +341,12 @@ switch:checked slider {
 }
 
 .detail-action-primary {
-  background: rgba(232, 185, 140, 0.92);
-  border: 1px solid rgba(232, 185, 140, 0.92);
+  background: rgba(211, 185, 161, 0.92);
+  border: 1px solid rgba(211, 185, 161, 0.92);
   box-shadow: none;
   background-image: none;
   border-radius: 8px;
-  color: #1c120c;
+  color: #181310;
   font-size: 12px;
   font-weight: 700;
   padding: 7px 12px;
@@ -362,7 +362,7 @@ switch:checked slider {
   box-shadow: none;
   background-image: none;
   border-radius: 8px;
-  color: rgba(232, 185, 140, 0.9);
+  color: rgba(211, 185, 161, 0.9);
   font-family: "JetBrainsMono Nerd Font", sans-serif;
   font-size: 13px;
   min-width: 32px;
@@ -391,12 +391,12 @@ switch:checked slider {
   border-radius: 50%;
   min-width: 14px;
   min-height: 14px;
-  box-shadow: 0 1px 4px rgba(10, 6, 3, 0.5);
+  box-shadow: 0 1px 4px rgba(8, 6, 5, 0.5);
 }
 
 .volume-pct {
   font-size: 11px;
-  color: rgba(180, 130, 90, 0.85);
+  color: rgba(160, 132, 110, 0.85);
   min-width: 32px;
 }
 
@@ -410,7 +410,7 @@ switch:checked slider {
 .monitor-card-name {
   font-size: 12px;
   font-weight: 700;
-  color: rgba(232, 185, 140, 0.95);
+  color: rgba(211, 185, 161, 0.95);
   font-family: "JetBrainsMono Nerd Font", "Inter", sans-serif;
 }
 
@@ -420,7 +420,7 @@ switch:checked slider {
   box-shadow: none;
   background-image: none;
   border-radius: 8px;
-  color: rgba(232, 185, 140, 0.9);
+  color: rgba(211, 185, 161, 0.9);
   font-size: 11px;
   padding: 4px 8px;
 }
@@ -433,14 +433,14 @@ switch:checked slider {
 }
 
 .monitor-dropdown popover > contents {
-  background: #241a12;
+  background: #201a16;
   border: 1px solid rgba(168, 92, 50, 0.22);
   border-radius: 10px;
   padding: 4px;
 }
 
 .monitor-dropdown listview > row {
-  color: rgba(232, 185, 140, 0.9);
+  color: rgba(211, 185, 161, 0.9);
   border-radius: 6px;
   padding: 4px 8px;
 }
@@ -460,14 +460,14 @@ switch:checked slider {
   box-shadow: none;
   background-image: none;
   border-radius: 8px;
-  color: rgba(232, 185, 140, 0.95);
+  color: rgba(211, 185, 161, 0.95);
   caret-color: #c9702f;
   font-size: 11px;
   padding: 4px 8px;
 }
 
 .password-dialog {
-  background: rgba(28, 18, 12, 0.97);
+  background: rgba(24, 19, 16, 0.97);
   border: 1px solid rgba(168, 92, 50, 0.18);
   border-radius: 14px;
   padding: 18px;
@@ -478,14 +478,14 @@ switch:checked slider {
   background: rgba(168, 92, 50, 0.12);
   border: none;
   border-radius: 10px;
-  color: rgba(232, 185, 140, 1);
+  color: rgba(211, 185, 161, 1);
   caret-color: #c9702f;
   padding: 0 14px;
   min-height: 38px;
 }
 
 .password-entry text {
-  color: rgba(232, 185, 140, 1);
+  color: rgba(211, 185, 161, 1);
 }
 
 .theme-swatch {
@@ -498,26 +498,26 @@ switch:checked slider {
 .theme-swatch-noir {
   background-image: linear-gradient(
     90deg,
-    #1c120c 0%,
-    #3d2418 33%,
-    #e8b98c 66%,
-    #c9702f 100%
+    #050505 0%,
+    #1a1a1a 33%,
+    #e8e8e8 66%,
+    #ffffff 100%
   );
 }
 
 .theme-swatch-dachshund {
   background-image: linear-gradient(
     90deg,
-    #1c120c 0%,
-    #3d2418 33%,
+    #181310 0%,
+    #473228 33%,
     #a85c32 66%,
-    #e8b98c 100%
+    #d3b9a1 100%
   );
 }
 
 tooltip {
-  background: #241a12;
+  background: #201a16;
   border: 1px solid rgba(168, 92, 50, 0.18);
   border-radius: 8px;
-  color: #e8b98c;
+  color: #d3b9a1;
 }

@@ -1,17 +1,17 @@
 * {
-    bg:             #1c120ce8;
-    bg-soft:        #241a12f2;
-    bg-elevated:    #2b1f15f5;
+    bg:             #181310e8;
+    bg-soft:        #201a16f2;
+    bg-elevated:    #261f1af5;
     bg-hover:       #a85c3218;
     bg-selected:    #a85c3228;
 
-    fg:             #f0dcc0;
-    fg-muted:       #c48a5c;
-    fg-dim:         #8a6650;
+    fg:             #e5dacb;
+    fg-muted:       #c0a38c;
+    fg-dim:         #9b8373;
     accent:         #c9702f;
     border-col:     #a85c3240;
     border-soft:    #a85c3220;
-    shadow:         #0a060366;
+    shadow:         #08060566;
 
     background-color: transparent;
     text-color: @fg;

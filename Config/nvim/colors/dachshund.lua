@@ -1,30 +1,28 @@
--- Dachshund colorscheme: warm copper/rust on chocolate-brown, mirrors the
--- structure of the noir-theme plugin (lua/plugins/colorscheme.lua) but as a
--- standalone `colors/dachshund.lua` so it works with a plain `:colorscheme
--- dachshund` regardless of how the noir plugin is wired into lazy.nvim.
--- Not loaded automatically -- noir stays the active colorscheme until this
--- is actually wired up.
+-- Dachshund colorscheme: warm copper/rust on chocolate-brown, mirroring the
+-- noir-theme plugin (lua/plugins/colorscheme.lua) but as a standalone
+-- colorscheme. lua/plugins/colorscheme.lua selects it when the control
+-- center has this palette active.
 
 local p = {
-  bg = "#1c120c",
-  bg_alt = "#241a12",
-  bg_float = "#2b1f15",
-  bg_highlight = "#3d2418",
-  bg_visual = "#4a2c1a",
-  bg_search = "#5c3a22",
-  border = "#6b4526",
-  comment = "#8a6650",
-  muted = "#8a6650",
-  subtle = "#c48a5c",
-  fg_dim = "#d9a876",
-  fg = "#e8b98c",
-  fg_bright = "#f5dcb8",
-  white = "#f5dcb8",
-  black = "#1c120c",
+  bg = "#181310",
+  bg_alt = "#201a16",
+  bg_float = "#261f1a",
+  bg_highlight = "#473228",
+  bg_visual = "#3f2f25",
+  bg_search = "#4f3c2f",
+  border = "#72553e",
+  comment = "#9b8373",
+  muted = "#9b8373",
+  subtle = "#c0a38c",
+  fg_dim = "#c3a88c",
+  fg = "#d3b9a1",
+  fg_bright = "#e7dac6",
+  white = "#e7dac6",
+  black = "#181310",
   accent = "#a85c32",
   accent2 = "#c9702f",
   error = "#e0733a",
-  ok = "#e8b98c",
+  ok = "#d3b9a1",
 }
 
 vim.cmd("hi clear")

@@ -1,86 +1,36 @@
 {
-  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
-  "display": {
-    "separator": " 󰁔 ",
-    "color": {
-      "keys": "yellow",
-      "title": "yellow",
-    },
-  },
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
   "logo": {
-    "source": "nixos_small",
-    "color": {
-      "1": "yellow",
-      "2": "yellow",
-    },
-    "padding": {
-      "top": 2,
-      "left": 3,
-      "right": 4,
-    },
+    "type": "auto",
+    "source": "~/NixOS/Pictures/logos/NixOSDachshund.png",
+    "width": 25,
+    "height": 13,
+
+  },
+  "display": {
+    "separator": " ➜ ",
+    "color": { "keys": "yellow" },
   },
   "modules": [
     {
       "type": "title",
-      "format": "{#3}{user-name}{#default}@{#3}{host-name}",
+      "format": "{user-name}@{host-name}",
+      "color": "yellow",
     },
+    "separator",
+    { "type": "os", "key": "󱄅", "format": "{2} {8}" },
+    { "type": "kernel", "key": "󰌽", "format": "{2}" },
+    { "type": "uptime", "key": "󱎫" },
+    { "type": "shell", "key": "󱆃" },
+    { "type": "cpu", "key": "󰻠", "format": "{1}" },
+    { "type": "gpu", "key": "󰢮", "hideType": "integrated", "format": "{2}" },
     {
-      "type": "separator",
-      "string": "—",
+      "type": "display",
+      "key": "󰍹",
+      "compactType": "original-with-refresh",
+      "format": "{1}x{2} @ {3}Hz",
     },
-    {
-      "type": "os",
-      "key": "󰣭  OS",
-      "format": "{3} {1}",
-    },
-    {
-      "type": "kernel",
-      "key": "󰒋  Kern",
-      "format": "{2}",
-    },
-    {
-      "type": "uptime",
-      "key": "󰅐  Up",
-      "format": "{2}d {3}h {4}m",
-    },
-    {
-      "type": "packages",
-      "key": "󰮯  Pkgs",
-    },
-    {
-      "type": "separator",
-      "string": "—",
-    },
-    {
-      "type": "de",
-      "key": "󰖲  DE",
-    },
-    {
-      "type": "wm",
-      "key": "󱂬  WM",
-    },
-    {
-      "type": "terminal",
-      "key": "  Term",
-    },
-    {
-      "type": "separator",
-      "string": "—",
-    },
-    {
-      "type": "cpu",
-      "key": "󰻠  CPU",
-      "format": "{1} @ {6}GHz",
-    },
-    {
-      "type": "gpu",
-      "key": "󰍛  GPU",
-      "format": "{2}",
-      "hideType": "integrated",
-    },
-    {
-      "type": "memory",
-      "key": "󰍛  Mem",
-    },
+    { "type": "memory", "key": "󰑭" },
+    { "type": "localip", "key": "󰩟", "showIpv6": false },
   ],
 }

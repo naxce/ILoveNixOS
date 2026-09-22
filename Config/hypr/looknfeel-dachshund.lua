@@ -1,6 +1,4 @@
--- Dachshund variant of looknfeel.lua. Not required by hyprland.lua yet --
--- once the switcher exists, swapping the `require("looknfeel")` line (or
--- overwriting looknfeel.lua) will make this active.
+-- Dachshund variant of looknfeel.lua, linked in by Scripts/apply-theme.sh.
 
 hl.config({
     general = {
@@ -10,7 +8,7 @@ hl.config({
 
         col = {
             active_border   = "rgb(c9702f)",
-            inactive_border = "rgb(3d2418)",
+            inactive_border = "rgb(473228)",
         },
 
         resize_on_border = true,
@@ -29,7 +27,7 @@ hl.config({
             enabled      = true,
             range        = 18,
             render_power = 3,
-            color        = "rgba(0a060390)",
+            color        = "rgba(08060590)",
             offset       = { 0, 4 },
         },
 
@@ -65,7 +63,7 @@ hl.config({
         disable_hyprland_logo       = true,
         disable_splash_rendering    = true,
         force_default_wallpaper     = 0,
-        background_color            = "rgb(1c120c)",
+        background_color            = "rgb(181310)",
         animate_manual_resizes      = true,
         animate_mouse_windowdragging = true,
         enable_swallow              = false,

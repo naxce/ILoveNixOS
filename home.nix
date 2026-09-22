@@ -151,7 +151,6 @@
     done
   '';
 
-  home.file.".config/waybar/config.jsonc".source = ./Config/waybar/config.jsonc;
   home.file.".config/waybar/config-sway.jsonc".source = ./Config/waybar/config-sway.jsonc;
   home.file.".config/rofi/config.rasi".source = ./Config/rofi/config.rasi;
   home.file.".config/swaync/config.json".source = ./Config/swaync/config.json;
@@ -166,7 +165,7 @@
 
   home.file.".config/MangoHud".source = ./Config/mangohud;
 
-  home.activation.applyTheme = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.applyTheme = config.lib.dag.entryAfter [ "linkGeneration" ] ''
     $DRY_RUN_CMD ${pkgs.bash}/bin/bash "$HOME/NixOS/Scripts/apply-theme.sh" || true
   '';
 

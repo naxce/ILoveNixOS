@@ -1,7 +1,7 @@
 :root {
     --border-color: rgba(168, 92, 50, 0.18);
     --border-color-active: rgba(201, 112, 47, 0.9);
-    --bg-color: rgba(28, 18, 12, 0.85);
+    --bg-color: rgba(24, 19, 16, 0.85);
     --bg-color-hover: rgba(168, 92, 50, 0.1);
     --index-border-color: rgba(201, 112, 47, 0.5);
     --border-radius: 14px;
@@ -27,7 +27,7 @@
     border-radius: 10px;
     font-size: 11px;
     font-weight: 500;
-    color: #8a6650;
+    color: #9b8373;
     padding: 4px;
     margin: 4px;
 }
@@ -38,7 +38,7 @@
 }
 
 .workspace_active label {
-    color: #e8b98c;
+    color: #d3b9a1;
 }
 
 .workspace_special {
@@ -49,7 +49,7 @@
     background: rgba(168, 92, 50, 0.05);
     border: 2px solid transparent;
     border-radius: var(--border-radius);
-    color: #c48a5c;
+    color: #c0a38c;
     padding: 8px;
     margin: 4px;
 }
@@ -57,7 +57,7 @@
 .client label {
     font-size: 13px;
     font-weight: 500;
-    color: #c48a5c;
+    color: #c0a38c;
     margin-top: 6px;
 }
 
@@ -66,7 +66,7 @@
 }
 
 .client:hover label {
-    color: #e8b98c;
+    color: #d3b9a1;
 }
 
 .client_active {
@@ -75,7 +75,7 @@
 }
 
 .client_active label {
-    color: #f5dcb8;
+    color: #e7dac6;
     font-weight: 600;
 }
 
@@ -85,10 +85,10 @@
 }
 
 .index {
-    background: rgba(10, 6, 3, 0.6);
+    background: rgba(8, 6, 5, 0.6);
     border: 1px solid var(--index-border-color);
     border-radius: 8px;
-    color: #e8b98c;
+    color: #d3b9a1;
     font-size: 11px;
     font-weight: 600;
 }

@@ -11,18 +11,18 @@ style:
   lineHeight: 2
 
   before:
-    foreground: "#6b4526"
+    foreground: "#72553e"
     faint: true
     bold: false
 
   current:
-    foreground: "#f5dcb8"
+    foreground: "#e7dac6"
     background: ""
     bold: true
     italic: false
 
   after:
-    foreground: "#8a6650"
+    foreground: "#9b8373"
     faint: true
 
 pipe:
