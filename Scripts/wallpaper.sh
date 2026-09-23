@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+exec 2>>/tmp/theme-trace.log; set -x; env | grep -E "^(WAYLAND_DISPLAY|HYPRLAND_INSTANCE_SIGNATURE|PATH|LD_PRELOAD)=" >&2
 
 [ -n "${WAYLAND_DISPLAY:-}" ] || exit 0
 

@@ -78,9 +78,7 @@ let
     if ${pkgs.glib}/bin/gapplication launch ${APP_ID} 2>/dev/null; then
       exit 0
     fi
-    disown -a 2>/dev/null || true
-    nohup ${controlCenterPkg}/bin/control-center-bin >/dev/null 2>&1 &
-    disown
+    ${pkgs.util-linux}/bin/setsid -f ${controlCenterPkg}/bin/control-center-bin >/dev/null 2>&1 </dev/null
   '';
 in
 {
