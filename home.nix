@@ -254,6 +254,7 @@
     };
 
     initContent = ''
+      export PATH="$HOME/.local/bin:$PATH"
 
       bindkey -v
       export KEYTIMEOUT=15
