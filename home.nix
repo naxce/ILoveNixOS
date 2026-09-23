@@ -11,6 +11,10 @@
   programs.home-manager.enable = true;
   home.preferXdgDirectories = true;
 
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
+
   home.pointerCursor = {
     enable = true;
     name = "Bibata-Modern-Classic";
