@@ -55,26 +55,7 @@ pkill -USR1 kitty || true
 reload swaync-client --reload-css
 reload hyprctl reload
 
-if pgrep hyprpaper >/dev/null 2>&1; then
-    wallpaper="$(sed -n 's/^ *path *= *//p' "$CFG/hypr/hyprpaper-$THEME.conf" | head -1)"
-    wallpaper="${wallpaper/#\~/$HOME}"
-    if [ -z "$wallpaper" ] || [ ! -e "$wallpaper" ]; then
-        echo "apply-theme: ${wallpaper:-wallpaper} is missing, keeping the current one" >&2
-    else
-        pkill -x hyprpaper || true
-        for _ in $(seq 20); do
-            pgrep -x hyprpaper >/dev/null 2>&1 || break
-            sleep 0.05
-        done
-        sock="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr/${HYPRLAND_INSTANCE_SIGNATURE:-}/.hyprpaper.sock"
-        [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ] && rm -f "$sock"
-        setsid hyprpaper >/dev/null 2>&1 </dev/null &
-    fi
-fi
-
-if pgrep -x niri >/dev/null 2>&1; then
-    setsid "$HOME/NixOS/Scripts/niri-wallpaper.sh" >/dev/null 2>&1 </dev/null &
-fi
+setsid "$HOME/NixOS/Scripts/wallpaper.sh" >/dev/null 2>&1 </dev/null &
 
 if pgrep hyprswitch >/dev/null 2>&1; then
     pkill hyprswitch || true

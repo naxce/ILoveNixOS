@@ -87,7 +87,7 @@ spawn-at-startup "blueman-applet"
 spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
 spawn-sh-at-startup "systemctl --user start hyprpolkitagent"
 spawn-sh-at-startup "wl-paste --watch cliphist store"
-spawn-sh-at-startup "\"$HOME\"/NixOS/Scripts/niri-wallpaper.sh"
+spawn-sh-at-startup "\"$HOME\"/NixOS/Scripts/wallpaper.sh"
 
 window-rule {
     geometry-corner-radius 10
