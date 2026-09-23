@@ -108,6 +108,7 @@ window#waybar {
 #bluetooth,
 #pulseaudio,
 #custom-notification,
+#custom-sylvaris,
 #custom-power {
     color: #e8e8e8;
     padding: 0 12px;
@@ -145,12 +146,14 @@ window#waybar {
 }
 
 #custom-notification,
+#custom-sylvaris,
 #custom-power {
     color: #b0b0b0;
     padding: 0 14px;
 }
 
 #custom-notification:hover,
+#custom-sylvaris:hover,
 #custom-power:hover {
     color: #ffffff;
 }

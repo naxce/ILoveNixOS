@@ -45,7 +45,7 @@
           danger = "#e06c5a";
         };
         alpha = {
-          surface = 0.9;
+          surface = 0.72;
           glass = 0.62;
           line = 0.16;
           tint = 0.08;
@@ -68,7 +68,7 @@
           danger = "#d9674a";
         };
         alpha = {
-          surface = 0.9;
+          surface = 0.72;
           glass = 0.62;
           line = 0.16;
           tint = 0.08;

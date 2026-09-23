@@ -9,7 +9,7 @@
 
     "modules-left": ["hyprland/workspaces", "custom/minimized", "custom/canvas", "hyprland/window"],
     "modules-center": ["clock"],
-    "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "custom/notification", "custom/power"],
+    "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "custom/notification", "custom/sylvaris", "custom/power"],
 
     "hyprland/workspaces": {
         "format": "{icon}",
@@ -93,6 +93,12 @@
         "tooltip": false,
         "format": "",
         "on-click": "swaync-client -t -sw"
+    },
+
+    "custom/sylvaris": {
+        "tooltip": false,
+        "format": "󰒓",
+        "on-click": "sylvaris cc"
     },
 
     "custom/power": {

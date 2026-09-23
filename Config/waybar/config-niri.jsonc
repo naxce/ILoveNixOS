@@ -9,7 +9,7 @@
 
     "modules-left": ["custom/niri-workspaces", "custom/niri-window"],
     "modules-center": ["clock"],
-    "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "custom/notification", "custom/power"],
+    "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "custom/notification", "custom/sylvaris", "custom/power"],
 
     "custom/niri-workspaces": {
         "exec": "$HOME/NixOS/Scripts/niri-workspaces.sh",
@@ -65,6 +65,12 @@
         "tooltip": false,
         "format": "",
         "on-click": "swaync-client -t -sw"
+    },
+
+    "custom/sylvaris": {
+        "tooltip": false,
+        "format": "󰒓",
+        "on-click": "sylvaris cc"
     },
 
     "custom/power": {
