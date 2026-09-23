@@ -8,6 +8,74 @@
 {
   home.username = "naxce";
   home.homeDirectory = "/home/naxce";
+
+  imports = [ inputs.sylvaris.homeManagerModules.sylvaris ];
+
+  programs.sylvaris = {
+    enable = true;
+    settings = {
+      themeHook = "~/NixOS/Scripts/apply-theme.sh";
+      themeStateFile = "~/.cache/control-center/theme";
+      avatar = "~/Pictures/wallpapers/avatar.png";
+      toggles = [
+        {
+          id = "performance";
+          label = "Performance";
+          icon = "󱓞";
+          on = "~/NixOS/Scripts/gaming.sh";
+          off = "~/NixOS/Scripts/rice-restore.sh";
+        }
+      ];
+    };
+    themes = {
+      noir = {
+        name = "Noir";
+        description = "Monochrome black & white";
+        wallpaper = "~/Pictures/wallpapers/noir.png";
+        colors = {
+          base = "#050505";
+          surface = "#161616";
+          accent = "#e8e8e8";
+          accentHi = "#ffffff";
+          accentDeep = "#8c8c8c";
+          onAccent = "#050505";
+          text = "#e8e8e8";
+          textDim = "#9a9a9a";
+          textSoft = "#dcdcdc";
+          danger = "#e06c5a";
+        };
+        alpha = {
+          surface = 0.9;
+          glass = 0.62;
+          line = 0.16;
+          tint = 0.08;
+        };
+      };
+      dachshund = {
+        name = "Dachshund";
+        description = "Warm browns & tan";
+        wallpaper = "~/Pictures/wallpapers/dachshund.png";
+        colors = {
+          base = "#181310";
+          surface = "#281f1a";
+          accent = "#c9702f";
+          accentHi = "#e0955c";
+          accentDeep = "#a85c32";
+          onAccent = "#181310";
+          text = "#e7dac6";
+          textDim = "#b2967b";
+          textSoft = "#d3b9a1";
+          danger = "#d9674a";
+        };
+        alpha = {
+          surface = 0.9;
+          glass = 0.62;
+          line = 0.16;
+          tint = 0.08;
+        };
+      };
+    };
+  };
   programs.home-manager.enable = true;
   home.preferXdgDirectories = true;
 

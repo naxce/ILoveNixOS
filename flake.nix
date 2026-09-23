@@ -12,6 +12,10 @@
       url = "github:naxce/FaTest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sylvaris = {
+      url = "git+file:///mnt/data/Coding/Linux/Sylvaris";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     /*
       gdoc = {
         url = "github:naxce/GDoc";

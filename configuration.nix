@@ -9,7 +9,6 @@
     ./Modules/desktop/niri.nix
     ./Modules/desktop/gaming.nix
     ./Modules/desktop/packages.nix
-    ./Modules/desktop/control-center.nix
     ./Modules/desktop/waydroid.nix
 
     ./Modules/system/boot.nix

@@ -54,7 +54,7 @@
     "clock": {
         "format": "{:%H:%M}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "on-click": "control-center"
+        "on-click": "sylvaris cc"
     },
 
     "tray": {

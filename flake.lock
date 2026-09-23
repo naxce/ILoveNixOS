@@ -77,7 +77,28 @@
         "fatest": "fatest",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-fonts": "nixpkgs-fonts"
+        "nixpkgs-fonts": "nixpkgs-fonts",
+        "sylvaris": "sylvaris"
+      }
+    },
+    "sylvaris": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790190849,
+        "narHash": "sha256-XYF0cuhJejh1kFdHetGG5vyL+BLlXAlXd5ZeIdGG6oQ=",
+        "ref": "refs/heads/main",
+        "rev": "5ae57e1597f8ceebbc757aa97447f73e7907341f",
+        "revCount": 20,
+        "type": "git",
+        "url": "file:///mnt/data/Coding/Linux/Sylvaris"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///mnt/data/Coding/Linux/Sylvaris"
       }
     }
   },

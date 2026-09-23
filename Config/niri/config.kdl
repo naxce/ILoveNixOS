@@ -80,6 +80,7 @@ hotkey-overlay {
 prefer-no-csd
 
 spawn-at-startup "niri-waybar"
+spawn-at-startup "sylvaris"
 spawn-at-startup "swaync"
 spawn-at-startup "hypridle"
 spawn-at-startup "nm-applet" "--indicator"
@@ -144,8 +145,10 @@ window-rule {
 }
 
 layer-rule {
-    match namespace="^control-center$"
-    place-within-backdrop false
+    match namespace="^sylvaris-cc$"
+    background-effect {
+        blur true
+    }
 }
 
 binds {

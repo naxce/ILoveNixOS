@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-exec 2>>/tmp/theme-trace.log; set -x; env | grep -E "^(WAYLAND_DISPLAY|HYPRLAND_INSTANCE_SIGNATURE|PATH|LD_PRELOAD)=" >&2
 
 STATE="$HOME/.cache/control-center/theme"
 CFG="$HOME/NixOS/Config"
@@ -33,7 +32,6 @@ link "waybar/style-$THEME.css" "waybar/style.css"
 link "swaync/style-$THEME.css" "swaync/style.css"
 link "wlogout/style-$THEME.css" "wlogout/style.css"
 link "hyprswitch/style-$THEME.css" "hyprswitch/style.css"
-link "control-center/control-center-$THEME.css" "control-center/style.css"
 link "rofi/$THEME.rasi" "rofi/theme.rasi"
 link "kitty/themes/$THEME.conf" "kitty/theme.conf"
 link "yazi/theme-$THEME.toml" "yazi/theme.toml"

@@ -71,8 +71,9 @@ hl.window_rule({
 })
 
 hl.layer_rule({
-    name      = "control_center_popover",
-    match     = { namespace = "control-center" },
-    blur      = false,
-    animation = "popin 80%",
+    name         = "sylvaris_cc",
+    match        = { namespace = "sylvaris-cc" },
+    blur         = true,
+    ignore_alpha = 0.3,
+    animation    = "popin 80%",
 })

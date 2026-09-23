@@ -59,6 +59,7 @@ focus output DP-6
 exec dbus-update-activation-environment --systemd --all
 
 exec swaync
+exec sylvaris
 exec systemctl --user start hyprpolkitagent >/dev/null 2>&1
 
 bindsym $mod+Return exec $terminal

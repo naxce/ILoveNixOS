@@ -2,6 +2,7 @@ hl.on("hyprland.start", function()
     for _, cmd in ipairs({
         "hyprpolkitagent",
         "waybar",
+        "sylvaris",
         "swaync",
         "hypridle",
         "hyprpaper",
