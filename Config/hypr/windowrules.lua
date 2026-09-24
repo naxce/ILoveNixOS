@@ -77,3 +77,9 @@ hl.layer_rule({
     ignore_alpha = 0.3,
     animation    = "popin 80%",
 })
+
+hl.layer_rule({
+    name    = "sylvaris_tp",
+    match   = { namespace = "sylvaris-tp" },
+    no_anim = true,
+})
