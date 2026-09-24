@@ -1,7 +1,7 @@
 set $mod Mod4
 set $terminal kitty
 set $fileManager nemo
-set $menu rofi -show drun
+set $menu sylvaris pad
 
 default_border none
 default_floating_border none
@@ -58,7 +58,6 @@ focus output DP-6
 
 exec dbus-update-activation-environment --systemd --all
 
-exec swaync
 exec sylvaris
 exec systemctl --user start hyprpolkitagent >/dev/null 2>&1
 
@@ -146,9 +145,5 @@ bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 for_window [app_id="^steam_app_.*"] fullscreen enable
 for_window [class="^steam_app_.*"] fullscreen enable
 for_window [app_id="gamescope"] fullscreen enable
-
-bar {
-    swaybar_command sway-waybar
-}
 
 include /etc/sway/config.d/*

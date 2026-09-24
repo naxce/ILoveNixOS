@@ -79,9 +79,7 @@ hotkey-overlay {
 
 prefer-no-csd
 
-spawn-at-startup "niri-waybar"
 spawn-at-startup "sylvaris"
-spawn-at-startup "swaync"
 spawn-at-startup "hypridle"
 spawn-at-startup "nm-applet" "--indicator"
 spawn-at-startup "blueman-applet"
@@ -144,13 +142,6 @@ window-rule {
     open-on-workspace "2"
 }
 
-layer-rule {
-    match namespace="^sylvaris-cc$"
-    background-effect {
-        blur true
-    }
-}
-
 binds {
     Mod+F1 hotkey-overlay-title="Hotkey cheatsheet" {
         spawn "kitty" "--class" "hotkeys-menu" "--name" "hotkeys-menu" "--title" "Hotkeys" "-e" "hotkeys"
@@ -158,14 +149,14 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     Mod+Return hotkey-overlay-title="Terminal" { spawn "kitty"; }
-    Mod+Space  hotkey-overlay-title="App launcher" { spawn-sh "rofi -show drun"; }
+    Mod+Space  hotkey-overlay-title="App launcher" { spawn "sylvaris" "pad"; }
     Mod+Tab    hotkey-overlay-title="Window switcher" { spawn-sh "rofi -show window"; }
     Alt+Tab    hotkey-overlay-title="Window switcher" { spawn-sh "rofi -show window"; }
     Mod+E      hotkey-overlay-title="File manager" { spawn "nemo"; }
     Mod+B      hotkey-overlay-title="Browser" { spawn "firefox"; }
     Mod+N      { spawn "ferdium"; }
     Mod+K      { spawn "kitty" "--class" "airpods" "--name" "airpods" "-e" "zsh" "-ic" "ap"; }
-    Mod+M      { spawn "swaync-client" "-t" "-sw"; }
+    Mod+M      { spawn "sylvaris" "notify"; }
     Mod+V      { spawn-sh "cliphist list | rofi -dmenu | cliphist decode | wl-copy"; }
     Mod+C      { spawn "hyprpicker" "-a"; }
     Mod+L      hotkey-overlay-title="Lock" { spawn "hyprlock"; }

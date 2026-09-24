@@ -1,7 +1,7 @@
 local mainMod     = "SUPER"
 local terminal    = "kitty"
 local fileManager = "nemo"
-local menu        = "rofi -show drun"
+local menu        = "sylvaris pad"
 
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
@@ -72,5 +72,5 @@ hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locke
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { locked = true, repeating = true })
 
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("hyprpicker -a"))
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("swaync-client -t -sw"))
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("sylvaris notify"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu | cliphist decode | wl-copy"))

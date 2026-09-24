@@ -54,7 +54,7 @@
     "clock": {
         "format": "{:%H:%M}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "on-click": "sylvaris cc"
+        "on-click": "sylvaris center"
     },
 
     "tray": {
@@ -92,13 +92,13 @@
     "custom/notification": {
         "tooltip": false,
         "format": "",
-        "on-click": "swaync-client -t -sw"
+        "on-click": "sylvaris notify"
     },
 
     "custom/sylvaris": {
         "tooltip": false,
         "format": "󰒓",
-        "on-click": "sylvaris cc"
+        "on-click": "sylvaris center"
     },
 
     "custom/power": {
