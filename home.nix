@@ -5,6 +5,33 @@
   ...
 }:
 
+let
+  themeLinks =
+    theme:
+    let
+      cfg = "~/NixOS/Config";
+    in
+    {
+      "waybar/config.jsonc" = "${cfg}/waybar/config-${theme}.jsonc";
+      "waybar/style.css" = "${cfg}/waybar/style-${theme}.css";
+      "swaync/style.css" = "${cfg}/swaync/style-${theme}.css";
+      "wlogout/style.css" = "${cfg}/wlogout/style-${theme}.css";
+      "hyprswitch/style.css" = "${cfg}/hyprswitch/style-${theme}.css";
+      "rofi/theme.rasi" = "${cfg}/rofi/${theme}.rasi";
+      "kitty/theme.conf" = "${cfg}/kitty/themes/${theme}.conf";
+      "yazi/theme.toml" = "${cfg}/yazi/theme-${theme}.toml";
+      "cava/config" = "${cfg}/cava/config-${theme}";
+      "sptlrx/config.yaml" = "${cfg}/sptlrx/config-${theme}.yaml";
+      "fastfetch/config.jsonc" = "${cfg}/fastfetch/config-${theme}.jsonc";
+      "fastfetch/work.jsonc" = "${cfg}/fastfetch/work-${theme}.jsonc";
+      "hypr/hyprlock.conf" = "${cfg}/hypr/hyprlock-${theme}.conf";
+      "hypr/hyprpaper.conf" = "${cfg}/hypr/hyprpaper-${theme}.conf";
+      "hypr/looknfeel.lua" = "${cfg}/hypr/looknfeel-${theme}.lua";
+      "niri/looknfeel.kdl" = "${cfg}/niri/looknfeel-${theme}.kdl";
+      "wlogout/icons" = "${cfg}/wlogout/icons";
+      "wlogout/icons-dachshund" = "${cfg}/wlogout/icons-dachshund";
+    };
+in
 {
   home.username = "naxce";
   home.homeDirectory = "/home/naxce";
@@ -14,7 +41,6 @@
   programs.sylvaris = {
     enable = true;
     settings = {
-      themeHook = "~/NixOS/Scripts/apply-theme.sh";
       themeStateFile = "~/.cache/control-center/theme";
       avatar = "~/Pictures/wallpapers/avatar.png";
       toggles = [
@@ -30,6 +56,7 @@
     themes = {
       noir = {
         name = "Noir";
+        links = themeLinks "noir";
         description = "Monochrome black & white";
         wallpaper = "~/Pictures/wallpapers/noir.png";
         colors = {
@@ -53,6 +80,7 @@
       };
       dachshund = {
         name = "Dachshund";
+        links = themeLinks "dachshund";
         description = "Warm browns & tan";
         wallpaper = "~/Pictures/wallpapers/dachshund.png";
         colors = {
@@ -235,10 +263,6 @@
   home.file.".config/sway".source = ./Config/sway;
 
   home.file.".config/MangoHud".source = ./Config/mangohud;
-
-  home.activation.applyTheme = config.lib.dag.entryAfter [ "linkGeneration" ] ''
-    $DRY_RUN_CMD ${pkgs.bash}/bin/bash "$HOME/NixOS/Scripts/apply-theme.sh" || true
-  '';
 
   home.file."Pictures/wallpapers".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/Pictures/wallpapers";

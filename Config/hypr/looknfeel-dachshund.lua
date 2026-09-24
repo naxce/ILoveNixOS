@@ -1,5 +1,3 @@
--- Dachshund variant of looknfeel.lua, linked in by Scripts/apply-theme.sh.
-
 hl.config({
     general = {
         gaps_in     = 5,

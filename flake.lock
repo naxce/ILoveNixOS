@@ -27,11 +27,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790225410,
-        "narHash": "sha256-BOyZoliWfm/beS4m3FxFKlu5at6npZen1PsWtvzzihk=",
+        "lastModified": 1790275434,
+        "narHash": "sha256-9dZF1EviQA/XKCjHChddQh7skrfKnZPSqPOqEeOKW0k=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "4900baf1e219645e4a2acba35723852b2091bc20",
+        "rev": "f2981148865f7390d187a91d4b1a3a7616047d6d",
         "type": "github"
       },
       "original": {
@@ -88,11 +88,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790261669,
-        "narHash": "sha256-c3qHRMVXvs8b4XzYKK5a4jnZFQ2gwzpvKBppjqRxVuc=",
+        "lastModified": 1790288561,
+        "narHash": "sha256-P9B20UyvwCHgSIVbEIpEY0bzI6JyrLtDTmgoE/1/4IA=",
         "ref": "refs/heads/main",
-        "rev": "5f3b48ce027ec7768a29f26f7891cfd2ba81b5e5",
-        "revCount": 55,
+        "rev": "85f4d231e819f5f27c7ace301140a83397a78bb8",
+        "revCount": 61,
         "type": "git",
         "url": "file:///mnt/data/Coding/Linux/Sylvaris"
       },
