@@ -71,15 +71,7 @@ hl.window_rule({
 })
 
 hl.layer_rule({
-    name         = "sylvaris_glass",
-    match        = { namespace = "^syl(bar|deck|center|clock|notify|media|settings)$" },
-    blur         = true,
-    ignore_alpha = 0.3,
-    animation    = "popin 80%",
-})
-
-hl.layer_rule({
-    name    = "sylvaris_self_animated",
-    match   = { namespace = "^syl(theme|pad)$" },
+    name    = "sylvaris",
+    match   = { namespace = "^syl" },
     no_anim = true,
 })

@@ -3,7 +3,6 @@ hl.on("hyprland.start", function()
         "hyprpolkitagent",
         "sylvaris",
         "hypridle",
-        "hyprpaper",
         "nm-applet --indicator",
         "blueman-applet",
         "wl-paste --watch cliphist store",

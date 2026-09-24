@@ -11,7 +11,6 @@ gaps inner 0
 gaps outer 0
 font pango:Inter 10
 
-exec ~/NixOS/Scripts/wallpaper.sh
 output * max_render_time off
 
 input type:touchpad {

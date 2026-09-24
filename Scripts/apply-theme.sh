@@ -54,7 +54,9 @@ pkill -USR1 kitty || true
 reload swaync-client --reload-css
 reload hyprctl reload
 
-setsid "$HOME/NixOS/Scripts/wallpaper.sh" >/dev/null 2>&1 </dev/null &
+if [ "$(sylvaris get paper.enabled 2>/dev/null)" != "true" ]; then
+    setsid "$HOME/NixOS/Scripts/wallpaper.sh" >/dev/null 2>&1 </dev/null &
+fi
 
 if pgrep hyprswitch >/dev/null 2>&1; then
     pkill hyprswitch || true
