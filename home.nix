@@ -16,7 +16,6 @@ let
       "waybar/style.css" = "${cfg}/waybar/style-${theme}.css";
       "swaync/style.css" = "${cfg}/swaync/style-${theme}.css";
       "wlogout/style.css" = "${cfg}/wlogout/style-${theme}.css";
-      "hyprswitch/style.css" = "${cfg}/hyprswitch/style-${theme}.css";
       "rofi/theme.rasi" = "${cfg}/rofi/${theme}.rasi";
       "kitty/theme.conf" = "${cfg}/kitty/themes/${theme}.conf";
       "yazi/theme.toml" = "${cfg}/yazi/theme-${theme}.toml";
@@ -83,6 +82,7 @@ in
         links = themeLinks "dachshund";
         description = "Warm browns & tan";
         wallpaper = "~/Pictures/wallpapers/dachshund.png";
+        workspaceIcon = "paw";
         colors = {
           base = "#181310";
           surface = "#281f1a";

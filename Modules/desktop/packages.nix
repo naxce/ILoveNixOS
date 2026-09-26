@@ -6,7 +6,6 @@
 }:
 
 let
-  hyprswitch = pkgs.callPackage ./hyprswitch.nix { };
 
   claude-code-pin-overlay = final: prev: {
     claude-code = prev.claude-code.override {
@@ -54,7 +53,6 @@ in
   nixpkgs.overlays = [ claude-code-pin-overlay ];
 
   environment.systemPackages = with pkgs; [
-    hyprswitch
 
     os-prober
     refind

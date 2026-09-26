@@ -25,8 +25,8 @@ hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
 hl.bind(mainMod .. " + SHIFT + M", hl.dsp.workspace.toggle_special("minimized"))
 hl.bind(mainMod .. " + grave", hl.dsp.workspace.toggle_special("minimized"))
 
-hl.bind("ALT + Tab", hl.dsp.exec_cmd("hyprswitch gui --mod-key alt_l --key tab"))
-hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("hyprswitch gui --mod-key alt_l --key tab --reverse-key=shift_l"))
+hl.bind("ALT + Tab", hl.dsp.exec_cmd("sylvaris switcher next"))
+hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("sylvaris switcher prev"))
 
 local directions = {
     left  = "left",

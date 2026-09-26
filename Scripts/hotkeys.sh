@@ -81,11 +81,12 @@ XF86MonBrightnessDown	Brightness down 5%
 EOF
 }
 
-hyprswitch_binds() {
+sylswitch_binds() {
   cat <<'EOF'
-Alt + Tab	Open window switcher, hold Alt and press Tab to cycle forward
+Alt + Tab	Open SylSwitch, hold Alt and press Tab to cycle forward
 Alt + Shift + Tab	Cycle backward through windows
-Release Alt	Confirm selection and switch to window
+Release Alt	Switch to the selected window
+Esc	Close without switching
 EOF
 }
 
@@ -418,7 +419,7 @@ main_menu() {
   choice=$(printf '%s\n' \
     "Hyprland" \
     "niri (scrollable tiling)" \
-    "Hyprswitch" \
+    "SylSwitch" \
     "Waybar" \
     "Neovim" \
     "Yazi" \
@@ -434,7 +435,7 @@ main_menu() {
   case "$choice" in
     "Hyprland") show_category "Hyprland" "$(hyprland_binds)" ;;
     "niri (scrollable tiling)") show_category "niri" "$(niri_binds)" ;;
-    "Hyprswitch") show_category "Hyprswitch" "$(hyprswitch_binds)" ;;
+    "SylSwitch") show_category "SylSwitch" "$(sylswitch_binds)" ;;
     "Waybar") show_category "Waybar" "$(waybar_binds)" ;;
     "Neovim") show_category "Neovim" "$(neovim_binds)" ;;
     "Yazi") show_category "Yazi" "$(yazi_binds)" ;;
