@@ -12,7 +12,7 @@ hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("firefox"))
 hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("kitty --class airpods --name airpods -e zsh -ic 'ap'"))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("ferdium"))
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("sylvaris lock"))
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("wlogout"))
 hl.bind(mainMod .. " + F1", hl.dsp.exec_cmd('kitty --class hotkeys-menu --name hotkeys-menu --title "Hotkeys" -e hotkeys'))
 

@@ -58,7 +58,6 @@ focus output DP-6
 exec dbus-update-activation-environment --systemd --all
 
 exec sylvaris
-exec systemctl --user start hyprpolkitagent >/dev/null 2>&1
 
 bindsym $mod+Return exec $terminal
 bindsym $mod+q kill
@@ -69,7 +68,7 @@ bindsym $mod+e exec $fileManager
 bindsym $mod+b exec firefox
 bindsym $mod+k exec kitty --class airpods --name airpods -e zsh -ic 'ap'
 bindsym $mod+n exec ferdium
-bindsym $mod+l exec swaylock
+bindsym $mod+l exec sylvaris lock
 bindsym $mod+shift+l exec wlogout
 bindsym $mod+F1 exec kitty --class hotkeys-menu --name hotkeys-menu --title "Hotkeys" -e hotkeys
 

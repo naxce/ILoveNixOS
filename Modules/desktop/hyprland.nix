@@ -5,7 +5,6 @@
   ...
 }:
 {
-  services.greetd.enable = false;
   services.xserver.enable = false;
 
   programs.hyprland = {
@@ -51,8 +50,6 @@
     "snd_pcsp"
     "nouveau"
   ];
-
-  security.pam.services.hyprlock = { };
 
   services.gnome.gnome-keyring.enable = true;
   security.polkit.enable = true;

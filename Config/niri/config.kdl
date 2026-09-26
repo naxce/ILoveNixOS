@@ -84,7 +84,6 @@ spawn-at-startup "hypridle"
 spawn-at-startup "nm-applet" "--indicator"
 spawn-at-startup "blueman-applet"
 spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
-spawn-sh-at-startup "systemctl --user start hyprpolkitagent"
 spawn-sh-at-startup "wl-paste --watch cliphist store"
 
 window-rule {
@@ -158,7 +157,7 @@ binds {
     Mod+M      { spawn "sylvaris" "notify"; }
     Mod+V      { spawn-sh "cliphist list | rofi -dmenu | cliphist decode | wl-copy"; }
     Mod+C      { spawn "hyprpicker" "-a"; }
-    Mod+L      hotkey-overlay-title="Lock" { spawn "hyprlock"; }
+    Mod+L      hotkey-overlay-title="Lock" { spawn "sylvaris" "lock"; }
     Mod+Shift+L { spawn "wlogout"; }
 
     Mod+Q repeat=false { close-window; }

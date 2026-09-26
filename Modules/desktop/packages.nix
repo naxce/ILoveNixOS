@@ -70,7 +70,6 @@ in
     quickemu
     quickgui
     gparted-full
-    hyprpolkitagent
 
     qbittorrent
     iw
@@ -79,13 +78,11 @@ in
 
     waybar
     rofi
-    hyprlock
     hypridle
     hyprpaper
     hyprpicker
     hyprsunset
     swaynotificationcenter
-    hyprpolkitagent
     wlogout
     grim
     slurp

@@ -1,6 +1,5 @@
 hl.on("hyprland.start", function()
     for _, cmd in ipairs({
-        "hyprpolkitagent",
         "sylvaris",
         "hypridle",
         "nm-applet --indicator",

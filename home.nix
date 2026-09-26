@@ -23,7 +23,6 @@ let
       "sptlrx/config.yaml" = "${cfg}/sptlrx/config-${theme}.yaml";
       "fastfetch/config.jsonc" = "${cfg}/fastfetch/config-${theme}.jsonc";
       "fastfetch/work.jsonc" = "${cfg}/fastfetch/work-${theme}.jsonc";
-      "hypr/hyprlock.conf" = "${cfg}/hypr/hyprlock-${theme}.conf";
       "hypr/hyprpaper.conf" = "${cfg}/hypr/hyprpaper-${theme}.conf";
       "hypr/looknfeel.lua" = "${cfg}/hypr/looknfeel-${theme}.lua";
       "niri/looknfeel.kdl" = "${cfg}/niri/looknfeel-${theme}.kdl";
@@ -42,15 +41,6 @@ in
     settings = {
       themeStateFile = "~/.cache/control-center/theme";
       avatar = "~/Pictures/wallpapers/avatar.png";
-      toggles = [
-        {
-          id = "performance";
-          label = "Performance";
-          icon = "󱓞";
-          on = "~/NixOS/Scripts/gaming.sh";
-          off = "~/NixOS/Scripts/rice-restore.sh";
-        }
-      ];
     };
     themes = {
       noir = {
@@ -540,8 +530,8 @@ in
       niriwin = "niri-cli msg windows";
       nirikeys = "niri-cli msg keyboard-layouts";
 
-      gaming = "~/NixOS/Scripts/gaming.sh";
-      ungaming = "~/NixOS/Scripts/rice-restore.sh";
+      gaming = "sylvaris set performance true";
+      ungaming = "sylvaris set performance false";
 
       v = "nvim";
       vim = "nvim";
