@@ -12,22 +12,14 @@ let
       cfg = "~/NixOS/Config";
     in
     {
-      "waybar/config.jsonc" = "${cfg}/waybar/config-${theme}.jsonc";
-      "waybar/style.css" = "${cfg}/waybar/style-${theme}.css";
-      "swaync/style.css" = "${cfg}/swaync/style-${theme}.css";
-      "wlogout/style.css" = "${cfg}/wlogout/style-${theme}.css";
-      "rofi/theme.rasi" = "${cfg}/rofi/${theme}.rasi";
       "kitty/theme.conf" = "${cfg}/kitty/themes/${theme}.conf";
       "yazi/theme.toml" = "${cfg}/yazi/theme-${theme}.toml";
       "cava/config" = "${cfg}/cava/config-${theme}";
       "sptlrx/config.yaml" = "${cfg}/sptlrx/config-${theme}.yaml";
       "fastfetch/config.jsonc" = "${cfg}/fastfetch/config-${theme}.jsonc";
       "fastfetch/work.jsonc" = "${cfg}/fastfetch/work-${theme}.jsonc";
-      "hypr/hyprpaper.conf" = "${cfg}/hypr/hyprpaper-${theme}.conf";
       "hypr/looknfeel.lua" = "${cfg}/hypr/looknfeel-${theme}.lua";
       "niri/looknfeel.kdl" = "${cfg}/niri/looknfeel-${theme}.kdl";
-      "wlogout/icons" = "${cfg}/wlogout/icons";
-      "wlogout/icons-dachshund" = "${cfg}/wlogout/icons-dachshund";
     };
 in
 {
@@ -237,14 +229,7 @@ in
     done
   '';
 
-  home.file.".config/waybar/config-sway.jsonc".source = ./Config/waybar/config-sway.jsonc;
-  home.file.".config/waybar/config-niri.jsonc".source = ./Config/waybar/config-niri.jsonc;
-
   home.file.".config/niri/config.kdl".source = ./Config/niri/config.kdl;
-  home.file.".config/rofi/config.rasi".source = ./Config/rofi/config.rasi;
-  home.file.".config/swaync/config.json".source = ./Config/swaync/config.json;
-  home.file.".config/wlogout/layout".source = ./Config/wlogout/layout;
-  home.file.".config/swappy".source = ./Config/swappy;
   home.file.".config/yazi/yazi.toml".source = ./Config/yazi/yazi.toml;
   home.file.".config/yazi/keymap.toml".source = ./Config/yazi/keymap.toml;
 

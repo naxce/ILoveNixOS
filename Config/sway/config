@@ -63,20 +63,21 @@ bindsym $mod+Return exec $terminal
 bindsym $mod+q kill
 bindsym $mod+shift+q exit
 bindsym $mod+space exec $menu
-bindsym $mod+Tab exec rofi -show window
+bindsym $mod+Tab exec sylvaris switcher next
 bindsym $mod+e exec $fileManager
 bindsym $mod+b exec firefox
 bindsym $mod+k exec kitty --class airpods --name airpods -e zsh -ic 'ap'
 bindsym $mod+n exec ferdium
 bindsym $mod+l exec sylvaris lock
-bindsym $mod+shift+l exec wlogout
+bindsym $mod+shift+l exec sylvaris power
 bindsym $mod+F1 exec kitty --class hotkeys-menu --name hotkeys-menu --title "Hotkeys" -e hotkeys
 
-bindsym Alt+Tab exec rofi -show window
+bindsym Alt+Tab exec sylvaris switcher next
+bindsym Alt+shift+Tab exec sylvaris switcher prev
 
 bindsym $mod+c exec hyprpicker -a
-bindsym $mod+v exec "cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-bindsym $mod+m exec swaync-client -t -sw
+bindsym $mod+v exec sylvaris clip toggle
+bindsym $mod+m exec sylvaris notify
 
 bindsym $mod+F2 floating toggle
 bindsym $mod+f fullscreen toggle
@@ -127,8 +128,8 @@ bindsym $mod+button5 workspace prev
 
 floating_modifier $mod normal
 
-bindsym Print exec grim -g "$(slurp)" - | swappy -f -
-bindsym shift+Print exec grim - | swappy -f -
+bindsym Print exec sylvaris capture shot area
+bindsym shift+Print exec sylvaris capture shot screen
 bindsym $mod+Print exec grim -g "$(slurp)" - | wl-copy
 
 bindsym XF86AudioRaiseVolume exec pamixer -i 5
@@ -144,4 +145,5 @@ for_window [app_id="^steam_app_.*"] fullscreen enable
 for_window [class="^steam_app_.*"] fullscreen enable
 for_window [app_id="gamescope"] fullscreen enable
 
+include ~/.config/sway/sylvaris-keybinds
 include /etc/sway/config.d/*

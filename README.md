@@ -57,7 +57,7 @@ home-manager switch --flake ~/NixOS#naxce -b backup
 
 `$mod` is Super.
 
-Run `hotkeys` in any terminal, or press `$mod + F1`, for an interactive fzf menu with every shortcut grouped by app (Hyprland, SylSwitch, Waybar, Neovim, Kitty, Rofi/Wlogout, Zsh). The tables below are just a quick reference for Hyprland itself.
+Run `hotkeys` in any terminal, or press `$mod + F1`, for an interactive fzf menu with every shortcut grouped by app (Hyprland, SylSwitch, SylBar, Neovim, Kitty, SylPad/SylPower, Zsh). The tables below are just a quick reference for Hyprland itself.
 
 **Apps**
 
@@ -106,8 +106,8 @@ Run `hotkeys` in any terminal, or press `$mod + F1`, for an interactive fzf menu
 | `$mod + N` | Notification center |
 | `$mod + V` | Clipboard history |
 | `$mod + C` | Color picker |
-| `Print` | Screenshot region → swappy |
-| `Shift + Print` | Screenshot full screen → swappy |
+| `Print` | Screenshot region (SylCapture) |
+| `Shift + Print` | Screenshot full screen (SylCapture) |
 | `$mod + Print` | Screenshot region → clipboard |
 
 ## License

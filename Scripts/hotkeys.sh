@@ -16,13 +16,13 @@ hyprland_binds() {
   cat <<'EOF'
 ── Apps & session ──	
 Super + Return	Open terminal (kitty)
-Super + Space	App launcher (rofi drun)
-Super + Tab	Window switcher (rofi window list)
+Super + Space	App launcher (SylPad)
+Super + Tab	Window switcher (SylSwitch)
 Super + E	Open file manager (Yazi)
 Super + B	Open Firefox
 Super + F1	Open this keybindings menu
 Super + L	Lock screen
-Super + Shift + L	Power menu (wlogout)
+Super + Shift + L	Power menu (SylPower)
 Super + Shift + Q	Exit Hyprland
 ── Window management ──	
 Super + Q	Close active window
@@ -63,12 +63,12 @@ In canvas mode	arrows or hjkl pan · Shift moves the window
 	g attach · f float/tile · Tab cycles a group · o jump
 	Return terminal · ? keys · Esc or q leaves
 ── Screenshots & tools ──	
-Print	Screenshot a selected region, opens in Swappy to edit
-Shift + Print	Screenshot the full screen, opens in Swappy to edit
+Print	Screenshot a selected region (SylCapture)
+Shift + Print	Screenshot the full screen (SylCapture)
 Super + Print	Screenshot a selected region, copies straight to clipboard
 Super + C	Pick a color from the screen (hyprpicker)
-Super + N	Toggle notification center (swaync)
-Super + V	Open clipboard history (cliphist + rofi)
+Super + M	Toggle notification center (SylNotify)
+Super + V	Open clipboard history (SylClip)
 ── Media & hardware keys ──	
 XF86AudioRaiseVolume	Volume up 5%
 XF86AudioLowerVolume	Volume down 5%
@@ -90,21 +90,18 @@ Esc	Close without switching
 EOF
 }
 
-waybar_binds() {
+sylbar_binds() {
   cat <<'EOF'
 ── Workspaces & window ──	
 Click workspace	Jump to that workspace
-Click minimized indicator	Show/hide the minimized workspace
-Click canvas indicator	Jump straight back to canvas home (0, 0)
-Click clock/window module	Display only, no action
-── System tray ──	
-Click network icon	Open nm-connection-editor
-Click bluetooth icon	Open blueman-manager
-Click volume icon	Toggle mute
-Scroll up on volume icon	Volume up 5%
-Scroll down on volume icon	Volume down 5%
-Click notification icon	Toggle notification center (swaync)
-Click power icon	Open wlogout
+Scroll on workspaces	Next or previous workspace
+Click the app title	Minimize it, click again to bring it back
+── Modules ──	
+Click Wi-Fi or Bluetooth	Open SylCenter on that orbit
+Click volume	Open SylCenter, scroll changes the volume
+Click the bell	Notification center (SylNotify)
+Click the clock	Calendar and weather (SylClock)
+Click power	Power menu (SylPower)
 EOF
 }
 
@@ -286,20 +283,15 @@ Ctrl + Shift + Home/End	Scroll to top/bottom
 EOF
 }
 
-rofi_wlogout_binds() {
+sylpad_sylpower_binds() {
   cat <<'EOF'
-── Rofi (launcher / window switcher) ──	
-Type to filter	Fuzzy search entries
-Up/Down or Ctrl + p/n	Move selection
+── SylPad (launcher) ──	
+Type to filter	Search apps, settings and commands
+Arrows	Move selection
 Enter	Launch the selected entry
-Escape	Close rofi
-Ctrl + Enter	Launch entry without closing (where supported)
-── Wlogout (power menu) ──	
-l	Lock
-e	Logout
-s	Sleep
-r	Restart
-p	Shut down
+Escape	Clear the search, then close
+── SylPower (power menu) ──	
+Click a star	Lock, log out, sleep, restart or shut down
 Escape	Close the menu
 EOF
 }
@@ -403,7 +395,7 @@ Super + ` or Super + Shift + M	The "minimized" workspace (scratchpad stand-in)
 ── Same as Hyprland ──	
 Super + Return	Terminal
 Super + Space	App launcher
-Super + Tab / Alt + Tab	Window switcher (rofi)
+Super + Tab / Alt + Tab	Window switcher (SylSwitch)
 Super + E / B / N / K	Files / browser / Ferdium / AirPods
 Super + L	Lock
 Super + Shift + L	Power menu
@@ -420,11 +412,11 @@ main_menu() {
     "Hyprland" \
     "niri (scrollable tiling)" \
     "SylSwitch" \
-    "Waybar" \
+    "SylBar" \
     "Neovim" \
     "Yazi" \
     "Kitty" \
-    "Rofi & Wlogout" \
+    "SylPad & SylPower" \
     "Zsh shortcuts" \
     "Quit" |
     fzf "${FZF_NOIR[@]}" \
@@ -436,11 +428,11 @@ main_menu() {
     "Hyprland") show_category "Hyprland" "$(hyprland_binds)" ;;
     "niri (scrollable tiling)") show_category "niri" "$(niri_binds)" ;;
     "SylSwitch") show_category "SylSwitch" "$(sylswitch_binds)" ;;
-    "Waybar") show_category "Waybar" "$(waybar_binds)" ;;
+    "SylBar") show_category "SylBar" "$(sylbar_binds)" ;;
     "Neovim") show_category "Neovim" "$(neovim_binds)" ;;
     "Yazi") show_category "Yazi" "$(yazi_binds)" ;;
     "Kitty") show_category "Kitty" "$(kitty_binds)" ;;
-    "Rofi & Wlogout") show_category "Rofi & Wlogout" "$(rofi_wlogout_binds)" ;;
+    "SylPad & SylPower") show_category "SylPad & SylPower" "$(sylpad_sylpower_binds)" ;;
     "Zsh shortcuts") show_category "Zsh shortcuts" "$(zsh_shell_aliases)" ;;
     "Quit"|"") return 1 ;;
   esac

@@ -13,21 +13,13 @@
   };
 
   environment.systemPackages = with pkgs; [
-    swaylock
     swayidle
-    swaybg
 
     (pkgs.runCommand "sway-companion-tools" { } ''
       mkdir -p $out/bin
       ln -s ${pkgs.sway-unwrapped}/bin/swaymsg $out/bin/swaymsg
       ln -s ${pkgs.sway-unwrapped}/bin/swaynag $out/bin/swaynag
       ln -s ${pkgs.sway-unwrapped}/bin/swaybar $out/bin/swaybar
-    '')
-
-    (pkgs.writeShellScriptBin "sway-waybar" ''
-      exec ${pkgs.waybar}/bin/waybar \
-        --config "$HOME/.config/waybar/config-sway.jsonc" \
-        --style "$HOME/.config/waybar/style.css"
     '')
 
     (pkgs.writeShellScriptBin "sway" ''
@@ -57,6 +49,4 @@
     "org.freedesktop.impl.portal.ScreenCast" = "wlr";
     "org.freedesktop.impl.portal.Screenshot" = "wlr";
   };
-
-  security.pam.services.swaylock = { };
 }

@@ -17,7 +17,7 @@ fi
 
 choice="$(printf '%s\n' "$rows" \
     | column -t -s $'\t' -o '   ' \
-    | rofi -dmenu -i -p "Canvas" -mesg "Jump to a window" \
+    | sylvaris pick "Jump to a window on the canvas" \
     || true)"
 
 [ -n "${choice:-}" ] || exit 0

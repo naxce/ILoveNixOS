@@ -17,8 +17,6 @@
     };
   };
 
-  services.blueman.enable = true;
-
   networking.firewall.allowedTCPPorts = [ ];
 
   virtualisation = {

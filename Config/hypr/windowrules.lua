@@ -1,11 +1,9 @@
 for _, class in ipairs({
     "pavucontrol",
     "nm-connection-editor",
-    "blueman-manager",
     "org.gnome.Calculator",
     "xdg-desktop-portal-gtk",
     "zenity",
-    "swappy",
 }) do
     hl.window_rule({
         name  = "float-" .. class,

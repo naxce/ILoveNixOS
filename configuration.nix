@@ -34,16 +34,14 @@
     enable = true;
     user = "naxce";
     session = "hyprland";
-    theme = "noir";
-    themes = builtins.mapAttrs (
-      _: theme:
-      removeAttrs theme [
-        "links"
-        "wallpaper"
-      ]
-    ) config.home-manager.users.naxce.programs.sylvaris.themes;
-    wallpaper = ./Pictures/wallpapers/noir.png;
-    settings.avatar = "${./Pictures/wallpapers/avatar.png}";
+    swayConfig = ''
+      output eDP-1 disable
+      output HDMI-A-2 disable
+      output DP-6 mode 2560x1440@200.013Hz position 1920 0
+      output DP-5 mode 1920x1080@179.964Hz position 0 500
+      input * xkb_layout pl
+    '';
+    environment.WLR_NO_HARDWARE_CURSORS = "1";
   };
 
   nixpkgs.config.allowUnfree = true;

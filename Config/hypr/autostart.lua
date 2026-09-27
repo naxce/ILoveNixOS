@@ -2,9 +2,6 @@ hl.on("hyprland.start", function()
     for _, cmd in ipairs({
         "sylvaris",
         "hypridle",
-        "nm-applet --indicator",
-        "blueman-applet",
-        "wl-paste --watch cliphist store",
         "gnome-keyring-daemon --start --components=secrets",
         "dbus-update-activation-environment --systemd --all",
     }) do

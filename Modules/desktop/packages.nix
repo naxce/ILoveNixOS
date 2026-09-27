@@ -76,19 +76,11 @@ in
     linux-wifi-hotspot
     chntpw
 
-    waybar
-    rofi
     hypridle
-    hyprpaper
     hyprpicker
-    hyprsunset
-    swaynotificationcenter
-    wlogout
     grim
     slurp
-    swappy
     wl-clipboard
-    cliphist
     imagemagick
     brightnessctl
     playerctl
@@ -129,8 +121,6 @@ in
     zstd
     bibata-cursors
     papirus-icon-theme
-    networkmanagerapplet
-    blueman
     libnotify
     gnome-calculator
     gnome-disk-utility
