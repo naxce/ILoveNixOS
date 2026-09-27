@@ -30,6 +30,8 @@ hl.config({
 local ACCENTS = {
     noir      = "rgb(ffffff)",
     dachshund = "rgb(c9702f)",
+    scarlett  = "rgb(d02b41)",
+    kitten    = "rgb(a987e8)",
 }
 
 local function accent()

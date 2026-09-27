@@ -1,0 +1,71 @@
+layout {
+    gaps 10
+    center-focused-column "never"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        width 2
+        active-color "#d02b41"
+        inactive-color "#4a1f28"
+    }
+
+    border {
+        off
+    }
+
+    shadow {
+        on
+        softness 18
+        spread 3
+        offset x=0 y=4
+        color "#0a040590"
+    }
+}
+
+overview {
+    zoom 0.5
+    backdrop-color "#140a0c"
+}
+
+animations {
+    slowdown 1.0
+
+    window-open {
+        spring damping-ratio=0.78 stiffness=700 epsilon=0.0001
+    }
+
+    window-close {
+        spring damping-ratio=0.9 stiffness=800 epsilon=0.0001
+    }
+
+    window-movement {
+        spring damping-ratio=0.85 stiffness=650 epsilon=0.0001
+    }
+
+    window-resize {
+        spring damping-ratio=0.9 stiffness=700 epsilon=0.0001
+    }
+
+    horizontal-view-movement {
+        spring damping-ratio=0.82 stiffness=600 epsilon=0.0001
+    }
+
+    workspace-switch {
+        spring damping-ratio=0.88 stiffness=600 epsilon=0.0001
+    }
+
+    overview-open-close {
+        spring damping-ratio=0.85 stiffness=650 epsilon=0.0001
+    }
+
+    config-notification-open-close {
+        spring damping-ratio=0.6 stiffness=1000 epsilon=0.001
+    }
+}

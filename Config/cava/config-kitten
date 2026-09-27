@@ -1,0 +1,16 @@
+[general]
+framerate = 90
+bars = 44
+[color]
+gradient = 1
+gradient_count = 6
+gradient_color_1 = '#17121f'
+gradient_color_2 = '#3a2d4f'
+gradient_color_3 = '#6a5790'
+gradient_color_4 = '#8058c0'
+gradient_color_5 = '#a987e8'
+gradient_color_6 = '#f0eafa'
+[smoothing]
+integral = 50
+monstercat = 0
+waves = 1

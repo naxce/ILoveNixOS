@@ -33,6 +33,10 @@ in
     settings = {
       themeStateFile = "~/.cache/control-center/theme";
       avatar = "~/Pictures/wallpapers/avatar.png";
+      plugins.enabled = {
+        diver = true;
+        airpods = true;
+      };
     };
     themes = {
       noir = {
@@ -76,6 +80,55 @@ in
           textDim = "#b2967b";
           textSoft = "#d3b9a1";
           danger = "#d9674a";
+        };
+        alpha = {
+          surface = 0.72;
+          glass = 0.62;
+          line = 0.16;
+          tint = 0.08;
+        };
+      };
+      scarlett = {
+        name = "Scarlett";
+        links = themeLinks "scarlett";
+        description = "Scarlet & dark red";
+        wallpaper = "~/Pictures/wallpapers/scarlett.png";
+        colors = {
+          base = "#140a0c";
+          surface = "#231216";
+          accent = "#d02b41";
+          accentHi = "#ee5566";
+          accentDeep = "#9e1b30";
+          onAccent = "#fff0f0";
+          text = "#f3e3e3";
+          textDim = "#b58a90";
+          textSoft = "#e0c2c5";
+          danger = "#f0913f";
+        };
+        alpha = {
+          surface = 0.72;
+          glass = 0.62;
+          line = 0.16;
+          tint = 0.08;
+        };
+      };
+      kitten = {
+        name = "Kitten";
+        links = themeLinks "kitten";
+        description = "Soft purple, with cat ears on every workspace";
+        wallpaper = "~/Pictures/wallpapers/kitten.png";
+        workspaceIcon = "cat";
+        colors = {
+          base = "#110d17";
+          surface = "#1d1726";
+          accent = "#a987e8";
+          accentHi = "#c8aef8";
+          accentDeep = "#8058c0";
+          onAccent = "#110d17";
+          text = "#f0eafa";
+          textDim = "#a597c0";
+          textSoft = "#d9ccec";
+          danger = "#ee6f86";
         };
         alpha = {
           surface = 0.72;

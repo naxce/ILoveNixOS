@@ -27,6 +27,26 @@ fg       = "#e8b98c"
 white    = "#f5dcb8"
 error    = "#e0733a"
 
+[palettes.scarlett]
+bg       = "#140a0c"
+bg_alt   = "#3a1a21"
+border   = "#6e2432"
+muted    = "#8f5a62"
+subtle   = "#d0707e"
+fg       = "#eab3b9"
+white    = "#f7dfe1"
+error    = "#ec5a4a"
+
+[palettes.kitten]
+bg       = "#110d17"
+bg_alt   = "#2f2540"
+border   = "#5a4880"
+muted    = "#8373a6"
+subtle   = "#b89ae8"
+fg       = "#d9c4f5"
+white    = "#f2eafc"
+error    = "#e07aa8"
+
 [username]
 show_always = true
 style_user = "fg:white bold"
