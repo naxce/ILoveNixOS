@@ -9,11 +9,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     fatest = {
-      url = "github:naxce/FaTest";
+      url = "github:ifatum/FaTest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sylvaris = {
-      url = "git+file:///mnt/data/Coding/Linux/Sylvaris";
+      url = "github:ifatum/Sylvaris";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     /*

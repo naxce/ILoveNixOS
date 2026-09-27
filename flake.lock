@@ -9,13 +9,13 @@
       "locked": {
         "lastModified": 1790540459,
         "narHash": "sha256-zxe2D/Hj//M3KGevhqETcQ9YnUQlCTnKU9jvDbj4yXs=",
-        "owner": "naxce",
+        "owner": "ifatum",
         "repo": "FaTest",
         "rev": "ee8dd8d8e6b1b5e752b9f98a0bc4d6f3548c3b93",
         "type": "github"
       },
       "original": {
-        "owner": "naxce",
+        "owner": "ifatum",
         "repo": "FaTest",
         "type": "github"
       }
@@ -89,16 +89,16 @@
       },
       "locked": {
         "lastModified": 1790541492,
-        "narHash": "sha256-NeTvmQtusvHtKfA2Gu4lLAI4U00dBu4iwZYM8pzIciw=",
-        "ref": "refs/heads/main",
+        "narHash": "sha256-99oVhVVZriQ77nfBTVFnVR8oWsCEQmkOF68aKmZu2QU=",
+        "owner": "ifatum",
+        "repo": "Sylvaris",
         "rev": "60255aeed657034571376494c413077e05030e8c",
-        "revCount": 139,
-        "type": "git",
-        "url": "file:///mnt/data/Coding/Linux/Sylvaris"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///mnt/data/Coding/Linux/Sylvaris"
+        "owner": "ifatum",
+        "repo": "Sylvaris",
+        "type": "github"
       }
     }
   },
