@@ -88,11 +88,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790469285,
-        "narHash": "sha256-gOligFeUEKodzjarJIUwRYwsnlwGlwP7mPbcuUkNI58=",
+        "lastModified": 1790470969,
+        "narHash": "sha256-j45ol6/F6YwKus806PAPQAjstPoYe5PpdkWuqss+CjI=",
         "ref": "refs/heads/main",
-        "rev": "1c65a82b29b2f6fbaf0ffb7a0fb55023172ddf40",
-        "revCount": 109,
+        "rev": "a28197cd56bdf526d92ec180392e26fceb55f9e0",
+        "revCount": 111,
         "type": "git",
         "url": "file:///mnt/data/Coding/Linux/Sylvaris"
       },
