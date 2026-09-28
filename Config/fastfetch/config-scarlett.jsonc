@@ -22,6 +22,7 @@
     { "type": "kernel", "key": "󰌽", "format": "{2}" },
     { "type": "uptime", "key": "󱎫" },
     { "type": "shell", "key": "󱆃" },
+    { "type": "command", "key": "", "text": "sylvaris version" },
     { "type": "cpu", "key": "󰻠", "format": "{1}" },
     { "type": "gpu", "key": "󰢮", "hideType": "integrated", "format": "{2}" },
     {
