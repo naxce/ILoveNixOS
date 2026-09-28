@@ -4,6 +4,11 @@
   networking.networkmanager.enable = true;
   networking.hostName = "naxce";
 
+  hardware.wirelessRegulatoryDatabase = true;
+  boot.extraModprobeConfig = ''
+    options cfg80211 ieee80211_regdom="PL"
+  '';
+
   networking.firewall.allowedTCPPorts = [
     1714
     1715
