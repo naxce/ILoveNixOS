@@ -81,6 +81,7 @@ in
     grim
     slurp
     wl-clipboard
+    xrandr
     imagemagick
     brightnessctl
     playerctl
