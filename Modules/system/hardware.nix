@@ -55,7 +55,12 @@
 
   services.hardware.openrgb = {
     enable = true;
-    package = pkgs.openrgb;
+    package = pkgs.openrgb.overrideAttrs (old: {
+      postPatch = (old.postPatch or "") + ''
+        echo 'REGISTER_HID_DETECTOR_IP("Krux Atax Pro RGB", DetectEVisionV2Keyboards, SPCGEAR_VID, 0x2736, 1, EVISION_KEYBOARD_USAGE_PAGE);' \
+          >> Controllers/EVisionKeyboardController/EVisionV2KeyboardController/EVisionV2KeyboardControllerDetect.cpp
+      '';
+    });
   };
 
   services.udisks2.enable = true;

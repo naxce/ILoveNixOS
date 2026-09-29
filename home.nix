@@ -36,6 +36,7 @@ in
       plugins.enabled = {
         diver = true;
         airpods = true;
+        rgb = true;
       };
     };
     themes = {
