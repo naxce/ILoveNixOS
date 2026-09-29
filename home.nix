@@ -13,7 +13,6 @@ let
     in
     {
       "kitty/theme.conf" = "${cfg}/kitty/themes/${theme}.conf";
-      "yazi/theme.toml" = "${cfg}/yazi/theme-${theme}.toml";
       "cava/config" = "${cfg}/cava/config-${theme}";
       "sptlrx/config.yaml" = "${cfg}/sptlrx/config-${theme}.yaml";
       "fastfetch/config.jsonc" = "${cfg}/fastfetch/config-${theme}.jsonc";
@@ -30,6 +29,7 @@ in
 
   programs.sylvaris = {
     enable = true;
+    defaultViewer = true;
     settings = {
       themeStateFile = "~/.cache/control-center/theme";
       avatar = "~/Pictures/wallpapers/avatar.png";
@@ -234,25 +234,6 @@ in
       export PATH="${pkgs.fzf}/bin:${pkgs.util-linux}/bin:$PATH"
       exec "$HOME/NixOS/Scripts/hotkeys.sh"
     '')
-
-    (pkgs.writeShellScriptBin "yazi-open" ''
-      set -euo pipefail
-
-      target="''${1:-$HOME}"
-
-      if [[ "''$target" == file://* ]]; then
-        target="$(${pkgs.python3}/bin/python3 -c 'import sys, urllib.parse; print(urllib.parse.unquote(urllib.parse.urlparse(sys.argv[1]).path))' "''$target")"
-      fi
-
-      if [[ -f "''$target" ]]; then
-        cwd="$(${pkgs.coreutils}/bin/dirname -- "''$target")"
-      elif [[ -d "''$target" ]]; then
-        cwd="''$target"
-      else
-        target="$HOME/Downloads"
-        cwd="$target"
-      fi
-    '')
   ];
 
   home.file.".config/cava/shaders".source = ./Config/cava/shaders;
@@ -284,8 +265,6 @@ in
   '';
 
   home.file.".config/niri/config.kdl".source = ./Config/niri/config.kdl;
-  home.file.".config/yazi/yazi.toml".source = ./Config/yazi/yazi.toml;
-  home.file.".config/yazi/keymap.toml".source = ./Config/yazi/keymap.toml;
 
   home.file.".config/GIMP".source = ./Config/gimp;
 
@@ -303,27 +282,27 @@ in
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      "inode/directory" = [ "yazi-noir.desktop" ];
+      "inode/directory" = [ "Files.desktop" ];
 
-      "application/zip" = [ "yazi-noir.desktop" ];
-      "application/x-zip" = [ "yazi-noir.desktop" ];
-      "application/x-zip-compressed" = [ "yazi-noir.desktop" ];
-      "application/x-7z-compressed" = [ "yazi-noir.desktop" ];
-      "application/vnd.rar" = [ "yazi-noir.desktop" ];
-      "application/x-rar" = [ "yazi-noir.desktop" ];
-      "application/x-rar-compressed" = [ "yazi-noir.desktop" ];
-      "application/x-tar" = [ "yazi-noir.desktop" ];
-      "application/gzip" = [ "yazi-noir.desktop" ];
-      "application/x-gzip" = [ "yazi-noir.desktop" ];
-      "application/x-bzip" = [ "yazi-noir.desktop" ];
-      "application/x-bzip2" = [ "yazi-noir.desktop" ];
-      "application/x-xz" = [ "yazi-noir.desktop" ];
-      "application/zstd" = [ "yazi-noir.desktop" ];
-      "application/x-zstd" = [ "yazi-noir.desktop" ];
-      "application/x-compressed-tar" = [ "yazi-noir.desktop" ];
-      "application/x-bzip-compressed-tar" = [ "yazi-noir.desktop" ];
-      "application/x-xz-compressed-tar" = [ "yazi-noir.desktop" ];
-      "application/x-zstd-compressed-tar" = [ "yazi-noir.desktop" ];
+      "application/zip" = [ "Files.desktop" ];
+      "application/x-zip" = [ "Files.desktop" ];
+      "application/x-zip-compressed" = [ "Files.desktop" ];
+      "application/x-7z-compressed" = [ "Files.desktop" ];
+      "application/vnd.rar" = [ "Files.desktop" ];
+      "application/x-rar" = [ "Files.desktop" ];
+      "application/x-rar-compressed" = [ "Files.desktop" ];
+      "application/x-tar" = [ "Files.desktop" ];
+      "application/gzip" = [ "Files.desktop" ];
+      "application/x-gzip" = [ "Files.desktop" ];
+      "application/x-bzip" = [ "Files.desktop" ];
+      "application/x-bzip2" = [ "Files.desktop" ];
+      "application/x-xz" = [ "Files.desktop" ];
+      "application/zstd" = [ "Files.desktop" ];
+      "application/x-zstd" = [ "Files.desktop" ];
+      "application/x-compressed-tar" = [ "Files.desktop" ];
+      "application/x-bzip-compressed-tar" = [ "Files.desktop" ];
+      "application/x-xz-compressed-tar" = [ "Files.desktop" ];
+      "application/x-zstd-compressed-tar" = [ "Files.desktop" ];
     };
   };
 
@@ -568,6 +547,14 @@ in
       niriws = "niri-cli msg workspaces";
       niriwin = "niri-cli msg windows";
       nirikeys = "niri-cli msg keyboard-layouts";
+
+      sylweb = ''
+        (
+          cd /mnt/data/Coding/Linux/Sylvaris &&
+          nix develop -c node site/build.mjs --strict &&
+          rsync -av --delete --chown=www:www --exclude .user.ini --exclude .well-known --exclude .htaccess site/dist/ root@107.173.203.196:/www/wwwroot/sylvaris/
+        )
+      '';
 
       gaming = "sylvaris set performance true";
       ungaming = "sylvaris set performance false";
