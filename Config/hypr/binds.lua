@@ -5,7 +5,6 @@ local menu        = "sylvaris pad"
 
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
-hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exit())
 hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("sylvaris switcher next"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
