@@ -88,11 +88,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790715744,
-        "narHash": "sha256-4QZV7U/C5XhNyjMvPY/fewBVyYoV80j8KeezPwPzlX4=",
+        "lastModified": 1790721138,
+        "narHash": "sha256-LWtrqKbRh4cMXe5q3Bo+M/8Vl/Uz3Fa479wR9eIyQGQ=",
         "owner": "ifatum",
         "repo": "Sylvaris",
-        "rev": "51ca00c498b6fd16530f9a561a854460439b11aa",
+        "rev": "cbb07fa289cb6e9f2883117caabc3e50233acba0",
         "type": "github"
       },
       "original": {
