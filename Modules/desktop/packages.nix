@@ -67,17 +67,12 @@ in
     virt-manager
     lm_sensors
     unrar
-    quickemu
-    quickgui
-    gparted-full
 
     qbittorrent
     iw
     linux-wifi-hotspot
     chntpw
 
-    hypridle
-    hyprpicker
     grim
     slurp
     wl-clipboard
@@ -139,7 +134,6 @@ in
     mangohud
     gamemode
     gamescope
-    steamtinkerlaunch
     r2modman
     vulkan-tools
     vulkan-loader
@@ -151,7 +145,6 @@ in
     ferdium
     cider-2
     signal-desktop
-    libreoffice
 
     filezilla
     nixfmt
@@ -162,7 +155,6 @@ in
     llama-cpp
     lazygit
     claude-code
-    claude-monitor
 
     python3
     ruff
@@ -191,18 +183,7 @@ in
     wireless-regdb
 
     kitty
-    zenity
-
-    sptlrx
     fastfetch
-    tty-clock
-    cmatrix
-    toilet
-    cbonsai
-    pipes-rs
-    lavat
-    asciiquarium
-    cava
   ];
 
   xdg.mime.enable = true;
