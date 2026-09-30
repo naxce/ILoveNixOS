@@ -30,6 +30,8 @@
     "flakes"
   ];
 
+  programs.sylvaris.cameraSwitch.enable = true;
+
   programs.sylvaris.greeter = {
     enable = true;
     user = "naxce";

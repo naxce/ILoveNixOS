@@ -23,6 +23,7 @@ Super + B	Open Firefox
 Super + F1	Open this keybindings menu
 Super + L	Lock screen
 Super + Shift + L	Power menu (SylPower)
+Super + Shift + P	Mute every microphone and switch webcams off (again to undo)
 Super + Shift + Q	Exit Hyprland
 ── Window management ──	
 Super + Q	Close active window

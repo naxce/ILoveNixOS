@@ -16,12 +16,6 @@
       url = "github:ifatum/Sylvaris";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    /*
-      gdoc = {
-        url = "github:naxce/GDoc";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
-    */
   };
 
   outputs =

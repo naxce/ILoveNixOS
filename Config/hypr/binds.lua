@@ -69,3 +69,4 @@ hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { loc
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("hyprpicker -a"))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("sylvaris notify"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("sylvaris clip toggle"))
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("sylvaris privacy toggle"))
