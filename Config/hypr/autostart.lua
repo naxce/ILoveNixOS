@@ -4,7 +4,7 @@ hl.on("hyprland.start", function()
         "hypridle",
         "gnome-keyring-daemon --start --components=secrets",
         "dbus-update-activation-environment --systemd --all",
-        "sh -c 'for i in $(seq 40); do xrandr --output DP-6 --primary && break; sleep 0.5; done'",
+        "sh -c 'for i in $(seq 40); do xrandr --output DP-3 --primary && break; sleep 0.5; done'",
     }) do
         hl.exec_cmd(cmd)
     end
