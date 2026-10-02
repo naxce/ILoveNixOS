@@ -5,7 +5,7 @@ hl.monitor({
 
 
 hl.monitor({
-    output   = "DP-3",
+    output   = "desc:LG Electronics LG ULTRAGEAR 507NTZNPC165",
     mode     = "2560x1440@200.013",
     position = "1920x0",
     scale    = 1,
@@ -14,7 +14,7 @@ hl.monitor({
 
 
 hl.monitor({
-    output   = "DP-2",
+    output   = "desc:Microstep MAG 242C",
     mode     = "1920x1080@179.964",
     position = "0x500",
     scale    = 1,
@@ -23,34 +23,27 @@ hl.monitor({
 
 
 hl.monitor({
-    output   = "HDMI-A-1",
+    output   = "desc:Philips Consumer Electronics Company PHILIPS FTV 0x01010101",
     disabled = true,
     mode     = "1920x1080@60",
     position = "4480x0",
     scale    = 1,
-    mirror   = "DP-2",
+    mirror   = "desc:Microstep MAG 242C",
 })
 
 
 for i = 1, 5 do
     hl.workspace_rule({
         workspace = tostring(i),
-        monitor   = "DP-3",
+        monitor   = "desc:LG Electronics LG ULTRAGEAR 507NTZNPC165",
         default   = i == 1,
     })
 end
 
-hl.window_rule({
-    match = {
-        class = "^steam_app_239140$",
-    },
-    workspace = "2 silent",
-})
-
 for i = 6, 10 do
     hl.workspace_rule({
         workspace = tostring(i),
-        monitor   = "DP-2",
+        monitor   = "desc:Microstep MAG 242C",
         default   = i == 6,
     })
 end
