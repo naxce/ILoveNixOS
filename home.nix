@@ -505,7 +505,7 @@ in
       '';
 
       hoioff = ''
-        clear
+        wipe
         DIR="/mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV"
         [ -f "$DIR/cream_api.ini" ] && mv "$DIR/cream_api.ini" "$DIR/cream_api.ini.bak"
         if [ -f "$DIR/libsteam_api_o.so" ]; then
@@ -515,7 +515,7 @@ in
       '';
 
       hoion = ''
-        clear
+        wipe
         DIR="/mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV"
         [ -f "$DIR/cream_api.ini.bak" ] && mv "$DIR/cream_api.ini.bak" "$DIR/cream_api.ini"
         if [ -f "$DIR/libsteam_api.so.bak" ]; then
