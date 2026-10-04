@@ -221,6 +221,14 @@ in
       piousdeer.adwaita-theme
       ms-python.python
       charliermarsh.ruff
+    ]
+    ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+      {
+        name = "hoi4modutilities";
+        publisher = "chaofan";
+        version = "0.18.1";
+        hash = "sha256-rMoObqJt3G1fCgtf+pDKcy9OJk5CGjkXbu97Ywco1n0=";
+      }
     ];
   };
 
