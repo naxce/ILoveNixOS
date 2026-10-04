@@ -505,17 +505,23 @@ in
       '';
 
       hoioff = ''
-        wipe
-        mv /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/cream_api.ini /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/cream_api.ini.bak
-        mv /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api.so /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api.so.bak
-        mv /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api_o.so /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api.so
+        clear
+        DIR="/mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV"
+        [ -f "$DIR/cream_api.ini" ] && mv "$DIR/cream_api.ini" "$DIR/cream_api.ini.bak"
+        if [ -f "$DIR/libsteam_api_o.so" ]; then
+          mv "$DIR/libsteam_api.so" "$DIR/libsteam_api.so.bak"
+          mv "$DIR/libsteam_api_o.so" "$DIR/libsteam_api.so"
+        fi
       '';
 
       hoion = ''
-        wipe
-        mv /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/cream_api.ini.bak /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/cream_api.ini
-        mv /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api.so /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api_o.so
-        mv /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api.so.bak /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api.so
+        clear
+        DIR="/mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV"
+        [ -f "$DIR/cream_api.ini.bak" ] && mv "$DIR/cream_api.ini.bak" "$DIR/cream_api.ini"
+        if [ -f "$DIR/libsteam_api.so.bak" ]; then
+          mv "$DIR/libsteam_api.so" "$DIR/libsteam_api_o.so"
+          mv "$DIR/libsteam_api.so.bak" "$DIR/libsteam_api.so"
+        fi
       '';
 
       nixhypr = ''
