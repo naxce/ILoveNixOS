@@ -504,6 +504,20 @@ in
         niri
       '';
 
+      hoioff = ''
+        wipe
+        mv /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/cream_api.ini /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/cream_api.ini.bak
+        mv /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api.so /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api.so.bak
+        mv /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api_o.so /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api.so
+      '';
+
+      hoion = ''
+        wipe
+        mv /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/cream_api.ini.bak /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/cream_api.ini
+        mv /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api.so /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api_o.so
+        mv /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api.so.bak /mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV/libsteam_api.so
+      '';
+
       nixhypr = ''
         wipe
         nixhome
