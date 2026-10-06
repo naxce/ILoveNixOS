@@ -576,6 +576,15 @@ in
         )
       '';
 
+      fatrainerweb = ''
+        (
+          cd "/mnt/data/Coding/Dying Light" &&
+          mkdir -p site/downloads &&
+          cp nexus/FaTrainer-1.9.zip site/downloads/ &&
+          rsync -av --delete --chown=www:www --exclude .user.ini --exclude .well-known --exclude .htaccess --exclude .gitignore site/ root@107.173.203.196:/www/wwwroot/fatrainer/
+        )
+      '';
+
       gaming = "sylvaris set performance true";
       ungaming = "sylvaris set performance false";
 
