@@ -16,6 +16,10 @@
       url = "github:ifatum/Sylvaris";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    vice = {
+      url = "github:eklonofficial/Vice";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
