@@ -9,6 +9,7 @@
   imports = [
     ./hardware-configuration.nix
     inputs.sylvaris.nixosModules.sylvaris
+    inputs.vice.nixosModules.default
 
     ./Modules/desktop/hyprland.nix
     ./Modules/desktop/sway.nix
@@ -31,6 +32,8 @@
   ];
 
   programs.sylvaris.cameraSwitch.enable = true;
+
+  services.vice.enable = true;
 
   programs.sylvaris.greeter = {
     enable = true;
