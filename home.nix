@@ -354,6 +354,8 @@ in
     };
 
     initContent = ''
+      mkdir -p ~/.local
+      npm config set prefix "$HOME/.local"
       export PATH="$HOME/.local/bin:$PATH"
 
       bindkey -v
