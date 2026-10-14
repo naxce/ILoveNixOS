@@ -2,6 +2,7 @@
   config,
   pkgs,
   pkgs-fonts,
+  inputs,
   ...
 }:
 
@@ -47,12 +48,20 @@ let
         };
       };
     };
+
+    vscodium = prev.vscodium.overrideAttrs (old: {
+      postFixup = (old.postFixup or "") + ''
+        sed -i 's/;inode\/directory//' "$out/share/applications/codium.desktop"
+      '';
+    });
   };
 in
 {
   nixpkgs.overlays = [ claude-code-pin-overlay ];
 
   environment.systemPackages = with pkgs; [
+
+    inputs.sylvaris.packages.${pkgs.system}.default
 
     os-prober
     refind
