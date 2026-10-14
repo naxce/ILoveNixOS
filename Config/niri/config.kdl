@@ -145,7 +145,7 @@ binds {
     Mod+Space  hotkey-overlay-title="App launcher" { spawn "sylvaris" "pad"; }
     Mod+Tab    hotkey-overlay-title="Window switcher" { spawn "sylvaris" "switcher" "next"; }
     Alt+Tab    hotkey-overlay-title="Window switcher" { spawn "sylvaris" "switcher" "next"; }
-    Mod+E      hotkey-overlay-title="File manager" { spawn "nemo"; }
+    Mod+E      hotkey-overlay-title="File manager" { spawn "sylvaris files open"; }
     Mod+B      hotkey-overlay-title="Browser" { spawn "firefox"; }
     Mod+N      { spawn "ferdium"; }
     Mod+K      { spawn "kitty" "--class" "airpods" "--name" "airpods" "-e" "zsh" "-ic" "ap"; }

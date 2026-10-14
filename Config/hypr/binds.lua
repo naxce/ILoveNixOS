@@ -1,6 +1,6 @@
 local mainMod     = "SUPER"
 local terminal    = "kitty"
-local fileManager = "nemo"
+local fileManager = "sylvaris files open"
 local menu        = "sylvaris pad"
 
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))

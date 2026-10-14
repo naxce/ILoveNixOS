@@ -1,6 +1,6 @@
 set $mod Mod4
 set $terminal kitty
-set $fileManager nemo
+set $fileManager sylvaris files open
 set $menu sylvaris pad
 
 default_border none
