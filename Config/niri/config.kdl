@@ -98,6 +98,13 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"^org\.quickshell$"# title=r#"^(Open a file|Open files|Save as|Choose a folder|Choose folders) — SylFiles$"#
+    open-floating true
+    default-column-width { proportion 0.62; }
+    default-window-height { proportion 0.68; }
+}
+
+window-rule {
     match app-id=r#"^hotkeys-menu$"#
     open-floating true
     default-column-width { proportion 0.55; }

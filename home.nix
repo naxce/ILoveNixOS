@@ -30,6 +30,8 @@ in
   programs.sylvaris = {
     enable = true;
     defaultViewer = true;
+    defaultFileManager = true;
+    defaultArchiveManager = true;
     settings = {
       themeStateFile = "~/.cache/control-center/theme";
       avatar = "~/Pictures/wallpapers/avatar.png";
@@ -279,32 +281,7 @@ in
   xdg.configFile."mimeapps.list".force = true;
   xdg.dataFile."applications/mimeapps.list".force = true;
 
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "inode/directory" = [ "Files.desktop" ];
-
-      "application/zip" = [ "Files.desktop" ];
-      "application/x-zip" = [ "Files.desktop" ];
-      "application/x-zip-compressed" = [ "Files.desktop" ];
-      "application/x-7z-compressed" = [ "Files.desktop" ];
-      "application/vnd.rar" = [ "Files.desktop" ];
-      "application/x-rar" = [ "Files.desktop" ];
-      "application/x-rar-compressed" = [ "Files.desktop" ];
-      "application/x-tar" = [ "Files.desktop" ];
-      "application/gzip" = [ "Files.desktop" ];
-      "application/x-gzip" = [ "Files.desktop" ];
-      "application/x-bzip" = [ "Files.desktop" ];
-      "application/x-bzip2" = [ "Files.desktop" ];
-      "application/x-xz" = [ "Files.desktop" ];
-      "application/zstd" = [ "Files.desktop" ];
-      "application/x-zstd" = [ "Files.desktop" ];
-      "application/x-compressed-tar" = [ "Files.desktop" ];
-      "application/x-bzip-compressed-tar" = [ "Files.desktop" ];
-      "application/x-xz-compressed-tar" = [ "Files.desktop" ];
-      "application/x-zstd-compressed-tar" = [ "Files.desktop" ];
-    };
-  };
+  xdg.mimeApps.enable = true;
 
   programs.neovim = {
     enable = true;
@@ -558,7 +535,7 @@ in
 
       y = "yazi";
       yz = "yazi-noir";
-      fm = "yazi-noir";
+      fm = "sylvaris files open .";
 
       niritest = ''
         wipe

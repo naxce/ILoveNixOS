@@ -18,7 +18,7 @@ hyprland_binds() {
 Super + Return	Open terminal (kitty)
 Super + Space	App launcher (SylPad)
 Super + Tab	Window switcher (SylSwitch)
-Super + E	Open file manager (Yazi)
+Super + E	Open file manager (SylFiles)
 Super + B	Open Firefox
 Super + F1	Open this keybindings menu
 Super + L	Lock screen
@@ -313,9 +313,10 @@ nixhelp	Show this list of nix* commands
 ── Gaming mode ──	
 gaming	Switch to low-latency gaming mode
 ungaming	Restore the full rice (animations, effects)
-── File manager (Yazi) ──	
+── Files ──	
+fm	Open SylFiles in the current directory
 y	Open Yazi in the current terminal
-yz / fm	Open Yazi in its own noir-themed kitty window
+yz	Open Yazi in its own noir-themed kitty window
 yy	Open Yazi, then cd into the directory it was closed in
 ── Editor & git ──	
 v / vim	Open Neovim

@@ -32,6 +32,7 @@
   ];
 
   programs.sylvaris.cameraSwitch.enable = true;
+  programs.sylvaris.fileChooser.enable = true;
 
   services.vice.enable = true;
 
