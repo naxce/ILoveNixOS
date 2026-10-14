@@ -9,13 +9,13 @@
       "locked": {
         "lastModified": 1790540459,
         "narHash": "sha256-zxe2D/Hj//M3KGevhqETcQ9YnUQlCTnKU9jvDbj4yXs=",
-        "owner": "ifatum",
+        "owner": "fatumorg",
         "repo": "FaTest",
         "rev": "ee8dd8d8e6b1b5e752b9f98a0bc4d6f3548c3b93",
         "type": "github"
       },
       "original": {
-        "owner": "ifatum",
+        "owner": "fatumorg",
         "repo": "FaTest",
         "type": "github"
       }
@@ -91,13 +91,13 @@
       "locked": {
         "lastModified": 1791947169,
         "narHash": "sha256-cWYj/NsZ//uucjF0TderR57rW80CqSFe7QDlkuVOqFc=",
-        "owner": "ifatum",
+        "owner": "fatumorg",
         "repo": "Sylvaris",
         "rev": "37134803dcd1a76b70a21d6229be026d383973eb",
         "type": "github"
       },
       "original": {
-        "owner": "ifatum",
+        "owner": "fatumorg",
         "repo": "Sylvaris",
         "type": "github"
       }
