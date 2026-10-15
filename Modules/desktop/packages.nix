@@ -162,7 +162,7 @@ in
     llama-cpp
     lazygit
     claude-code
-    antigravity-ide-fhs
+    antigravity-cli
 
     python3
     ruff
