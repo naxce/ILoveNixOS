@@ -163,7 +163,7 @@ in
     lazygit
     claude-code
 
-    stremio
+    stremio-linux-shell
 
     python3
     ruff
