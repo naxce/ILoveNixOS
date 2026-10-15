@@ -20,6 +20,10 @@
       url = "github:eklonofficial/Vice";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    codedesk = {
+      url = "github:fatumorg/codedesk";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -29,7 +33,7 @@
       nixpkgs-fonts,
       home-manager,
       fatest,
-      #gdoc,
+      codedesk,
       ...
     }@inputs:
     let

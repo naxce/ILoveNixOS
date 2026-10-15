@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "codedesk": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792088195,
+        "narHash": "sha256-gM9vb9awO4Jiwpo2K+yGTcQTEiQ2vvymQuPsW0s4qYg=",
+        "owner": "fatumorg",
+        "repo": "codedesk",
+        "rev": "51b2eeea96f4a4968b5d19ac2c9c7a256ac95eda",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fatumorg",
+        "repo": "codedesk",
+        "type": "github"
+      }
+    },
     "fatest": {
       "inputs": {
         "nixpkgs": [
@@ -27,11 +47,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792000010,
-        "narHash": "sha256-4jtkwQlReQdXsKJJfB9yT7nIf0TlwgZOk2XtxjUgDS8=",
+        "lastModified": 1792085665,
+        "narHash": "sha256-X9iN67cdW9KqLuvbyyr9rdF4Zssk1uFHh1UC/GZH08s=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "5a9d300bd619c03857521b50c8877a19dbad7078",
+        "rev": "54ad640b81c5e9a32db1a29e7561fda628601117",
         "type": "github"
       },
       "original": {
@@ -74,6 +94,7 @@
     },
     "root": {
       "inputs": {
+        "codedesk": "codedesk",
         "fatest": "fatest",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",

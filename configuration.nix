@@ -10,6 +10,7 @@
     ./hardware-configuration.nix
     inputs.sylvaris.nixosModules.sylvaris
     inputs.vice.nixosModules.default
+    inputs.codedesk.nixosModules.default
 
     ./Modules/desktop/hyprland.nix
     ./Modules/desktop/sway.nix
