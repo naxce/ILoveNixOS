@@ -162,6 +162,7 @@ in
     llama-cpp
     lazygit
     claude-code
+    antigravity-ide-fhs
 
     python3
     ruff
@@ -215,28 +216,30 @@ in
         nodejs
       ]
     );
-    extensions = with pkgs.vscode-extensions; [
-      ritwickdey.liveserver
-      esbenp.prettier-vscode
-      mvllow.rose-pine
-      rust-lang.rust-analyzer
-      ms-vscode.cpptools
-      jnoortheen.nix-ide
-      redhat.vscode-yaml
-      yzhang.markdown-all-in-one
-      anthropic.claude-code
-      piousdeer.adwaita-theme
-      ms-python.python
-      charliermarsh.ruff
-    ]
-    ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-      {
-        name = "hoi4modutilities";
-        publisher = "chaofan";
-        version = "0.18.1";
-        hash = "sha256-rMoObqJt3G1fCgtf+pDKcy9OJk5CGjkXbu97Ywco1n0=";
-      }
-    ];
+    extensions =
+      with pkgs.vscode-extensions;
+      [
+        ritwickdey.liveserver
+        esbenp.prettier-vscode
+        mvllow.rose-pine
+        rust-lang.rust-analyzer
+        ms-vscode.cpptools
+        jnoortheen.nix-ide
+        redhat.vscode-yaml
+        yzhang.markdown-all-in-one
+        anthropic.claude-code
+        piousdeer.adwaita-theme
+        ms-python.python
+        charliermarsh.ruff
+      ]
+      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "hoi4modutilities";
+          publisher = "chaofan";
+          version = "0.18.1";
+          hash = "sha256-rMoObqJt3G1fCgtf+pDKcy9OJk5CGjkXbu97Ywco1n0=";
+        }
+      ];
   };
 
   nixpkgs.config.permittedInsecurePackages = [
