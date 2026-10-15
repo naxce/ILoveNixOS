@@ -163,6 +163,8 @@ in
     lazygit
     claude-code
 
+    sonarr
+
     python3
     ruff
 
