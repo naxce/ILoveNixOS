@@ -24,7 +24,6 @@ hl.monitor({
 
 hl.monitor({
     output   = "desc:Philips Consumer Electronics Company PHILIPS FTV 0x01010101",
-    disabled = true,
     mode     = "1920x1080@60",
     position = "4480x0",
     scale    = 1,
