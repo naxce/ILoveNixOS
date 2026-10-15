@@ -163,7 +163,7 @@ in
     lazygit
     claude-code
 
-    sonarr
+    stremio
 
     python3
     ruff
