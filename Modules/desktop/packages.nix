@@ -162,7 +162,7 @@ in
     llama-cpp
     lazygit
     claude-code
-    antygravity-cli
+    antigravity-cli
 
     stremio-linux-shell
 
