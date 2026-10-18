@@ -11,11 +11,11 @@ let
   claude-code-pin-overlay = final: prev: {
     claude-code = prev.claude-code.override {
       manifest = {
-        version = "2.1.280";
+        version = "2.1.302";
         platforms = {
           "linux-x64" = {
             binary = "claude.zst";
-            checksum = "sha256-J5EOKucE2PLoAkiX2P3x53EIB7r09pgsDjeXwFgxU4Q=";
+            checksum = "sha256-L9UyRalmmuD4JvHEzuLoLgf2KxgbE/Y7jybEvnzypOw=";
           };
         };
       };
@@ -27,9 +27,9 @@ let
           mktplcRef = {
             name = "claude-code";
             publisher = "anthropic";
-            version = "2.1.280";
+            version = "2.1.301";
             arch = "linux-x64";
-            hash = "sha256-iq0u498LpvJU3l5gQzp4sqgcj/JvDki79WftHFfWp3o=";
+            hash = "sha256-CxcRJM0kr9GWqHDqklgwnfv7l+a42NUl19uzIl/sxQA=";
           };
           nativeBuildInputs = final.lib.optionals final.stdenv.hostPlatform.isLinux [
             final.autoPatchelfHook

@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792346210,
-        "narHash": "sha256-+KYHRippdr3l7nMPAeCXAoaXfDSqgSKQQB8g5ziudjE=",
+        "lastModified": 1792346376,
+        "narHash": "sha256-yr29XNzxyGdtluSEIcit5BJ6p8PO6NtNQEtPo07JgbU=",
         "owner": "fatumorg",
         "repo": "codedesk",
-        "rev": "88b1123ae3b9527af25558de3838deeaeb4a540e",
+        "rev": "919faaa03474289341f8ad3acbfcced148e29f51",
         "type": "github"
       },
       "original": {
