@@ -81,3 +81,9 @@ hl.layer_rule({
     match   = { namespace = "^syl" },
     no_anim = true,
 })
+
+hl.layer_rule({
+    name    = "slurp",
+    match   = { namespace = "^selection$" },
+    no_anim = true,
+})
