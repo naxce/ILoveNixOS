@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792348876,
-        "narHash": "sha256-M6eaAoexI08S4LV298JZN/SOyGO2wX0QiSBXre9SzRQ=",
+        "lastModified": 1792449865,
+        "narHash": "sha256-hi5Q3SFdcIeRgyr8HgNbivDV2WhKCNXpdQmfSMqTZCc=",
         "owner": "fatumorg",
         "repo": "codedesk",
-        "rev": "e6fd22239d0f8d89125513c39c0a3c767aa3e6c3",
+        "rev": "d3e3fff158bd5c5f6f2cb331d92b69d954957058",
         "type": "github"
       },
       "original": {
@@ -47,11 +47,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792098797,
-        "narHash": "sha256-u4DIIZgznEGzByxXrxWCXK19VcMtTBmi/M9gZ7Jk9bM=",
+        "lastModified": 1792438393,
+        "narHash": "sha256-C9hsBAUY/K7W7+CBSRdrT7XaX/ulVm3RuRBJNjmEM/A=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "640725978b99076e18e069f6e7d2959124584f8f",
+        "rev": "b74e23e34d3172802fdd60d4a1a01978f95e1898",
         "type": "github"
       },
       "original": {
@@ -130,11 +130,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792342221,
-        "narHash": "sha256-TkcqrGnQtglzJMxjmCRv/KUOg0VbUs/chCjYOoHjHJQ=",
+        "lastModified": 1792440457,
+        "narHash": "sha256-khrnMzNoyLUeF3a35FbSVUN9O70wY/VOQVYw4DD2ODM=",
         "owner": "eklonofficial",
         "repo": "Vice",
-        "rev": "e81d1cdb4047c4fd38a7e11a71b4b8eff4da03b8",
+        "rev": "7e4b2a3bccc6e43285d095afe95d0d7fe3d0c84c",
         "type": "github"
       },
       "original": {
