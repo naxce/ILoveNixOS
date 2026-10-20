@@ -122,7 +122,6 @@ return {
         dashboard.button("g", "  Grep w projekcie", ":Telescope live_grep<CR>"),
         dashboard.button("r", "  Ostatnie pliki", ":Telescope oldfiles<CR>"),
         dashboard.button("e", "  Drzewo plików", ":Neotree toggle<CR>"),
-        dashboard.button("y", "  Otwórz Yazi", ":lua require('yazi').yazi()<CR>"),
         dashboard.button("l", "  Lazy (pluginy)", ":Lazy<CR>"),
         dashboard.button("q", "  Wyjście", ":qa<CR>"),
       }

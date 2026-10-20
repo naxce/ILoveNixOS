@@ -52,13 +52,6 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name     = "opacity-yazi",
-    match    = { class = "yazi-fm" },
-    opacity  = "0.94 0.88",
-    rounding = 10,
-})
-
-hl.window_rule({
     name    = "opacity-firefox",
     match   = { class = "firefox" },
     opacity = "0.97 0.9",

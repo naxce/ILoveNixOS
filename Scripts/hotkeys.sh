@@ -211,50 +211,8 @@ f	Find file
 g	Grep in project
 r	Recent files
 e	Toggle file tree
-y	Open Yazi
 l	Open Lazy (plugin manager)
 q	Quit
-EOF
-}
-
-yazi_binds() {
-  cat <<'EOF'
-Note:	Custom keys shown here on top of Yazi's own defaults (arrows, hjkl, etc.)
-── Navigation ──	
-<Right> / l	Open file or enter directory
-<Left> / h	Go to parent directory
-── Go to (press g, then...) ──	
-g n	Go to ~/NixOS
-g d	Go to ~/Downloads
-g p	Go to ~/Pictures
-g c	Go to ~/.config
-── Open & copy ──	
-m	Menu / open with
-O	Open with (interactive)
-c p	Copy full path
-c f	Copy filename
-c n	Copy filename without extension
-── Archives (via ouch) ──	
-C	Compress selection to .tar.gz
-E	Extract selected archive(s)
-L	List contents of an archive
-── Misc ──	
-!	Open a shell in the current directory
-?	Help (all keymaps)
-Esc (in prompt)	Cancel
-Enter (in prompt)	Confirm
-── Yazi inside Neovim (yazi.nvim) ──	
-Leader + -	Open Yazi in the current file's directory
-Leader + cw	Open Yazi in Neovim's working directory
-Ctrl + Up	Resume the last Yazi session
-F1 (inside Yazi popup)	Show help
-Ctrl + v (inside Yazi popup)	Open file in vertical split
-Ctrl + x (inside Yazi popup)	Open file in horizontal split
-Ctrl + t (inside Yazi popup)	Open file in a new tab
-Ctrl + s (inside Yazi popup)	Grep in directory
-Ctrl + g (inside Yazi popup)	Replace in directory
-Tab (inside Yazi popup)	Cycle open Neovim buffers
-Ctrl + y (inside Yazi popup)	Copy relative path of selected files
 EOF
 }
 
@@ -315,9 +273,6 @@ gaming	Switch to low-latency gaming mode
 ungaming	Restore the full rice (animations, effects)
 ── Files ──	
 fm	Open SylFiles in the current directory
-y	Open Yazi in the current terminal
-yz	Open Yazi in its own noir-themed kitty window
-yy	Open Yazi, then cd into the directory it was closed in
 ── Editor & git ──	
 v / vim	Open Neovim
 lg	Open LazyGit
@@ -416,7 +371,6 @@ main_menu() {
     "SylSwitch" \
     "SylBar" \
     "Neovim" \
-    "Yazi" \
     "Kitty" \
     "SylPad & SylPower" \
     "Zsh shortcuts" \
@@ -432,7 +386,6 @@ main_menu() {
     "SylSwitch") show_category "SylSwitch" "$(sylswitch_binds)" ;;
     "SylBar") show_category "SylBar" "$(sylbar_binds)" ;;
     "Neovim") show_category "Neovim" "$(neovim_binds)" ;;
-    "Yazi") show_category "Yazi" "$(yazi_binds)" ;;
     "Kitty") show_category "Kitty" "$(kitty_binds)" ;;
     "SylPad & SylPower") show_category "SylPad & SylPower" "$(sylpad_sylpower_binds)" ;;
     "Zsh shortcuts") show_category "Zsh shortcuts" "$(zsh_shell_aliases)" ;;

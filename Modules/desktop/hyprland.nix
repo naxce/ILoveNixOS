@@ -40,6 +40,13 @@
     };
   };
 
+  systemd.user.targets.hyprland-session = {
+    description = "Hyprland compositor session";
+    bindsTo = [ "graphical-session.target" ];
+    wants = [ "graphical-session-pre.target" ];
+    after = [ "graphical-session-pre.target" ];
+  };
+
   environment.variables.BALOO_ENABLED = "0";
 
   services.printing.enable = false;

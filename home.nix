@@ -183,6 +183,15 @@ in
     gtk-application-prefer-dark-theme=1
   '';
 
+  xdg.configFile."xdg-desktop-portal-termfilechooser/config".text = ''
+    [filechooser]
+    cmd=${inputs.sylvaris.packages.${pkgs.system}.default}/bin/sylvaris choose
+    default_dir=$HOME
+    create_help_file=0
+    open_mode=suggested
+    save_mode=suggested
+  '';
+
   fonts.fontconfig = {
     enable = true;
 
@@ -356,16 +365,6 @@ in
       clear
       fastfetch --config "$HOME/.config/fastfetch/work.jsonc" 2>/dev/null
 
-      yy() {
-        local tmp
-        tmp="$(mktemp -t yazi-cwd.XXXXXX)"
-        yazi --cwd-file="$tmp" "$@"
-        if cwd="$(cat "$tmp" 2>/dev/null)" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-          cd "$cwd" || return
-        fi
-        rm -f "$tmp"
-      }
-
       eval "$(zoxide init zsh)"
     '';
 
@@ -534,8 +533,6 @@ in
         nix develop
       '';
 
-      y = "yazi";
-      yz = "yazi-noir";
       fm = "sylvaris files open .";
 
       niritest = ''

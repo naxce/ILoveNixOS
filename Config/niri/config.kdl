@@ -123,11 +123,6 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^yazi-fm$"#
-    opacity 0.94
-}
-
-window-rule {
     match app-id=r#"^firefox$"#
     opacity 0.97
 }
