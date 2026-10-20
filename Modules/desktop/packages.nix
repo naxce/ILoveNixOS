@@ -152,6 +152,7 @@ in
     ferdium
     cider-2
     signal-desktop
+    bitwarden-desktop
 
     filezilla
     nixfmt
