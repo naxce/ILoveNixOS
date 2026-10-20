@@ -31,6 +31,20 @@ hl.monitor({
 })
 
 
+hl.monitor({
+    output   = "ipad",
+    mode     = "2388x1668@60",
+    position = "4480x0",
+    scale    = 2,
+})
+
+hl.workspace_rule({
+    workspace = "11",
+    monitor   = "ipad",
+    default   = true,
+})
+
+
 local workspace_ranges = {
     { desc = "LG Electronics LG ULTRAGEAR 507NTZNPC165", first = 1, last = 5 },
     { desc = "Microstep MAG 242C", first = 6, last = 10 },

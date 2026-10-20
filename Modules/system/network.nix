@@ -14,6 +14,7 @@
     1715
     1716
     1717
+    5900
   ];
   networking.firewall.allowedUDPPorts = [
     1714
