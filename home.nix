@@ -247,11 +247,6 @@ in
       export PATH="${pkgs.fzf}/bin:${pkgs.util-linux}/bin:$PATH"
       exec "$HOME/NixOS/Scripts/hotkeys.sh"
     '')
-
-    (pkgs.writeShellScriptBin "ipad" ''
-      export PATH="${pkgs.wayvnc}/bin:${pkgs.openssl}/bin:${pkgs.jq}/bin:${pkgs.iproute2}/bin:$PATH"
-      exec "$HOME/NixOS/Scripts/ipad.sh"
-    '')
   ];
 
   home.file.".config/cava/shaders".source = ./Config/cava/shaders;

@@ -31,16 +31,9 @@ hl.monitor({
 })
 
 
-hl.monitor({
-    output   = "ipad",
-    mode     = "2388x1668@60",
-    position = "4480x0",
-    scale    = 2,
-})
-
 hl.workspace_rule({
     workspace = "11",
-    monitor   = "ipad",
+    monitor   = "virtual",
     default   = true,
 })
 
