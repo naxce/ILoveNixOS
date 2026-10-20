@@ -131,11 +131,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792510892,
-        "narHash": "sha256-3KcRJ65ybylmPWbxvT3rZToni61js0LkceqbErDS9Ec=",
+        "lastModified": 1792511861,
+        "narHash": "sha256-WOxt2HqAbrLf0KHQ6K1hOsO4h4U/NzQdqK7wptP6jNc=",
         "owner": "fatumorg",
         "repo": "TempInfoCLI",
-        "rev": "076a0fc1ea170177a10f4458770032211668affa",
+        "rev": "1864f3a3e89ffc9bff26bf86cf050d9858be92b4",
         "type": "github"
       },
       "original": {
