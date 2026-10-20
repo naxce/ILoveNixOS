@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -35,6 +36,16 @@
     powerManagement.enable = true;
     powerManagement.finegrained = false;
   };
+
+  environment.systemPackages = [
+    (lib.hiPrio (
+      pkgs.writeShellScriptBin "nvidia-smi" ''
+        exec ${pkgs.stdenv.cc.libc}/lib/ld-linux-x86-64.so.2 \
+          --library-path /run/opengl-driver/lib:${pkgs.stdenv.cc.libc}/lib \
+          ${config.hardware.nvidia.package.bin}/origBin/nvidia-smi "$@"
+      ''
+    ))
+  ];
 
   hardware.graphics = {
     enable = true;
