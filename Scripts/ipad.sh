@@ -24,7 +24,7 @@ hyprctl output remove "$OUTPUT" >/dev/null 2>&1 || true
 hyprctl output create headless "$OUTPUT" >/dev/null
 trap 'hyprctl output remove "$OUTPUT" >/dev/null 2>&1' EXIT
 
-ip=$(ip -4 route get 1.1.1.1 | awk '{for (i = 1; i < NF; i++) if ($i == "src") print $(i + 1)}')
-echo "iPad: VNC → $ip:5900  user: ipad  password: $(sed -n 's/^password=//p' "$CONF/config")"
+ips=$(ip -4 -o addr show scope global | awk '{sub("/.*", "", $4); printf "%s:5900 ", $4}')
+echo "iPad: VNC → ${ips}user: ipad  password: $(sed -n 's/^password=//p' "$CONF/config")"
 
 wayvnc -o "$OUTPUT" -f 60

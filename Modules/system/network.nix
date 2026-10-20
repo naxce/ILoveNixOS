@@ -22,6 +22,10 @@
     1716
     1717
   ];
+  networking.firewall.interfaces.wlp16s0.allowedUDPPorts = [
+    53
+    67
+  ];
 
   time.timeZone = "Europe/Warsaw";
   i18n.defaultLocale = "en_US.UTF-8";
