@@ -100,6 +100,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-fonts": "nixpkgs-fonts",
         "sylvaris": "sylvaris",
+        "tempinfocli": "tempinfocli",
         "vice": "vice"
       }
     },
@@ -120,6 +121,26 @@
       "original": {
         "owner": "fatumorg",
         "repo": "Sylvaris",
+        "type": "github"
+      }
+    },
+    "tempinfocli": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792510892,
+        "narHash": "sha256-3KcRJ65ybylmPWbxvT3rZToni61js0LkceqbErDS9Ec=",
+        "owner": "fatumorg",
+        "repo": "TempInfoCLI",
+        "rev": "076a0fc1ea170177a10f4458770032211668affa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fatumorg",
+        "repo": "TempInfoCLI",
         "type": "github"
       }
     },

@@ -233,6 +233,7 @@ in
   home.packages = [
     inputs.fatest.packages.${pkgs.system}.default
     inputs.codedesk.packages.${pkgs.system}.default
+    inputs.tempinfocli.packages.${pkgs.system}.default
 
     (pkgs.writeShellScriptBin "kwork" ''
       exec ${pkgs.kitty}/bin/kitty \

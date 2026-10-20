@@ -24,6 +24,10 @@
       url = "github:fatumorg/codedesk";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    tempinfocli = {
+      url = "github:fatumorg/TempInfoCLI";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
