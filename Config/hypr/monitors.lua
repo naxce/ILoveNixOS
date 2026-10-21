@@ -30,6 +30,13 @@ hl.monitor({
     mirror   = "desc:Microstep MAG 242C",
 })
 
+hl.monitor({
+    output   = "virtual",
+    mode     = "1920x1080@60",
+    position = "3200x1440",
+    scale    = 1.5,
+    vrr      = 0,
+})
 
 hl.workspace_rule({
     workspace = "11",
