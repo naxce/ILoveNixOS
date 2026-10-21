@@ -35,6 +35,7 @@
   programs.sylvaris.fileChooser.enable = true;
 
   services.vice.enable = true;
+  services.usbmuxd.enable = true;
 
   programs.sylvaris.greeter = {
     enable = true;
