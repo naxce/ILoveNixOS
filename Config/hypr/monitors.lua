@@ -16,7 +16,7 @@ hl.monitor({
 hl.monitor({
     output   = "desc:Microstep MAG 242C",
     mode     = "1920x1080@179.964",
-    position = "0x350",
+    position = "0x450",
     scale    = 1,
     vrr      = 0,
 })
