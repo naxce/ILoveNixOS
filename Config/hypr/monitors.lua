@@ -33,7 +33,7 @@ hl.monitor({
 hl.monitor({
     output   = "virtual",
     mode     = "1920x1080@60",
-    position = "3200x1440",
+    position = "2560x1440",
     scale    = 1.5,
     vrr      = 0,
 })
