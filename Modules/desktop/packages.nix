@@ -185,6 +185,7 @@ in
     gimp
     yt-dlp
     ffmpeg
+    libimobiledevice
 
     pavucontrol
 
