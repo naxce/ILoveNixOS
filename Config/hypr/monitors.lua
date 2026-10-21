@@ -26,6 +26,7 @@ hl.monitor({
     output   = "desc:Philips Consumer Electronics Company PHILIPS FTV 0x01010101",
     mode     = "1920x1080@60",
     position = "4480x0",
+    disabled = true,
     scale    = 1,
     mirror   = "desc:Microstep MAG 242C",
 })
