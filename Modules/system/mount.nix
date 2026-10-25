@@ -34,8 +34,7 @@
 
   swapDevices = [
     {
-      device = "/swapfile";
-      size = 16384;
+      device = "/dev/disk/by-uuid/d1508729-e6f5-4ed6-8553-fe5d5b50e79d";
     }
   ];
 }
