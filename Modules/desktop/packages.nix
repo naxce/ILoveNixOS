@@ -82,6 +82,7 @@ in
     linux-wifi-hotspot
     chntpw
     iloader
+    kdePackages.partitionmanager
 
     grim
     slurp
