@@ -81,6 +81,7 @@ in
     iw
     linux-wifi-hotspot
     chntpw
+    iloader
 
     grim
     slurp
