@@ -136,6 +136,7 @@ in
     protontricks
     steam
     steam-run
+    steamtinkerlaunch
     heroic
     samrewritten
     wineWow64Packages.stable
