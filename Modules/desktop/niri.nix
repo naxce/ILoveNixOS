@@ -6,6 +6,7 @@
 }:
 {
   programs.niri.enable = true;
+  programs.niri.useNautilus = false;
 
   environment.systemPackages = with pkgs; [
     (lib.hiPrio (
