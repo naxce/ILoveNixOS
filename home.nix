@@ -486,7 +486,7 @@ in
 
       hoioff = ''
         wipe
-        DIR="/mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV"
+        DIR="/data/Gaming/Steam/steamapps/common/Hearts of Iron IV"
         [ -f "$DIR/cream_api.ini" ] && mv "$DIR/cream_api.ini" "$DIR/cream_api.ini.bak"
         if [ -f "$DIR/libsteam_api_o.so" ]; then
           mv "$DIR/libsteam_api.so" "$DIR/libsteam_api.so.bak"
@@ -496,7 +496,7 @@ in
 
       hoion = ''
         wipe
-        DIR="/mnt/data/Gaming/Steam/steamapps/common/Hearts of Iron IV"
+        DIR="/data/Gaming/Steam/steamapps/common/Hearts of Iron IV"
         [ -f "$DIR/cream_api.ini.bak" ] && mv "$DIR/cream_api.ini.bak" "$DIR/cream_api.ini"
         if [ -f "$DIR/libsteam_api.so.bak" ]; then
           mv "$DIR/libsteam_api.so" "$DIR/libsteam_api_o.so"
@@ -548,7 +548,7 @@ in
 
       sylweb = ''
         (
-          cd /mnt/data/Coding/Linux/Sylvaris &&
+          cd /data/Coding/Linux/Sylvaris &&
           nix develop -c node site/build.mjs --strict &&
           rsync -av --delete --chown=www:www --exclude .user.ini --exclude .well-known --exclude .htaccess site/dist/ root@107.173.203.196:/www/wwwroot/sylvaris/
         )
@@ -556,7 +556,7 @@ in
 
       fatrainerweb = ''
         (
-          cd "/mnt/data/Coding/Games/Dying Light/FaTrainer" &&
+          cd "/data/Coding/Games/Dying Light/FaTrainer" &&
           rsync -av --delete --chown=www:www --exclude .user.ini --exclude .well-known --exclude .htaccess --exclude .gitignore site/ root@107.173.203.196:/www/wwwroot/fatrainer/
         )
       '';
