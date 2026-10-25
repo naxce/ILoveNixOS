@@ -47,11 +47,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792818371,
-        "narHash": "sha256-yhEZAzZRNvzYpoAlyFY3wM75V9BmkIXJIueof8S5gOg=",
+        "lastModified": 1792896866,
+        "narHash": "sha256-/0tELNnhdSnP+bHSdWiEe6KpfSwi6WrTnT9cm/jNkjA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2cd3234928f60bbff695a7ee56115ef7799c47cd",
+        "rev": "c216bf5a1f173b0481bd5c8c489ebe5595ecc68c",
         "type": "github"
       },
       "original": {
@@ -112,7 +112,7 @@
       },
       "locked": {
         "lastModified": 1792533511,
-        "narHash": "sha256-HI6jvnMXncfORXE8/RjqTiTYNvl//UUS/0p5bH68KtI=",
+        "narHash": "sha256-bq/QmyRGrbJVXPVtamsX2Mel7H5Eb2eNattQfVVuRTg=",
         "owner": "fatumorg",
         "repo": "Sylvaris",
         "rev": "bd4c73ad72101eb0014deec30e341213e440b082",
