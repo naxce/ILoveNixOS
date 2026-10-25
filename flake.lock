@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792944038,
-        "narHash": "sha256-pGMjzTVYIbZ+zZpgjHfznxUnp44i3tAOj8qoldnnN6w=",
+        "lastModified": 1792948592,
+        "narHash": "sha256-Qz2plcwSnxfSJfPvKGBgMME5517jn/yBV0iyqoWKmgc=",
         "owner": "fatumorg",
         "repo": "codedesk",
-        "rev": "90c255c3447dbd3d76bfc4b757918d6ef9d89269",
+        "rev": "68dacf5d3ab585a73b2c751b08cefbdf86d478bd",
         "type": "github"
       },
       "original": {
@@ -111,11 +111,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792945790,
-        "narHash": "sha256-e6xBeYS+F/C/eDPn99ntfsTfRb5MZVNjmPSNYg1FbU0=",
+        "lastModified": 1792946633,
+        "narHash": "sha256-EJTLtkNSyzmh7ItR/qugKseN5b9yCuEYMQyLjgVn1bk=",
         "owner": "fatumorg",
         "repo": "Sylvaris",
-        "rev": "272bb8ff8f0afc00f4ad06f8f3fd56bd8767ea44",
+        "rev": "b5c8582d0deae6578de6404efa3af0c6390f8704",
         "type": "github"
       },
       "original": {
