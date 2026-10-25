@@ -5,36 +5,17 @@
 }:
 {
   boot.supportedFilesystems = [
-    "ntfs"
-    "ext4"
+    "btrfs"
   ];
-  fileSystems."/mnt/windows" = {
-    device = "/dev/disk/by-uuid/E818049F18046EBE";
-    fsType = "ntfs";
-    options = [
-      "rw"
-      "uid=1000"
-      "nofail"
-    ];
-  };
-
-  fileSystems."/mnt/data" = {
-    device = "/dev/disk/by-uuid/36E9EE794FF8FD45";
-    fsType = "ntfs";
-    options = [
-      "rw"
-      "uid=1000"
-      "gid=1000"
-      "umask=022"
-      "nofail"
-
-      "x-systemd.device-timeout=10"
-    ];
+  fileSystems."/data" = {
+    device = "/dev/disk/by-uuid/5de2abcd-cc79-4115-bf57-2ffc1a9c428d";
+    fsType = "btrfs";
+    options = [ "nofail" ];
   };
 
   swapDevices = [
     {
-      device = "/dev/disk/by-uuid/d1508729-e6f5-4ed6-8553-fe5d5b50e79d";
+      device = "/dev/disk/by-uuid/67298a78-e4a6-4815-afc5-1ef2cb16464e";
     }
   ];
 }
