@@ -556,7 +556,7 @@ in
 
       fatrainerweb = ''
         (
-          cd "/mnt/data/Coding/Dying Light/FaTrainer" &&
+          cd "/mnt/data/Coding/Games/Dying Light/FaTrainer" &&
           rsync -av --delete --chown=www:www --exclude .user.ini --exclude .well-known --exclude .htaccess --exclude .gitignore site/ root@107.173.203.196:/www/wwwroot/fatrainer/
         )
       '';
