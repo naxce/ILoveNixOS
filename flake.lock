@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "artcraft": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792411219,
+        "narHash": "sha256-a+XC0yU0bDO/v906Wt4vLrhhjxRdTQE5pJctbJlQceE=",
+        "owner": "mahlquistj",
+        "repo": "artcraft-flake",
+        "rev": "ed5a38dafc5d151f84016d5fd81cda4a0fcda791",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahlquistj",
+        "repo": "artcraft-flake",
+        "type": "github"
+      }
+    },
     "codedesk": {
       "inputs": {
         "nixpkgs": [
@@ -7,11 +27,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792967113,
-        "narHash": "sha256-IE0rGXDQ1YoUnXgikT4APzu2KPYk0gayehn2vJeXNh4=",
+        "lastModified": 1792970274,
+        "narHash": "sha256-fsYmasOuJt1GDQzGhbSB24mkPEcTkBwUmWowrnV771Q=",
         "owner": "fatumorg",
         "repo": "codedesk",
-        "rev": "8b1f6767755bd2494b87a8202be99622e951fa18",
+        "rev": "101cf16e02b69e9a3600566f62b1fd69acf3bc67",
         "type": "github"
       },
       "original": {
@@ -94,6 +114,7 @@
     },
     "root": {
       "inputs": {
+        "artcraft": "artcraft",
         "codedesk": "codedesk",
         "fatest": "fatest",
         "home-manager": "home-manager",

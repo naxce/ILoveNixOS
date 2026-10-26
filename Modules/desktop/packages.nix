@@ -57,7 +57,10 @@ let
   };
 in
 {
-  nixpkgs.overlays = [ claude-code-pin-overlay ];
+  nixpkgs.overlays = [
+    claude-code-pin-overlay
+    inputs.artcraft.overlays.default
+  ];
 
   environment.systemPackages = with pkgs; [
 
@@ -84,6 +87,8 @@ in
     iloader
     kdePackages.partitionmanager
 
+    photocraft
+    photocraft.desktop
     grim
     slurp
     wl-clipboard
