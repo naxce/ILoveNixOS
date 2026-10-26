@@ -89,6 +89,8 @@ in
 
     photocraft
     photocraft.desktop
+    filmcraft
+    filmcraft.desktop
     grim
     slurp
     wl-clipboard
