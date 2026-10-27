@@ -14,7 +14,7 @@ end
 
 hl.window_rule({
     name   = "sylfiles-dialog",
-    match  = { class = "^(org\\.quickshell)$", title = "^(Open a file|Open files|Save as|Choose a folder|Choose folders) — SylFiles$" },
+    match  = { class = "^(org\\.quickshell|sylvaris)$", title = "^(Open a file|Open files|Save as|Choose a folder|Choose folders) — SylFiles$" },
     float  = true,
     size   = "62% 68%",
     center = true,

@@ -141,7 +141,7 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 
-for_window [app_id="^org\.quickshell$" title="^(Open a file|Open files|Save as|Choose a folder|Choose folders) — SylFiles$"] floating enable, resize set 62 ppt 68 ppt, move position center
+for_window [app_id="^(org\.quickshell|sylvaris)$" title="^(Open a file|Open files|Save as|Choose a folder|Choose folders) — SylFiles$"] floating enable, resize set 62 ppt 68 ppt, move position center
 for_window [app_id="^steam_app_.*"] fullscreen enable
 for_window [class="^steam_app_.*"] fullscreen enable
 for_window [app_id="gamescope"] fullscreen enable
