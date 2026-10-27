@@ -91,6 +91,7 @@ in
     photocraft.desktop
     filmcraft
     filmcraft.desktop
+    libreoffice-qt
     grim
     slurp
     wl-clipboard
