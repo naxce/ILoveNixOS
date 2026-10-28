@@ -27,11 +27,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793068433,
-        "narHash": "sha256-1JyEPstKDId+zvJTqV0Zbp1ZsfJ0lf7nBV4wgaP2OgU=",
+        "lastModified": 1793227543,
+        "narHash": "sha256-ZzVY3rBanK0qTe1rqt694nUmze3HtlbvolFCG4VBzLQ=",
         "owner": "fatumorg",
         "repo": "codedesk",
-        "rev": "2345dc39740d36899ae321a5a100f1ec5a19a083",
+        "rev": "e132078eebaf7f9a3b5b956899ce395bb56096fd",
         "type": "github"
       },
       "original": {
@@ -47,11 +47,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790540459,
-        "narHash": "sha256-zxe2D/Hj//M3KGevhqETcQ9YnUQlCTnKU9jvDbj4yXs=",
+        "lastModified": 1793228210,
+        "narHash": "sha256-IwoA8gL4JebaMb0uftKhFcZUxYdO4W+PKI8a0e2pMD8=",
         "owner": "fatumorg",
         "repo": "FaTest",
-        "rev": "ee8dd8d8e6b1b5e752b9f98a0bc4d6f3548c3b93",
+        "rev": "10ca897c4ff68b521f4784d078149305b54ccb63",
         "type": "github"
       },
       "original": {
@@ -133,7 +133,7 @@
       },
       "locked": {
         "lastModified": 1793227021,
-        "narHash": "sha256-bGmP8dp8cy+JCGT5ZDu7ctAt3tH5OaUGv1rm8WVey9w=",
+        "narHash": "sha256-DCYsiRLij9nN11R+0GefbuRElI7vDuWBARe50WAds3E=",
         "owner": "fatumorg",
         "repo": "Sylvaris",
         "rev": "c642bb17ca7d1ac412cf1bc3a14b2f8362af1f12",
