@@ -132,11 +132,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793306650,
-        "narHash": "sha256-0d3d71xWMNX/oQ5J+M/5vDMpID/rFRdOF78Q4BqCF50=",
+        "lastModified": 1793307369,
+        "narHash": "sha256-J3lEBoN3DYzmPQaCnKDZhhm2CMt5ipI1Frbgc5LF1CA=",
         "owner": "fatumorg",
         "repo": "Sylvaris",
-        "rev": "f78ddffdcd6602558a653dcb967d27703f0e75ea",
+        "rev": "3b14c3a8ce2ca32e3675add360d98fa736efb156",
         "type": "github"
       },
       "original": {
