@@ -1,7 +1,12 @@
 { config, pkgs, ... }:
 
 {
-  programs.gamemode.enable = true;
+  programs.gamemode = {
+    enable = true;
+    settings.general.renice = 10;
+  };
+
+  users.users.naxce.extraGroups = [ "gamemode" ];
 
   programs.steam = {
     enable = true;
