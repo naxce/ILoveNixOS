@@ -30,7 +30,7 @@
   };
 
   programs.virt-manager.enable = true;
-  programs.tailscale.enable = true;
+  services.tailscale.enable = true;
 
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
