@@ -86,6 +86,7 @@ in
     iloader
     kdePackages.partitionmanager
 
+    photocraft
     libreoffice-qt
     grim
     slurp
