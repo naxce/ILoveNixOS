@@ -59,7 +59,6 @@ in
 {
   nixpkgs.overlays = [
     claude-code-pin-overlay
-    inputs.artcraft.overlays.default
   ];
 
   environment.systemPackages = with pkgs; [
@@ -87,10 +86,6 @@ in
     iloader
     kdePackages.partitionmanager
 
-    photocraft
-    photocraft.desktop
-    filmcraft
-    filmcraft.desktop
     libreoffice-qt
     grim
     slurp
