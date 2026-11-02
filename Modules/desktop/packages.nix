@@ -49,6 +49,10 @@ let
       };
     };
 
+    llama-cpp = (prev.llama-cpp.override { cudaSupport = true; }).overrideAttrs (old: {
+      cmakeFlags = old.cmakeFlags ++ [ (final.lib.cmakeFeature "CMAKE_CUDA_ARCHITECTURES" "120") ];
+    });
+
     vscodium = prev.vscodium.overrideAttrs (old: {
       postFixup = (old.postFixup or "") + ''
         sed -i 's/;inode\/directory//' "$out/share/applications/codium.desktop"

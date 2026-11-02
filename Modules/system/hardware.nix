@@ -24,6 +24,16 @@
     libvirtd = {
       enable = true;
       qemu.swtpm.enable = true;
+      qemu.verbatimConfig = ''
+        namespaces = []
+        cgroup_device_acl = [
+          "/dev/null", "/dev/full", "/dev/zero",
+          "/dev/random", "/dev/urandom",
+          "/dev/ptmx", "/dev/userfaultfd",
+          "/dev/nvidiactl", "/dev/nvidia0", "/dev/nvidia-modeset",
+          "/dev/nvidia-uvm", "/dev/nvidia-uvm-tools"
+        ]
+      '';
     };
 
     spiceUSBRedirection.enable = true;
