@@ -28,6 +28,10 @@
       url = "github:fatumorg/TempInfoCLI";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    tikprofilemanager = {
+      url = "github:fatumorg/TikProfileManager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -38,6 +42,7 @@
       home-manager,
       fatest,
       codedesk,
+      tikprofilemanager,
       ...
     }@inputs:
     let
