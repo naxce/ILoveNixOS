@@ -101,7 +101,6 @@
         "nixpkgs-fonts": "nixpkgs-fonts",
         "sylvaris": "sylvaris",
         "tempinfocli": "tempinfocli",
-        "tikprofilemanager": "tikprofilemanager",
         "vice": "vice"
       }
     },
@@ -142,26 +141,6 @@
       "original": {
         "owner": "fatumorg",
         "repo": "TempInfoCLI",
-        "type": "github"
-      }
-    },
-    "tikprofilemanager": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1793644798,
-        "narHash": "sha256-L658kgJhdW9VWMLzR3v3moo1opG4zseqZ3aFv+Tn+YM=",
-        "owner": "fatumorg",
-        "repo": "TikProfileManager",
-        "rev": "d544e6078b1157fe10fe43c16ddc68a0113c933f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fatumorg",
-        "repo": "TikProfileManager",
         "type": "github"
       }
     },
