@@ -234,6 +234,7 @@ in
     inputs.fatest.packages.${pkgs.system}.default
     inputs.codedesk.packages.${pkgs.system}.default
     inputs.tempinfocli.packages.${pkgs.system}.default
+    inputs.zen-browser.packages.${pkgs.system}.default
 
     (pkgs.writeShellScriptBin "kwork" ''
       exec ${pkgs.kitty}/bin/kitty \
@@ -390,8 +391,8 @@ in
         wipe
         cd ~/NixOS || exit
         nix flake update
-        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git add .
+        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git commit -m "$msg" || true
         git pull --rebase origin main
         git push origin main
@@ -416,8 +417,8 @@ in
       nixos = ''
         wipe
         cd ~/NixOS || exit
-        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git add .
+        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git commit -m "$msg" || true
         git pull --rebase origin main
         git push origin main
@@ -428,8 +429,8 @@ in
         wipe
         cd ~/NixOS || exit
         nix flake update
-        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git add .
+        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git commit -m "$msg" || true
         git pull --rebase origin main
         git push origin main
@@ -445,8 +446,8 @@ in
       nixhome = ''
         wipe
         cd ~/NixOS || exit
-        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git add .
+        msg="$*"; [ -n "$msg" ] || msg="Update Commit"
         git commit -m "$msg" || true
         git pull --rebase origin main
         git push origin main
