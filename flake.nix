@@ -38,7 +38,7 @@
       inputs.home-manager.follows = "home-manager";
     };
     deadlock-plus = {
-      url = "git+https://github.com/naxce/deadlock-plus?shallow=1";
+      url = "git+https://github.com/naxce/deadlock-plus?ref=feat/nix-flake&shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

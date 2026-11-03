@@ -38,6 +38,28 @@
         "url": "https://github.com/fatumorg/codedesk"
       }
     },
+    "deadlock-plus": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793714826,
+        "narHash": "sha256-G8CjJtdf1plqBdbui3rRUUJfTBvcWLC/bUFXI2uQcZA=",
+        "ref": "feat/nix-flake",
+        "rev": "98006dd0f50b7a6903567f25af3d21fe7c2dfdd7",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/naxce/deadlock-plus"
+      },
+      "original": {
+        "ref": "feat/nix-flake",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/naxce/deadlock-plus"
+      }
+    },
     "fatest": {
       "inputs": {
         "nixpkgs": [
@@ -118,6 +140,7 @@
       "inputs": {
         "betterfox": "betterfox",
         "codedesk": "codedesk",
+        "deadlock-plus": "deadlock-plus",
         "fatest": "fatest",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
@@ -135,10 +158,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793712811,
-        "narHash": "sha256-qi9gQBRS94fsPGdv1hDbnI/nKhfnNrwDSPqKX311jMM=",
+        "lastModified": 1793715128,
+        "narHash": "sha256-D25UGmQOuUtOLBMGkOa8rqdRvKcNl1aLpl4LrUh34h4=",
         "ref": "refs/heads/main",
-        "rev": "88b951e8fd5b0b5f1b7789ccf63199a04fdf5a0d",
+        "rev": "cadfa0335054903b3679657c56721041db9572d4",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/Sylvaris"
