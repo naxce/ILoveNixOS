@@ -24,10 +24,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793658534,
-        "narHash": "sha256-7wO9U7fsTG6Z5w62i8DDr5VQVPsgm5c9G/Ho0zuJX+U=",
+        "lastModified": 1793691362,
+        "narHash": "sha256-YC76SSLso7i0tw3tp2LeYqLNR7nP8guCVQW0Tvh6qpQ=",
         "ref": "refs/heads/main",
-        "rev": "6d5bca7d8ef614c144899a4606ed329d083d6502",
+        "rev": "25fb10725e2994c285e334162d41dc4713ced066",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/codedesk"
@@ -135,10 +135,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793666881,
-        "narHash": "sha256-ueoUUgXvcGv0gY24qBck31QaTePkVcIrri/RGEQFT98=",
+        "lastModified": 1793686688,
+        "narHash": "sha256-p8Krgl1j8kDZB8XJRY5TBAuWlhP/A3Q1xs0vr19Rljg=",
         "ref": "refs/heads/main",
-        "rev": "33b681f9459127e5a5f46b6e24c7fe044a931626",
+        "rev": "7d0210fed27e4fa77f7b843fc08549b7bb52587e",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/Sylvaris"
@@ -201,10 +201,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793642042,
-        "narHash": "sha256-0z7OZFzumJlefJ+8zycS9G+8oB/ImtIP0yYzhjmhVjM=",
+        "lastModified": 1793710409,
+        "narHash": "sha256-NapxfokR49AvYX5ldtkjrdtH5pWxEj9BXU0Gw+rYX+E=",
         "ref": "refs/heads/main",
-        "rev": "81a04071a4bac9e7391fbaa0d7d6572e8a1ba481",
+        "rev": "d87bba54c0ddc367b2801ef5c66eed8b8e0ac072",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/0xc000022070/zen-browser-flake"
