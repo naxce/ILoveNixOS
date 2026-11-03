@@ -2,6 +2,14 @@
 
 Read @Docs/settings/BROWSERSrules.md
 
+Last checked: 2026-11-03, Firefox 159.0, Zen 1.24b
+
+## Declarative vs manual
+
+- Declarative, in `Modules/home/browsers.nix` (both browsers unless noted): Betterfox `user.js` + My overrides (Parts II-III), Part I prefs, Part VII and Part VIII (Zen only, Optional list left out), the four extensions from Part IV (installed by policy), Sylvaris live theme script
+- Manual: Syncing and account sign-in, Zen "Sync your Spaces across devices", Zen default search engine, extension settings (uBlock filter lists, Bitwarden, DarkReader, SponsorBlock), "Switch to workspace where container is set as default", Zen Mods
+- Permissions -> Speaker: no "Block new requests" option exists (Firefox 159 and Zen 1.24b)
+
 ## Part I - Settings
 
 - Enhanced Tracking Protection: Custom (CHECKED: Fix major site issues, Cookies - Isolate cross-site cookies, Tracking content - In all windows, Cryptominers, Known fingerprinters, Suspected fingerprinters)

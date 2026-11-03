@@ -28,6 +28,10 @@
       url = "git+https://github.com/fatumorg/TempInfoCLI?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    betterfox = {
+      url = "git+https://github.com/yokoffing/Betterfox?shallow=1";
+      flake = false;
+    };
     zen-browser = {
       url = "git+https://github.com/0xc000022070/zen-browser-flake?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";

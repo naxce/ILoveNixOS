@@ -25,7 +25,10 @@ in
   home.username = "naxce";
   home.homeDirectory = "/home/naxce";
 
-  imports = [ inputs.sylvaris.homeManagerModules.sylvaris ];
+  imports = [
+    inputs.sylvaris.homeManagerModules.sylvaris
+    ./Modules/home/browsers.nix
+  ];
 
   programs.sylvaris = {
     enable = true;
@@ -253,7 +256,6 @@ in
     inputs.fatest.packages.${pkgs.system}.default
     inputs.codedesk.packages.${pkgs.system}.default
     inputs.tempinfocli.packages.${pkgs.system}.default
-    inputs.zen-browser.packages.${pkgs.system}.default
 
     (pkgs.writeShellScriptBin "kwork" ''
       exec ${pkgs.kitty}/bin/kitty \

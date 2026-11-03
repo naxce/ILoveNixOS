@@ -117,7 +117,6 @@ in
     vulkan-loader
     mesa-demos
 
-    firefox
     vesktop
     discord
     ferdium
