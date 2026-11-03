@@ -158,10 +158,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793732969,
-        "narHash": "sha256-zti3zmDUGznzhtB2IUJcOB5cPyWv1+0s6wXVpBry7ZE=",
+        "lastModified": 1793734983,
+        "narHash": "sha256-oIb2WmN1cVpmiSE6oiiMFNSK+aEhdrEPtS5tWH5gkRQ=",
         "ref": "refs/heads/main",
-        "rev": "d3ad9d91c6a636c708703bb781ef86858bb44f64",
+        "rev": "885692436e53d02e77becd164ae5bbf3fae00a00",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/Sylvaris"
