@@ -2,35 +2,36 @@
   description = "naxce configuration v2";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-fonts.url = "github:nixos/nixpkgs/f13ff45afd1bb73e640eaa08a7066dbed07e3238";
+    nixpkgs.url = "git+https://github.com/nixos/nixpkgs?ref=nixos-unstable&shallow=1";
+    nixpkgs-fonts.url = "git+https://github.com/nixos/nixpkgs?rev=f13ff45afd1bb73e640eaa08a7066dbed07e3238&shallow=1";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "git+https://github.com/nix-community/home-manager?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     fatest = {
-      url = "github:fatumorg/FaTest";
+      url = "git+https://github.com/fatumorg/FaTest?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sylvaris = {
-      url = "github:fatumorg/Sylvaris";
+      url = "git+https://github.com/fatumorg/Sylvaris?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     vice = {
-      url = "github:eklonofficial/Vice";
+      url = "git+https://github.com/eklonofficial/Vice?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     codedesk = {
-      url = "github:fatumorg/codedesk";
+      url = "git+https://github.com/fatumorg/codedesk?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     tempinfocli = {
-      url = "github:fatumorg/TempInfoCLI";
+      url = "git+https://github.com/fatumorg/TempInfoCLI?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zen-browser = {
-      url = "github:0xc000022070/zen-browser-flake";
+      url = "git+https://github.com/0xc000022070/zen-browser-flake?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
   };
 

@@ -9,15 +9,16 @@
       "locked": {
         "lastModified": 1793658534,
         "narHash": "sha256-7wO9U7fsTG6Z5w62i8DDr5VQVPsgm5c9G/Ho0zuJX+U=",
-        "owner": "fatumorg",
-        "repo": "codedesk",
+        "ref": "refs/heads/main",
         "rev": "6d5bca7d8ef614c144899a4606ed329d083d6502",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/fatumorg/codedesk"
       },
       "original": {
-        "owner": "fatumorg",
-        "repo": "codedesk",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/fatumorg/codedesk"
       }
     },
     "fatest": {
@@ -29,15 +30,16 @@
       "locked": {
         "lastModified": 1793228210,
         "narHash": "sha256-IwoA8gL4JebaMb0uftKhFcZUxYdO4W+PKI8a0e2pMD8=",
-        "owner": "fatumorg",
-        "repo": "FaTest",
+        "ref": "refs/heads/main",
         "rev": "10ca897c4ff68b521f4784d078149305b54ccb63",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/fatumorg/FaTest"
       },
       "original": {
-        "owner": "fatumorg",
-        "repo": "FaTest",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/fatumorg/FaTest"
       }
     },
     "home-manager": {
@@ -49,68 +51,50 @@
       "locked": {
         "lastModified": 1793193205,
         "narHash": "sha256-X6xa6sGA7RnJQuZGbFMC+K+KToWAlBDCCjJXfTwEPsw=",
-        "owner": "nix-community",
-        "repo": "home-manager",
+        "ref": "refs/heads/master",
         "rev": "095fef2f265c3c0da4fe315efba8f8a04495ab34",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/nix-community/home-manager"
       },
       "original": {
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "home-manager_2": {
-      "inputs": {
-        "nixpkgs": [
-          "zen-browser",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1792098797,
-        "narHash": "sha256-u4DIIZgznEGzByxXrxWCXK19VcMtTBmi/M9gZ7Jk9bM=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "640725978b99076e18e069f6e7d2959124584f8f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/nix-community/home-manager"
       }
     },
     "nixpkgs": {
       "locked": {
         "lastModified": 1793540411,
         "narHash": "sha256-fiPJ88izTVucjeo2EQ3jk4aWmLg03I1D4vxnX2QjEgE=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
+        "ref": "nixos-unstable",
         "rev": "0bb2eedc20e4739f29e8045034f2828ad7054f8f",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/nixos/nixpkgs"
       },
       "original": {
-        "owner": "nixos",
         "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/nixos/nixpkgs"
       }
     },
     "nixpkgs-fonts": {
       "locked": {
         "lastModified": 1786106723,
         "narHash": "sha256-zDSUbpoeo/9ZmD2+wXnzxoo1+uhL8vxc0b8yuYMKYq0=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
+        "ref": "refs/heads/master",
         "rev": "f13ff45afd1bb73e640eaa08a7066dbed07e3238",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/nixos/nixpkgs"
       },
       "original": {
-        "owner": "nixos",
-        "repo": "nixpkgs",
         "rev": "f13ff45afd1bb73e640eaa08a7066dbed07e3238",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/nixos/nixpkgs"
       }
     },
     "root": {
@@ -135,15 +119,16 @@
       "locked": {
         "lastModified": 1793654664,
         "narHash": "sha256-8GM3LMsryOWmSUdhNonAl1uWlJuc5UBd70k5wlx8iEs=",
-        "owner": "fatumorg",
-        "repo": "Sylvaris",
+        "ref": "refs/heads/main",
         "rev": "a59d52eeb0ee68679577bb8dfa4ac8328eabc5f1",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/fatumorg/Sylvaris"
       },
       "original": {
-        "owner": "fatumorg",
-        "repo": "Sylvaris",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/fatumorg/Sylvaris"
       }
     },
     "tempinfocli": {
@@ -155,15 +140,16 @@
       "locked": {
         "lastModified": 1793161171,
         "narHash": "sha256-d9UopRRXcwAikRr29uEPIZY5zlLRc50aNwRDnxMDHuY=",
-        "owner": "fatumorg",
-        "repo": "TempInfoCLI",
+        "ref": "refs/heads/main",
         "rev": "1b0141f5691da3731f53fdf2071e2e49a4790393",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/fatumorg/TempInfoCLI"
       },
       "original": {
-        "owner": "fatumorg",
-        "repo": "TempInfoCLI",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/fatumorg/TempInfoCLI"
       }
     },
     "vice": {
@@ -175,20 +161,23 @@
       "locked": {
         "lastModified": 1792440457,
         "narHash": "sha256-khrnMzNoyLUeF3a35FbSVUN9O70wY/VOQVYw4DD2ODM=",
-        "owner": "eklonofficial",
-        "repo": "Vice",
+        "ref": "refs/heads/main",
         "rev": "7e4b2a3bccc6e43285d095afe95d0d7fe3d0c84c",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/eklonofficial/Vice"
       },
       "original": {
-        "owner": "eklonofficial",
-        "repo": "Vice",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/eklonofficial/Vice"
       }
     },
     "zen-browser": {
       "inputs": {
-        "home-manager": "home-manager_2",
+        "home-manager": [
+          "home-manager"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -196,15 +185,16 @@
       "locked": {
         "lastModified": 1793642042,
         "narHash": "sha256-0z7OZFzumJlefJ+8zycS9G+8oB/ImtIP0yYzhjmhVjM=",
-        "owner": "0xc000022070",
-        "repo": "zen-browser-flake",
+        "ref": "refs/heads/main",
         "rev": "81a04071a4bac9e7391fbaa0d7d6572e8a1ba481",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/0xc000022070/zen-browser-flake"
       },
       "original": {
-        "owner": "0xc000022070",
-        "repo": "zen-browser-flake",
-        "type": "github"
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/0xc000022070/zen-browser-flake"
       }
     }
   },
