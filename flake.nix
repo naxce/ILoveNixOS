@@ -37,6 +37,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    deadlock-plus = {
+      url = "git+https://github.com/naxce/deadlock-plus?shallow=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -47,6 +51,7 @@
       home-manager,
       fatest,
       codedesk,
+      deadlock-plus,
       zen-browser,
       ...
     }@inputs:
