@@ -24,10 +24,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793691362,
-        "narHash": "sha256-YC76SSLso7i0tw3tp2LeYqLNR7nP8guCVQW0Tvh6qpQ=",
+        "lastModified": 1793724080,
+        "narHash": "sha256-drjFV/fhTzERB8p2faYlP7UUtAu+4xW/wFjEUlYJzmI=",
         "ref": "refs/heads/main",
-        "rev": "25fb10725e2994c285e334162d41dc4713ced066",
+        "rev": "830c21fed77307f7d0e4252f13da085dd123035e",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/codedesk"
@@ -158,10 +158,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793715128,
-        "narHash": "sha256-D25UGmQOuUtOLBMGkOa8rqdRvKcNl1aLpl4LrUh34h4=",
+        "lastModified": 1793716444,
+        "narHash": "sha256-iQ3cEtpcc7UarJWMrFZIq8nwQ2MUK01aUynoLoG+wrU=",
         "ref": "refs/heads/main",
-        "rev": "cadfa0335054903b3679657c56721041db9572d4",
+        "rev": "672ab31df230f2fb90a83b9dc516aa33ecfa2e0d",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/Sylvaris"
