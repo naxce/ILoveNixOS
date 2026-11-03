@@ -24,10 +24,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793724080,
-        "narHash": "sha256-drjFV/fhTzERB8p2faYlP7UUtAu+4xW/wFjEUlYJzmI=",
+        "lastModified": 1793729480,
+        "narHash": "sha256-qeKwurwAzgqo/uB2rKTRILRExYifcpHqAoiOYVFLk/4=",
         "ref": "refs/heads/main",
-        "rev": "830c21fed77307f7d0e4252f13da085dd123035e",
+        "rev": "6194d241fece4a91fcea1b02f2848058b243aa50",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/codedesk"
