@@ -19,7 +19,7 @@ Super + Return	Open terminal (kitty)
 Super + Space	App launcher (SylPad)
 Super + Tab	Window switcher (SylSwitch)
 Super + E	Open file manager (SylFiles)
-Super + B	Open Firefox
+Super + B	Open Zen Browser
 Super + F1	Open this keybindings menu
 Super + L	Lock screen
 Super + Shift + L	Power menu (SylPower)

@@ -58,6 +58,12 @@ hl.window_rule({
 })
 
 hl.window_rule({
+    name    = "opacity-zen-beta",
+    match   = { class = "zen-beta" },
+    opacity = "0.97 0.9",
+})
+
+hl.window_rule({
     name           = "suppress-maximize-events",
     match          = { class = ".*" },
     suppress_event = "maximize",

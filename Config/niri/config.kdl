@@ -118,12 +118,22 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"zen-beta$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+window-rule {
     match app-id=r#"^kitty$"#
     opacity 0.94
 }
 
 window-rule {
     match app-id=r#"^firefox$"#
+    opacity 0.97
+}
+
+window-rule {
+    match app-id=r#"^zen-beta$"#
     opacity 0.97
 }
 
@@ -148,7 +158,7 @@ binds {
     Mod+Tab    hotkey-overlay-title="Window switcher" { spawn "sylvaris" "switcher" "next"; }
     Alt+Tab    hotkey-overlay-title="Window switcher" { spawn "sylvaris" "switcher" "next"; }
     Mod+E      hotkey-overlay-title="File manager" { spawn "sylvaris files open"; }
-    Mod+B      hotkey-overlay-title="Browser" { spawn "firefox"; }
+    Mod+B      hotkey-overlay-title="Browser" { spawn "zen-beta"; }
     Mod+N      { spawn "ferdium"; }
     Mod+K      { spawn "kitty" "--class" "airpods" "--name" "airpods" "-e" "zsh" "-ic" "ap"; }
     Mod+M      { spawn "sylvaris" "notify"; }
