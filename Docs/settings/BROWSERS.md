@@ -1,6 +1,6 @@
 # Browser Configuration - My Preferences
 
-Read @docs/settings/BROWSERSrules.md
+Read @Docs/settings/BROWSERSrules.md
 
 ## Part I - Settings
 
