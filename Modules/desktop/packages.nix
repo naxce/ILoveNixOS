@@ -177,6 +177,7 @@ in
     plugins = with pkgs.obs-studio-plugins; [
       wlrobs
       obs-pipewire-audio-capture
+      obs-source-record
     ];
   };
 
