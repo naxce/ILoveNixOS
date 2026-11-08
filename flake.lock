@@ -45,10 +45,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793714826,
-        "narHash": "sha256-G8CjJtdf1plqBdbui3rRUUJfTBvcWLC/bUFXI2uQcZA=",
+        "lastModified": 1794147504,
+        "narHash": "sha256-IeWEeD3X/SceNH2FESzyb4SrJcWT4J0xkMcPsAV9xL4=",
         "ref": "feat/nix-flake",
-        "rev": "98006dd0f50b7a6903567f25af3d21fe7c2dfdd7",
+        "rev": "4719f162fe7ffbdad3b56ea8ca1f19e10bebd36f",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/naxce/deadlock-plus"
@@ -88,10 +88,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793757180,
-        "narHash": "sha256-gyV7AtCwLnOImcrfSETP4J3Ie96bz19DY47B7m7Y3HM=",
+        "lastModified": 1793979366,
+        "narHash": "sha256-7OoWDsYO9teiPxl0QdlS5lYE20Pue8/5mpscSL32FUA=",
         "ref": "refs/heads/master",
-        "rev": "b787c48e2ec57a9d098f5c2721882a3bc1e16f97",
+        "rev": "2c0c1f01521469cf0271180c453c79782d53c2f6",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/nix-community/home-manager"
@@ -104,10 +104,10 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1793726008,
-        "narHash": "sha256-jQp1wKvbwWdLBASTXkSi/VYmDJ5AbBi1WvcMt9HWJC8=",
+        "lastModified": 1793876309,
+        "narHash": "sha256-Wojg9lIH/hDH91iDVH2/EPw8oDSpxjxhXONbU1yf4Zg=",
         "ref": "nixos-unstable",
-        "rev": "1d060086d60cb76a40cf37109f979d88a5bd6396",
+        "rev": "f9a75f41be3a74eab55d3a7679d34ad6cc0da977",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/nixos/nixpkgs"
@@ -200,10 +200,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1792440457,
-        "narHash": "sha256-khrnMzNoyLUeF3a35FbSVUN9O70wY/VOQVYw4DD2ODM=",
+        "lastModified": 1793924848,
+        "narHash": "sha256-0HwcO6uQY3wIe6nnitePiDHB4yVcpEZLOKDF+wbqjhk=",
         "ref": "refs/heads/main",
-        "rev": "7e4b2a3bccc6e43285d095afe95d0d7fe3d0c84c",
+        "rev": "f4c1761a39f3d4d53050375775561691d676113a",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/eklonofficial/Vice"
@@ -224,10 +224,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793879729,
-        "narHash": "sha256-ZoqGR29kJSlqsgHyMKWjv3zEi6hrxDn+v5nwYntle+w=",
+        "lastModified": 1794113319,
+        "narHash": "sha256-zQgtR/G5j0eZayjrb6fpBVmy1fkOGlCHyLxW4Tboy2M=",
         "ref": "refs/heads/main",
-        "rev": "9107affa07d1213f0e733ba62235bf23453cfb98",
+        "rev": "5f45f55b9f6f2de78504a95b372e13951793be3a",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/0xc000022070/zen-browser-flake"
