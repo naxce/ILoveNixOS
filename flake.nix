@@ -2,8 +2,8 @@
   description = "naxce configuration v2";
 
   inputs = {
-    nixpkgs.url = "git+https://github.com/nixos/nixpkgs?ref=nixos-unstable&shallow=1";
-    nixpkgs-fonts.url = "git+https://github.com/nixos/nixpkgs?rev=f13ff45afd1bb73e640eaa08a7066dbed07e3238&shallow=1";
+    nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
+    nixpkgs-fonts.url = "github:NixOS/nixpkgs/f13ff45afd1bb73e640eaa08a7066dbed07e3238";
     home-manager = {
       url = "git+https://github.com/nix-community/home-manager?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
