@@ -123,7 +123,7 @@
       "locked": {
         "lastModified": 1786106723,
         "narHash": "sha256-zDSUbpoeo/9ZmD2+wXnzxoo1+uhL8vxc0b8yuYMKYq0=",
-        "ref": "refs/heads/master",
+        "ref": "master",
         "rev": "f13ff45afd1bb73e640eaa08a7066dbed07e3238",
         "shallow": true,
         "type": "git",
@@ -200,10 +200,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794163785,
-        "narHash": "sha256-LCzbtvwtF55CFM9Z30EgnBx/YpuGfQ6R6mP1Z+m1QLY=",
+        "lastModified": 1794170519,
+        "narHash": "sha256-ojAvp1CY+Kg9Xhpc/S7yOpdCFJQQXwkUY+wUWh/fUHc=",
         "ref": "refs/heads/main",
-        "rev": "8a235c60b66b6b544adca04ad386f4db2a2993ee",
+        "rev": "3f8a77173e84c6380e1ce85e1cde81e153693770",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/eklonofficial/Vice"
