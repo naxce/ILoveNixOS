@@ -255,9 +255,7 @@ in
   home.packages = [
     inputs.fatest.packages.${pkgs.system}.default
     inputs.codedesk.packages.${pkgs.system}.default
-    (inputs.deadlock-plus.packages.${pkgs.system}.default.overrideAttrs (old: {
-      buildInputs = old.buildInputs ++ [ pkgs.aws-lc ];
-    }))
+    inputs.deadlock-plus.packages.${pkgs.system}.default
     inputs.tempinfocli.packages.${pkgs.system}.default
 
     (pkgs.writeShellScriptBin "kwork" ''

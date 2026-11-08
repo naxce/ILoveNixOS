@@ -45,10 +45,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794147504,
-        "narHash": "sha256-IeWEeD3X/SceNH2FESzyb4SrJcWT4J0xkMcPsAV9xL4=",
+        "lastModified": 1794172484,
+        "narHash": "sha256-SU8TVf/Mz7iDPaU+GbUvN9Dj89fmz3rrXzlhqzu2G5E=",
         "ref": "feat/nix-flake",
-        "rev": "4719f162fe7ffbdad3b56ea8ca1f19e10bebd36f",
+        "rev": "850ec67494548f0920953e7da5beabcaf2ecfc79",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/naxce/deadlock-plus"
