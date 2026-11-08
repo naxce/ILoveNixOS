@@ -22,6 +22,10 @@ let
       sed -i 's/;inode\/directory//' "$out/share/applications/codium.desktop"
     '';
   });
+
+  iloader = pkgs.iloader.overrideAttrs (old: {
+    buildInputs = old.buildInputs ++ [ pkgs.aws-lc ];
+  });
 in
 {
 

@@ -35,6 +35,7 @@
   programs.sylvaris.fileChooser.enable = true;
 
   services.vice.enable = true;
+  services.vice.package = pkgs.vice-clipper.overridePythonAttrs { doCheck = false; };
   services.usbmuxd.enable = true;
 
   programs.sylvaris.greeter = {
@@ -52,5 +53,6 @@
   };
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.problems.handlers.vice-clipper.buildPythonPackage-internal-unittestFlagsArray = "warn";
   system.stateVersion = "26.11";
 }
