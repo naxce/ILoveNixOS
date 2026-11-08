@@ -24,10 +24,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793750665,
-        "narHash": "sha256-6meaZkjcoqLrlxo0ByKlHzwuG1Iiji220Gn4HdQFLVs=",
+        "lastModified": 1794165136,
+        "narHash": "sha256-AeU/A6bTC5sKnO4H9Ofdb6vylh1t1pNRdCHOZC3+nAI=",
         "ref": "refs/heads/main",
-        "rev": "98603086e3bf676347df8c9047c8f59d25ed7ac3",
+        "rev": "249c097a5da07b7af0ea749c40c98daba55fd308",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/codedesk"
@@ -104,10 +104,10 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1793876309,
-        "narHash": "sha256-Wojg9lIH/hDH91iDVH2/EPw8oDSpxjxhXONbU1yf4Zg=",
+        "lastModified": 1794042290,
+        "narHash": "sha256-ziZn2PvCJE5JEEpqTdxXwJpPB+L3YqoCpTAMCzyaP3U=",
         "ref": "nixos-unstable",
-        "rev": "f9a75f41be3a74eab55d3a7679d34ad6cc0da977",
+        "rev": "f4a03c008967841f2a0b3cb7c436fc6fc31671f6",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/nixos/nixpkgs"
@@ -200,10 +200,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793924848,
-        "narHash": "sha256-0HwcO6uQY3wIe6nnitePiDHB4yVcpEZLOKDF+wbqjhk=",
+        "lastModified": 1794163785,
+        "narHash": "sha256-LCzbtvwtF55CFM9Z30EgnBx/YpuGfQ6R6mP1Z+m1QLY=",
         "ref": "refs/heads/main",
-        "rev": "f4c1761a39f3d4d53050375775561691d676113a",
+        "rev": "8a235c60b66b6b544adca04ad386f4db2a2993ee",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/eklonofficial/Vice"
