@@ -107,6 +107,7 @@ in
     protonup-qt
     protontricks
     steam
+    steamcmd
     steam-run
     steamtinkerlaunch
     heroic
