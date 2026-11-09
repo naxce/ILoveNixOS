@@ -24,10 +24,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794165136,
-        "narHash": "sha256-AeU/A6bTC5sKnO4H9Ofdb6vylh1t1pNRdCHOZC3+nAI=",
+        "lastModified": 1794185998,
+        "narHash": "sha256-5Zq0M3Sgig88XRKRHY1BQPrLCojCx/V3+ApDODfFbkk=",
         "ref": "refs/heads/main",
-        "rev": "249c097a5da07b7af0ea749c40c98daba55fd308",
+        "rev": "009fdd091d6ef42ed1ed54c3c0d6f1c59945b12f",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/codedesk"
@@ -195,10 +195,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794170519,
-        "narHash": "sha256-ojAvp1CY+Kg9Xhpc/S7yOpdCFJQQXwkUY+wUWh/fUHc=",
+        "lastModified": 1794178049,
+        "narHash": "sha256-sX16WyC7vWzB4e+GEivK8HxJJR4VvGV/yIiAkng1pbI=",
         "ref": "refs/heads/main",
-        "rev": "3f8a77173e84c6380e1ce85e1cde81e153693770",
+        "rev": "ad7758bf55e48b53db0b7e2dce11bedb465b90a3",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/eklonofficial/Vice"

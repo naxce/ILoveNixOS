@@ -188,7 +188,7 @@ in
 
   xdg.configFile."xdg-desktop-portal-termfilechooser/config".text = ''
     [filechooser]
-    cmd=${inputs.sylvaris.packages.${pkgs.system}.default}/bin/sylvaris choose
+    cmd=${pkgs.writeShellScript "sylvaris-choose" ''exec ${inputs.sylvaris.packages.${pkgs.system}.default}/bin/sylvaris choose "$@"''}
     default_dir=$HOME
     create_help_file=0
     open_mode=suggested
