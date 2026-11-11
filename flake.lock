@@ -1,5 +1,26 @@
 {
   "nodes": {
+    "archon": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794374490,
+        "narHash": "sha256-hwbW6JdNyb3wmSDpGRhCdsKqWKtcklyyiAcMNDz8/c8=",
+        "ref": "refs/heads/main",
+        "rev": "5a41255f480d6a9c3d05522aad102570f4a67473",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/fatumorg/archon"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/fatumorg/archon"
+      }
+    },
     "betterfox": {
       "flake": false,
       "locked": {
@@ -133,6 +154,7 @@
     },
     "root": {
       "inputs": {
+        "archon": "archon",
         "betterfox": "betterfox",
         "codedesk": "codedesk",
         "deadlock-plus": "deadlock-plus",

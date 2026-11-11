@@ -257,6 +257,7 @@ in
     inputs.codedesk.packages.${pkgs.system}.default
     inputs.deadlock-plus.packages.${pkgs.system}.default
     inputs.tempinfocli.packages.${pkgs.system}.default
+    inputs.archon.packages.${pkgs.system}.default
 
     (pkgs.writeShellScriptBin "kwork" ''
       exec ${pkgs.kitty}/bin/kitty \
