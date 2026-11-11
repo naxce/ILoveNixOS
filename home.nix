@@ -104,7 +104,7 @@ in
           surface = "#231216";
           accent = "#890c1d";
           accentHi = "#ac1f2f";
-          accentDeep = "#83071b";
+          accentDeep = "#ff002b";
           onAccent = "#fff0f0";
           text = "#f3e3e3";
           textDim = "#b58a90";
