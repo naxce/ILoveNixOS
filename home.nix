@@ -102,8 +102,8 @@ in
         colors = {
           base = "#140a0c";
           surface = "#231216";
-          accent = "#f2233e";
-          accentHi = "#f03a4f";
+          accent = "#890c1d";
+          accentHi = "#ac1f2f";
           accentDeep = "#83071b";
           onAccent = "#fff0f0";
           text = "#f3e3e3";
