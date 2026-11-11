@@ -76,16 +76,16 @@ in
         wallpaper = "~/Pictures/wallpapers/dachshund.png";
         workspaceIcon = "paw";
         colors = {
-          base = "#16070D";
-          surface = "#2A101B";
-          accent = "#9B1743";
-          accentHi = "#D52B5C";
-          accentDeep = "#700D32";
-          onAccent = "#FFF0F4";
-          text = "#FFE8EF";
-          textDim = "#D08A9F";
-          textSoft = "#F0BCCC";
-          danger = "#F05B65";
+          base = "#181310";
+          surface = "#281f1a";
+          accent = "#c9702f";
+          accentHi = "#e0955c";
+          accentDeep = "#a85c32";
+          onAccent = "#181310";
+          text = "#e7dac6";
+          textDim = "#b2967b";
+          textSoft = "#d3b9a1";
+          danger = "#d9674a";
         };
         alpha = {
           surface = 0.72;
@@ -101,16 +101,16 @@ in
         wallpaper = "~/Pictures/wallpapers/scarlett.png";
 
         colors = {
-          base = "#10080B";
-          surface = "#211117";
-          accent = "#782039";
-          accentHi = "#A83250";
-          accentDeep = "#501326";
-          onAccent = "#FFF0F2";
-          text = "#F2E3E6";
-          textDim = "#B58B97";
-          textSoft = "#DFC0C8";
-          danger = "#D97955";
+          base = "#16070D";
+          surface = "#2A101B";
+          accent = "#9B1743";
+          accentHi = "#D52B5C";
+          accentDeep = "#700D32";
+          onAccent = "#FFF0F4";
+          text = "#FFE8EF";
+          textDim = "#D08A9F";
+          textSoft = "#F0BCCC";
+          danger = "#F05B65";
         };
 
         alpha = {
