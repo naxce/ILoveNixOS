@@ -97,20 +97,22 @@ in
       scarlett = {
         name = "Scarlett";
         links = themeLinks "scarlett";
-        description = "Scarlet & dark red";
+        description = "Deep wine & burgundy";
         wallpaper = "~/Pictures/wallpapers/scarlett.png";
+
         colors = {
-          base = "#140a0c";
-          surface = "#231216";
-          accent = "#890c1d";
-          accentHi = "#ac1f2f";
-          accentDeep = "#ff002b";
-          onAccent = "#fff0f0";
-          text = "#f3e3e3";
-          textDim = "#b58a90";
-          textSoft = "#e0c2c5";
-          danger = "#f0913f";
+          base = "#10080B";
+          surface = "#211117";
+          accent = "#782039";
+          accentHi = "#A83250";
+          accentDeep = "#501326";
+          onAccent = "#FFF0F2";
+          text = "#F2E3E6";
+          textDim = "#B58B97";
+          textSoft = "#DFC0C8";
+          danger = "#D97955";
         };
+
         alpha = {
           surface = 0.72;
           glass = 0.62;
