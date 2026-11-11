@@ -102,9 +102,9 @@ in
         colors = {
           base = "#140a0c";
           surface = "#231216";
-          accent = "#d02b41";
-          accentHi = "#ee5566";
-          accentDeep = "#9e1b30";
+          accent = "#f2233e";
+          accentHi = "#f03a4f";
+          accentDeep = "#83071b";
           onAccent = "#fff0f0";
           text = "#f3e3e3";
           textDim = "#b58a90";
