@@ -126,7 +126,7 @@ in
     discord
     ferdium
     cider-2
-    signal-desktop
+    telegram-desktop
     bitwarden-desktop
 
     filezilla
