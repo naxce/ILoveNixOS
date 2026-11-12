@@ -7,10 +7,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794444633,
-        "narHash": "sha256-PlkZxcyTuLIGPH0DEhKXkkSizbB0v7IuHWyTjDTz240=",
+        "lastModified": 1794445516,
+        "narHash": "sha256-SEHqJJWvytwtf5ksi59zHDqE5jJinindm/hWI23avLc=",
         "ref": "refs/heads/main",
-        "rev": "4b674c38015c692f11c11cc9ecdf456d0f994178",
+        "rev": "4dfbe98d5fe496076b51f68608441d3d7c6ab5a1",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/archon"
@@ -217,10 +217,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794367136,
-        "narHash": "sha256-TNJPIUh0Z9rWjzgThQVbVWJjY3nPvHtKdGIpwBAbZmk=",
+        "lastModified": 1794437631,
+        "narHash": "sha256-tLh0HUw1RikfpQOkwGkSWWJ7PI7P1jxWaZ46u76iQjE=",
         "ref": "refs/heads/main",
-        "rev": "651806bb4e6a550f6d712eb5e854deb451242152",
+        "rev": "b16598250e2506c65b69000c91c54b50710cf0d8",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/eklonofficial/Vice"
