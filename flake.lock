@@ -7,10 +7,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794445516,
-        "narHash": "sha256-SEHqJJWvytwtf5ksi59zHDqE5jJinindm/hWI23avLc=",
+        "lastModified": 1794446809,
+        "narHash": "sha256-6dVSsoF7p75xYsH/rcI8catAuonx6jyo0Noyj+MbIPQ=",
         "ref": "refs/heads/main",
-        "rev": "4dfbe98d5fe496076b51f68608441d3d7c6ab5a1",
+        "rev": "078b1ebd190c70e7ff7e2c94ee461a49bcac348f",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/archon"
@@ -125,11 +125,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1794042290,
-        "narHash": "sha256-VZ8WvA9m3XN36juXyg/GwbDRU2OezOHJlXpJCXkccv0=",
-        "rev": "f4a03c008967841f2a0b3cb7c436fc6fc31671f6",
+        "lastModified": 1794192123,
+        "narHash": "sha256-YOhabADcIwaWo9992egosQF3iVpvWysmZAyhbGBzinY=",
+        "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1113206.f4a03c008967/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1114946.177d0540942f/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
