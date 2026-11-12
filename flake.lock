@@ -7,10 +7,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794506663,
-        "narHash": "sha256-XCC2RfqRhn+V3H9ZB5nDU7IqH7Nph7vVH/N/3YHSYLY=",
+        "lastModified": 1794522956,
+        "narHash": "sha256-X4XScc/dzmsvBTlF6Mr0jpF2vqla73M9G2pA+nzSoZI=",
         "ref": "refs/heads/main",
-        "rev": "af84cdd18141c41b7bf00aa27383951fc8cff457",
+        "rev": "2f59085cee4e63fb385e2e91f37d4409449cb7ac",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/archon"
