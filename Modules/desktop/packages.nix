@@ -31,7 +31,7 @@ in
 
   environment.systemPackages = with pkgs; [
 
-    inputs.sylvaris.packages.${pkgs.system}.default
+    inputs.frepo.packages.${pkgs.system}.sylvaris
 
     os-prober
     refind

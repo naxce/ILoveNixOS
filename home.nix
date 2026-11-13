@@ -26,7 +26,7 @@ in
   home.homeDirectory = "/home/naxce";
 
   imports = [
-    inputs.sylvaris.homeManagerModules.sylvaris
+    inputs.frepo.homeManagerModules.sylvaris
     ./Modules/home/browsers.nix
   ];
 
@@ -190,7 +190,7 @@ in
 
   xdg.configFile."xdg-desktop-portal-termfilechooser/config".text = ''
     [filechooser]
-    cmd=${pkgs.writeShellScript "sylvaris-choose" ''exec ${inputs.sylvaris.packages.${pkgs.system}.default}/bin/sylvaris choose "$@"''}
+    cmd=${pkgs.writeShellScript "sylvaris-choose" ''exec ${inputs.frepo.packages.${pkgs.system}.sylvaris}/bin/sylvaris choose "$@"''}
     default_dir=$HOME
     create_help_file=0
     open_mode=suggested
@@ -255,10 +255,10 @@ in
   };
 
   home.packages = [
-    inputs.fatest.packages.${pkgs.system}.default
-    inputs.codedesk.packages.${pkgs.system}.default
+    inputs.frepo.packages.${pkgs.system}.fatest
+    inputs.frepo.packages.${pkgs.system}.codedesk
     inputs.deadlock-plus.packages.${pkgs.system}.default
-    inputs.tempinfocli.packages.${pkgs.system}.default
+    inputs.frepo.packages.${pkgs.system}.tempinfocli
     inputs.archon.packages.${pkgs.system}.default
 
     (pkgs.writeShellScriptBin "kwork" ''

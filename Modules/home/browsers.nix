@@ -7,7 +7,7 @@
 
 let
   sylvarisScript = "${
-    inputs.sylvaris.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.frepo.packages.${pkgs.stdenv.hostPlatform.system}.sylvaris
   }/share/sylvaris/helpers/browser.js";
   mullvad = "https://base.dns.mullvad.net/dns-query";
 

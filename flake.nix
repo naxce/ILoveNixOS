@@ -8,24 +8,12 @@
       url = "git+https://github.com/nix-community/home-manager?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    fatest = {
-      url = "git+https://github.com/fatumorg/FaTest?shallow=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    sylvaris = {
-      url = "git+https://github.com/fatumorg/Sylvaris?shallow=1";
+    frepo = {
+      url = "git+https://github.com/fatumorg/Frepo?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     vice = {
       url = "git+https://github.com/eklonofficial/Vice?shallow=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    codedesk = {
-      url = "git+https://github.com/fatumorg/codedesk?shallow=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    tempinfocli = {
-      url = "git+https://github.com/fatumorg/TempInfoCLI?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     archon = {
@@ -53,8 +41,6 @@
       nixpkgs,
       nixpkgs-fonts,
       home-manager,
-      fatest,
-      codedesk,
       deadlock-plus,
       zen-browser,
       ...

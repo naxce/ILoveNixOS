@@ -8,7 +8,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    inputs.sylvaris.nixosModules.sylvaris
+    inputs.frepo.nixosModules.sylvaris
     inputs.vice.nixosModules.default
 
     ./Modules/desktop/hyprland.nix

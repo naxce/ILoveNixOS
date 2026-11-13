@@ -38,27 +38,6 @@
         "url": "https://github.com/yokoffing/Betterfox"
       }
     },
-    "codedesk": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1794315484,
-        "narHash": "sha256-KcWjsSDyTPHFRs5EZLSvEY3qSBD83/r2yjjmlIc2RzY=",
-        "ref": "refs/heads/main",
-        "rev": "ca93d543a5d937bfe9eecdd039552ed389609dd9",
-        "shallow": true,
-        "type": "git",
-        "url": "https://github.com/fatumorg/codedesk"
-      },
-      "original": {
-        "shallow": true,
-        "type": "git",
-        "url": "https://github.com/fatumorg/codedesk"
-      }
-    },
     "deadlock-plus": {
       "inputs": {
         "nixpkgs": [
@@ -81,25 +60,25 @@
         "url": "https://github.com/naxce/deadlock-plus"
       }
     },
-    "fatest": {
+    "frepo": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1793228210,
-        "narHash": "sha256-IwoA8gL4JebaMb0uftKhFcZUxYdO4W+PKI8a0e2pMD8=",
+        "lastModified": 1794527164,
+        "narHash": "sha256-WVf9qsC8yDxfgDCW2lcEGRYSY/eJdUMxY7LAFYB21kE=",
         "ref": "refs/heads/main",
-        "rev": "10ca897c4ff68b521f4784d078149305b54ccb63",
+        "rev": "692833a60b06affaba83a2536e42c52ba94406f9",
         "shallow": true,
         "type": "git",
-        "url": "https://github.com/fatumorg/FaTest"
+        "url": "https://github.com/fatumorg/Frepo"
       },
       "original": {
         "shallow": true,
         "type": "git",
-        "url": "https://github.com/fatumorg/FaTest"
+        "url": "https://github.com/fatumorg/Frepo"
       }
     },
     "home-manager": {
@@ -156,58 +135,13 @@
       "inputs": {
         "archon": "archon",
         "betterfox": "betterfox",
-        "codedesk": "codedesk",
         "deadlock-plus": "deadlock-plus",
-        "fatest": "fatest",
+        "frepo": "frepo",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-fonts": "nixpkgs-fonts",
-        "sylvaris": "sylvaris",
-        "tempinfocli": "tempinfocli",
         "vice": "vice",
         "zen-browser": "zen-browser"
-      }
-    },
-    "sylvaris": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1794506827,
-        "narHash": "sha256-txeUXVsNHQ3jG3dcCO2m207pIVDHiGneirR50lzZaTM=",
-        "ref": "refs/heads/main",
-        "rev": "80fec4daf400f33c46b30d8d430ca3522ba276c9",
-        "shallow": true,
-        "type": "git",
-        "url": "https://github.com/fatumorg/Sylvaris"
-      },
-      "original": {
-        "shallow": true,
-        "type": "git",
-        "url": "https://github.com/fatumorg/Sylvaris"
-      }
-    },
-    "tempinfocli": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1793161171,
-        "narHash": "sha256-d9UopRRXcwAikRr29uEPIZY5zlLRc50aNwRDnxMDHuY=",
-        "ref": "refs/heads/main",
-        "rev": "1b0141f5691da3731f53fdf2071e2e49a4790393",
-        "shallow": true,
-        "type": "git",
-        "url": "https://github.com/fatumorg/TempInfoCLI"
-      },
-      "original": {
-        "shallow": true,
-        "type": "git",
-        "url": "https://github.com/fatumorg/TempInfoCLI"
       }
     },
     "vice": {
