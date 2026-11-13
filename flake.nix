@@ -16,10 +16,6 @@
       url = "git+https://github.com/eklonofficial/Vice?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    archon = {
-      url = "git+https://github.com/fatumorg/archon?shallow=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     betterfox = {
       url = "git+https://github.com/yokoffing/Betterfox?shallow=1";
       flake = false;

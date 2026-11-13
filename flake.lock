@@ -1,26 +1,5 @@
 {
   "nodes": {
-    "archon": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1794522956,
-        "narHash": "sha256-X4XScc/dzmsvBTlF6Mr0jpF2vqla73M9G2pA+nzSoZI=",
-        "ref": "refs/heads/main",
-        "rev": "2f59085cee4e63fb385e2e91f37d4409449cb7ac",
-        "shallow": true,
-        "type": "git",
-        "url": "https://github.com/fatumorg/archon"
-      },
-      "original": {
-        "shallow": true,
-        "type": "git",
-        "url": "https://github.com/fatumorg/archon"
-      }
-    },
     "betterfox": {
       "flake": false,
       "locked": {
@@ -67,10 +46,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794527164,
-        "narHash": "sha256-WVf9qsC8yDxfgDCW2lcEGRYSY/eJdUMxY7LAFYB21kE=",
+        "lastModified": 1794529869,
+        "narHash": "sha256-aWkz609fRTHzJsfev1qn98AdP6ZqaxG/UXr52oSadRQ=",
         "ref": "refs/heads/main",
-        "rev": "692833a60b06affaba83a2536e42c52ba94406f9",
+        "rev": "ce9bdc34af1218646e746f987b32f0123458f184",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/Frepo"
@@ -133,7 +112,6 @@
     },
     "root": {
       "inputs": {
-        "archon": "archon",
         "betterfox": "betterfox",
         "deadlock-plus": "deadlock-plus",
         "frepo": "frepo",

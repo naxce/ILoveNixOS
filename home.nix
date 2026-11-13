@@ -259,7 +259,7 @@ in
     inputs.frepo.packages.${pkgs.system}.codedesk
     inputs.deadlock-plus.packages.${pkgs.system}.default
     inputs.frepo.packages.${pkgs.system}.tempinfocli
-    inputs.archon.packages.${pkgs.system}.default
+    inputs.frepo.packages.${pkgs.system}.archon
 
     (pkgs.writeShellScriptBin "kwork" ''
       exec ${pkgs.kitty}/bin/kitty \
