@@ -46,10 +46,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794770621,
-        "narHash": "sha256-/jt5M/hisLQ+DLPMamgbahsVTskdxtUvxi+7iMSVv6o=",
+        "lastModified": 1794851359,
+        "narHash": "sha256-J3xsg+UaCAcZYBsRJ9YvmdGAq0pUho0G+yAbhMXMSP4=",
         "ref": "refs/heads/main",
-        "rev": "d3eeed973d6adb449281ace0d2b58d7e47059516",
+        "rev": "36b44b771cbe99b99bc8730df752211eb9721d4c",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/Frepo"
@@ -67,10 +67,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794715309,
-        "narHash": "sha256-awkBBs5ctFKgEYjpNGpi3t/VqF589n5EWfdinRb2gNI=",
+        "lastModified": 1794944675,
+        "narHash": "sha256-VPQtZmEzjoQMmh5ATbEDMPK3H4J3vVWbcruQkZyixBI=",
         "ref": "refs/heads/master",
-        "rev": "a1293da7dd8e497e08d26173f97e2976b36a31ea",
+        "rev": "6e4bcf6931d797a3e7718e4dec84992d67a00bf1",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/nix-community/home-manager"
@@ -129,10 +129,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794437631,
-        "narHash": "sha256-tLh0HUw1RikfpQOkwGkSWWJ7PI7P1jxWaZ46u76iQjE=",
+        "lastModified": 1794919665,
+        "narHash": "sha256-4ORg2vApKKBYe0q2wdcxXky6ylSpS8iEHZ2Si7TIXS0=",
         "ref": "refs/heads/main",
-        "rev": "b16598250e2506c65b69000c91c54b50710cf0d8",
+        "rev": "febbaa015ce78f0eb02e91a1bef5c853bcf5605f",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/eklonofficial/Vice"
@@ -153,10 +153,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794641110,
-        "narHash": "sha256-uoTlmcxa6ewsctJ6/NPgMADN7317QohlUMGBjtQjQmY=",
+        "lastModified": 1794898407,
+        "narHash": "sha256-u3qknsQ63fQ0GDO65fLsZHFt7G5c2SWZcjajkV+BwjM=",
         "ref": "refs/heads/main",
-        "rev": "ad99018e37999e659ae43f9c6ac126161ca147bc",
+        "rev": "54310da1c2e1d4bcd413c6914a0d274afbd4f30b",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/0xc000022070/zen-browser-flake"
