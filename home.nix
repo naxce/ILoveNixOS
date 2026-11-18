@@ -158,7 +158,7 @@ in
     enable = true;
     name = "Bibata-Modern-Classic";
     package = pkgs.bibata-cursors;
-    size = 15;
+    size = 10;
     gtk.enable = true;
     x11.enable = true;
   };
