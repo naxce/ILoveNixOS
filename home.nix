@@ -254,12 +254,31 @@ in
     ];
   };
 
+  xdg.desktopEntries.vortex = {
+    name = "Vortex";
+    genericName = "Mod Manager";
+    exec = "vortex %u";
+    icon = "/data/Gaming/Vortex/vortex.png";
+    terminal = false;
+    categories = [ "Game" ];
+    mimeType = [ "x-scheme-handler/nxm" ];
+  };
+
+  xdg.mimeApps.defaultApplications."x-scheme-handler/nxm" = "vortex.desktop";
+
   home.packages = [
     inputs.frepo.packages.${pkgs.system}.fatest
     inputs.frepo.packages.${pkgs.system}.codedesk
     inputs.deadlock-plus.packages.${pkgs.system}.default
     inputs.frepo.packages.${pkgs.system}.tempinfocli
     inputs.frepo.packages.${pkgs.system}.archon
+
+    (pkgs.writeShellScriptBin "vortex" ''
+      export WINEPREFIX=/data/Gaming/Vortex/pfx
+      export WINEDEBUG=-all
+      case "$1" in nxm://*) set -- -d "$1" ;; esac
+      exec ${pkgs.wineWow64Packages.stable}/bin/wine 'C:\Program Files\Vortex\Vortex.exe' "$@"
+    '')
 
     (pkgs.writeShellScriptBin "kwork" ''
       exec ${pkgs.kitty}/bin/kitty \
