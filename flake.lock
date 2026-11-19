@@ -46,10 +46,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1794851359,
-        "narHash": "sha256-J3xsg+UaCAcZYBsRJ9YvmdGAq0pUho0G+yAbhMXMSP4=",
+        "lastModified": 1795115145,
+        "narHash": "sha256-YMu3X37G/npA/OWxbjDxAt7oY6sNwfWSwcFQ9KsfuD0=",
         "ref": "refs/heads/main",
-        "rev": "36b44b771cbe99b99bc8730df752211eb9721d4c",
+        "rev": "f788790961e7da9bc0b82d38c8027cd5338ccf94",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/fatumorg/Frepo"
